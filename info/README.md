@@ -35,7 +35,6 @@
 >- For each player's cell movement the robot also moves one cell in the shortest path direction
 
 ## WIN CONDITION
->- If the robot touches the maze or robots -> GAME OVER
 >- All robots are destroyed
 
 ## GAME OVER
@@ -85,8 +84,8 @@
 ```
 Player          – Time
 ----------------------
-Guilherme A     -  512
 Antonio Santos  -  321
+Guilherme A     -  512
 ```
 
 ## RULES
