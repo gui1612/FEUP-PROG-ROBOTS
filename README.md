@@ -4,11 +4,11 @@
 
 
 - Project name: Robots Game
-- Short description: Console-based program to manage a travel agency
+- Short description: Console-based game
 - Environment: Unix/Windows console
 - Tools: C++
-- Institution: FEUP
-- Course: PROG (Programming)
+- Institution: [FEUP](https://sigarra.up.pt/feup/pt/web_page.Inicial)
+- Course: [PROG](https://sigarra.up.pt/feup/pt/UCURR_GERAL.FICHA_UC_VIEW?pv_ocorrencia_id=459468) (Programming)
 - Group members:
     - Guilherme de Matos Ferreira de Almeida (up202006137)
     - António Oliveira Santos (up202008004)
@@ -33,7 +33,7 @@ make clean    # cleanup
 
 © 2018-2020 Guilherme Almeida, António Santos
 
-All files are licensed under [GNU General Public License v3](https://www.gnu.org/licenses/gpl-3.0), to the exception of:
+All files are licensed under [GNU General Public License v3](https://github.com/gui1612/FEUP-PROG-Proj1/blob/main/LICENSE), to the exception of:
 - `.pdf` files, which were authored by the lecturers
 
 The files not authored by us are presented as a fundamental complement to this project, and are made available under fair use for education.
