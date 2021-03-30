@@ -1,8 +1,8 @@
-#include <iostream>
+#include "menu.h"
 
 using namespace std;
 
 int main() {
-    cout << "This is a placeholder" << endl;
+    menu();
     return 0;
 }
