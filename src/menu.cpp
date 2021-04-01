@@ -48,7 +48,7 @@ void menuChoice(short choice, int &confirm) {
             {
             clearScreen();          // Clears the screen
             displayRules();         // Displays the rules
-            waitForConfirmation();  // Waits for the user to press something
+            waitForConfirmation();  // Waits for user input
             break;
             }
         case 2:         // Play
