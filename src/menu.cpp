@@ -2,10 +2,9 @@
 #include "../includes/menu.h"
 
 int menu() {
-    float confirm = 1;                       // Leaving confirmation (initialized at a value different of 0 not to leave the loop)
+    int confirm = 1;                       // Leaving confirmation (initialized at a value different of 0 not to leave the loop)
     do {
-        bool validInput;                     // Tracks if the user input is valid
-        int menuPick;                        // Menu choice
+        short menuPick;                      // Menu choice
 
         // Menu options
         cout << "(2) Play\n"
@@ -13,47 +12,59 @@ int menu() {
              << "(0) Exit" << endl;
 
         cin >> menuPick;
-        validInput = trackClearBuffer();     // Tracks if the user input is valid and clears the buffer
 
-        if (validInput) {                    // Valid input type
+        if (validInputType()) {               // Valid input type
+            clearBuffer();                    // Clears the buffer from the last `cin` call
             menuChoice(menuPick, confirm);
-        } else {                             // If the input is invalid the screen is cleared and options are displayed again
+        } else {                              // If the input is invalid the screen is cleared and options are displayed again
+            clearBuffer();
             clearScreen();
+            warnUser();                       // Warns the user about wrong input
+            waitForConfirmation();
         }
     } while (confirm != 0 && !cin.eof());
 }
 
 
-void menuChoice(int choice, float &confirm) {
+void menuChoice(short choice, int &confirm) {
     switch (choice) {
         case 0:         // Exit
-            cout << "Are you sure you want to exit (0 to confirm)?\n";
-            cin >> confirm;         // Updates confirm to the user input
-            clearBuffer();
             clearScreen();
+            cout << "Are you sure you want to exit (0 to confirm)?\n";
+            cin >> confirm;             // Updates confirm to the user input
+            if (!validInputType()) {    // Invalid input
+                confirm = 1;            // Resets `confirm` for cases in which user inputs a problematic value
+                clearBuffer();          // Clears the input buffer from the last `cin` call
+
+                clearScreen();          // Clears the screen
+                warnUser();             // Warns the user about invalid input
+                waitForConfirmation();  // Waits for user input
+            } else {            // Valid input
+                clearBuffer();          // Clears the buffer
+            }
+            clearScreen();           // clears the screen before the next menu display or the end of the game
             break;
         case 1:         // Rules
             {
-            //string emptyInput;
             clearScreen();          // Clears the screen
             displayRules();         // Displays the rules
-            char emptyInput = (char) cin.get();     // Waits until the user press enter
-            clearScreen();
-            if (emptyInput != '\n')                 // Checks if the user inserted anything or just pressed enter as expected
-                clearBuffer();
+            waitForConfirmation();  // Waits for the user to press something
             break;
             }
         case 2:         // Play
             cout << "This is a stub for the main game" << endl;    //TODO: Insert the actual game
             break;
         default:        // The input was of type `int`, but not a valid option
-            clearBuffer();          // Clears the buffer
+            clearScreen();
+            warnUser();             // Warns the user about wrong input
+            waitForConfirmation();
     }
 }
 
 
-void clearScreen() {
-    cout << string(100, '\n');
+void warnUser() {
+    cout << "That is not a valid input (Options: 0, 1, 2)\n"       // Warns the user of invalid input
+         << "Press ENTER to return to the main menu..."<< endl;
 }
 
 

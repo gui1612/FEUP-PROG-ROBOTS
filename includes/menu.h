@@ -22,14 +22,13 @@ int menu();
  * @param choice int value that represents the user menu choice
  * @param confirm tracks if the user really wants to leave the game
  */
-void menuChoice(int choice, float &confirm);
+void menuChoice(short choice, int &confirm);
 
 
 /**
- * @brief Clears the console screen
- *
+ * @brief Warns the user about bad input
  */
-void clearScreen();
+void warnUser();
 
 
 /**
