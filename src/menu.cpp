@@ -1,55 +1,58 @@
-#include "menu.h"
-#include <iostream>
-#include <string>
+#include "../includes/global.h"
+#include "../includes/menu.h"
 
-//TODO: Possibly convert this into a class
 int menu() {
+    float confirm = 1;                       // Leaving confirmation (initialized at a value different of 0 not to leave the loop)
+    do {
+        bool validInput;                     // Tracks if the user input is valid
+        int menuPick;                        // Menu choice
 
-    //Work-around: we should use a char
-    string menuPick;
+        // Menu options
+        cout << "(2) Play\n"
+             << "(1) Rules\n"
+             << "(0) Exit" << endl;
 
-    cout << "1)Rules\n"
-         << "2)Play\n"
-         << "0)Exit" << endl;
-
-    cin >> menuPick;
-
-    //TODO: We should make a loop out of this
-    if (menuPick == "1") {
-        clearScreen();
-        displayRules();
-        cin.clear();
-        cin.ignore(1);
-        cin.get();
-        clearScreen();
-        menu();
-        // TODO: GAME
-    } else if (menuPick == "2") {
-        clearScreen();
-        menu();
-    } else if (menuPick == "0") {
-        cout << "Are you sure you want to exit (0 to confirm)?\n";
         cin >> menuPick;
-        if (menuPick != "0") {
+        validInput = trackClearBuffer();     // Tracks if the user input is valid and clears the buffer
+
+        if (validInput) {                    // Valid input type
+            menuChoice(menuPick, confirm);
+        } else {                             // If the input is invalid the screen is cleared and options are displayed again
             clearScreen();
-            menu();
-        } else {
-            return 0;
         }
-    } else {
-        clearScreen();
-        cout << "That's not a valid input!\nPress ENTER to return to the main menu..." << endl;
-        cin.clear();
-        cin.ignore(1);
-        cin.get();
-        menu();
+    } while (confirm != 0 && !cin.eof());
+}
+
+
+void menuChoice(int choice, float &confirm) {
+    switch (choice) {
+        case 0:         // Exit
+            cout << "Are you sure you want to exit (0 to confirm)?\n";
+            cin >> confirm;         // Updates confirm to the user input
+            clearBuffer();
+            clearScreen();
+            break;
+        case 1:         // Rules
+            {
+            //string emptyInput;
+            clearScreen();          // Clears the screen
+            displayRules();         // Displays the rules
+            char emptyInput = (char) cin.get();     // Waits until the user press enter
+            clearScreen();
+            if (emptyInput != '\n')                 // Checks if the user inserted anything or just pressed enter as expected
+                clearBuffer();
+            break;
+            }
+        case 2:         // Play
+            cout << "This is a stub for the main game" << endl;    //TODO: Insert the actual game
+            break;
+        default:        // The input was of type `int`, but not a valid option
+            clearBuffer();          // Clears the buffer
     }
-    return 0;
 }
 
 
 void clearScreen() {
-    // cout << "\033[2J\033[1;1H";     //escape key to clear screen and position cursor at the beginning of it
     cout << string(100, '\n');
 }
 

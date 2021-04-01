@@ -3,6 +3,7 @@
 #define PROJ_MENU_H
 
 #include <iostream>
+#include <string>
 
 using namespace std;
 
@@ -13,6 +14,15 @@ using namespace std;
  * @return returns 0 if the player leaves the game
  */
 int menu();
+
+
+/**
+ * @brief Takes the necessary course of action depending on the user input `choice`
+ *
+ * @param choice int value that represents the user menu choice
+ * @param confirm tracks if the user really wants to leave the game
+ */
+void menuChoice(int choice, float &confirm);
 
 
 /**
