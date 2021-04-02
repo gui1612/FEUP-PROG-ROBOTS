@@ -3,4 +3,4 @@ project(FEUP_PROG_Proj1)
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_executable(FEUP_PROG_Proj1 main.cpp inp_out.cpp inp_out.h)
+add_executable(FEUP_PROG_Proj1 main.cpp src/inp_out.cpp includes/inp_out.h src/global.cpp includes/global.h src/menu.cpp includes/menu.h)

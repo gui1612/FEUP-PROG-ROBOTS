@@ -2,6 +2,8 @@
 
 #include <iostream>
 #include <limits>
+#include <thread>
+#include <chrono>
 
 using namespace std;
 
@@ -67,3 +69,23 @@ bool getInput(T &inp) {
  * validInput would be `false`, since 1.23 is not an integer
  */
 bool validInputType();
+
+
+/**
+ * @brief Warns the user about bad input in a single frame (Note: Safe to use, since it clears the screen and buffer before and after its call)
+ *
+ * @param warningType string to define the warning type
+ *
+ * @details
+ * `fileIO` -> IO warning
+ * `menu`   -> Menu warning
+ */
+void warnUser(string warningType);
+
+
+/**
+ * @brief Sleeps for the given amount of seconds
+ *
+ * @param sec sleep time in seconds
+ */
+void sleepFor(unsigned int sec);

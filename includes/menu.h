@@ -24,12 +24,6 @@ void menuChoice(short choice, short &confirm);
 
 
 /**
- * @brief Warns the user about bad input
- */
-void warnUser();
-
-
-/**
  * @brief Displays the rules
  *
  */

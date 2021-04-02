@@ -3,6 +3,7 @@
 
 void menu() {
     short confirm = 1;                       // Leaving confirmation (initialized at a value different of 0 not to leave the loop)
+    // Menu loop will end either when user sends "EOF" or when he double confirms he wants to Exit (option 0 of the menu)
     do {
         short menuPick;                      // Menu choice
 
@@ -21,16 +22,16 @@ void menu() {
              << "(1) Rules\n"
              << "(0) Exit" << endl;
 
-        bool validInput = getInput<short>(menuPick);    // gets an input and if it is successfully (`validInput` -> `true`) writes it on `menuPick` (if not clears the buffer)
+        // gets an input and if it is successfully (`validInput` -> `true`) writes it on `menuPick` (if not clears the buffer)
+        bool validInput = getInput<short>(menuPick);
 
         if (validInput) {               // Valid input type
             clearBuffer();                    // Clears the buffer from the last `cin` call
             menuChoice(menuPick, confirm);
-        } else {                              // If the input is invalid the screen is cleared and options are displayed again
-            clearScreen();
-            warnUser();                       // Warns the user about wrong input
-            waitForConfirmation();
+        } else if (!cin.eof()) {              // If the input is invalid (with the exception of `EOF`) the screen is cleared and options are displayed again
+            warnUser("menu");      // Warns the user about wrong input
         }
+
     } while (confirm != 0 && !cin.eof());
 }
 
@@ -40,12 +41,16 @@ void menuChoice(short choice, short &confirm) {
         case 0: {               // Exit
             clearScreen();
             cout << "Are you sure you want to exit (0 to confirm)?\n";
-            bool validInput = getInput<short>(confirm);    // gets an input and if it is successfully (`validInput` -> `true`) writes it on `confirm` (if not clears the buffer)
+
+            // gets an input and if it is successfully (`validInput` -> `true`) writes it on `confirm` (if not clears the buffer)
+            bool validInput = getInput<short>(confirm);
+
+            if (cin.eof())       // EOF flag
+                break;
+
             if (!validInput) {    // Invalid input
                 confirm = 1;            // Resets `confirm` for cases in which user inputs a problematic value
-                clearScreen();          // Clears the screen
-                warnUser();             // Warns the user about invalid input
-                waitForConfirmation();  // Waits for user input
+                warnUser("menu");             // Warns the user about invalid input
             } else {                    // Valid input
                 clearBuffer();          // Clears the buffer
             }
@@ -56,6 +61,7 @@ void menuChoice(short choice, short &confirm) {
             clearScreen();          // Clears the screen
             displayRules();         // Displays the rules
             waitForConfirmation();  // Waits for user input
+            if (!cin.eof()) { clearScreen(); }  // Clears the screen if the user didn't press EOF in the confirmation
             break;
         }
         case 2: {               // Play
@@ -63,17 +69,9 @@ void menuChoice(short choice, short &confirm) {
             break;
         }
         default: {              // The input was of type `int`, but not a valid option
-            clearScreen();
-            warnUser();             // Warns the user about wrong input
-            waitForConfirmation();
+            warnUser("menu");             // Warns the user about wrong input
         }
     }
-}
-
-
-void warnUser() {
-    cout << "That is not a valid input (Options: 0, 1, 2)\n"       // Warns the user of invalid input
-         << "Press ENTER to return to the main menu..."<< endl;
 }
 
 
@@ -104,7 +102,7 @@ void displayRules() {
     |                                                                 |                                                |
     |    Overview                                                     |    Death                                       |
     |     Robots will try to destroy the player                       |     Robots will die in contact with            |
-    |                                                                 |     walls/eachother                            |
+    |                                                                 |     walls/each other                           |
     |                                                                 |                                                |
     |    Movement                                                     |    Movement                                    |
     |     The player can move in any direction to an adjacent cell    |     For each player's cell movement the robot  |
