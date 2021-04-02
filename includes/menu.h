@@ -1,7 +1,6 @@
 #pragma once
-#ifndef PROJ_MENU_H
-#define PROJ_MENU_H
 
+// STL Includes
 #include <iostream>
 #include <string>
 
@@ -11,18 +10,17 @@ using namespace std;
 /**
  * @brief Base menu caller function
  *
- * @return returns 0 if the player leaves the game
  */
-int menu();
+void menu();
 
 
 /**
  * @brief Takes the necessary course of action depending on the user input `choice`
  *
- * @param choice int value that represents the user menu choice
+ * @param choice value that represents the user menu choice
  * @param confirm tracks if the user really wants to leave the game
  */
-void menuChoice(short choice, int &confirm);
+void menuChoice(short choice, short &confirm);
 
 
 /**
@@ -36,5 +34,3 @@ void warnUser();
  *
  */
 void displayRules();
-
-#endif //PROJ_MENU_H

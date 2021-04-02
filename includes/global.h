@@ -1,6 +1,4 @@
 #pragma once
-#ifndef MAIN_CPP_GLOBAL_H
-#define MAIN_CPP_GLOBAL_H
 
 #include <iostream>
 #include <limits>
@@ -36,6 +34,26 @@ void clearScreen();
  */
 void waitForConfirmation();
 
+
+/**
+ * @brief Reads value of any type from the keyboard and writes it to `inp` if the input is correct
+ *
+ * @param inp variable to where the input will be written if the input is correct
+ * @return `true` if the input is correct (the type is right) else `false`
+ */
+template<typename T>
+bool getInput(T &inp) {
+    T firstInp;
+    if (cin >> firstInp && cin.peek() == '\n') {
+        inp = firstInp;
+        return true;
+    } else {
+        clearBuffer();
+        return false;
+    }
+}
+
+
 /**
  * @brief Checks if the input is an is valid
  *
@@ -49,5 +67,3 @@ void waitForConfirmation();
  * validInput would be `false`, since 1.23 is not an integer
  */
 bool validInputType();
-
-#endif //MAIN_CPP_GLOBAL_H
