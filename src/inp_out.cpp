@@ -7,6 +7,7 @@ using namespace std;
 
 void mazePick() {
     // File Input loop that ends when user sends "EOF"
+    short leaveConfirm = 1;                            // Leaving confirmation (initialized at a value different of 0 not to leave the loop)
     do {
         const unsigned int SLEEP_TIME = 2;             // sleep time if the user decides to leave the maze picker stage
         short levelPick;                               // string type var to store the number of the selected maze
@@ -23,7 +24,7 @@ void mazePick() {
                 cout << "Returning to the main menu ..." << flush;
                 sleepFor(SLEEP_TIME);                   // Animation to improve UX: waits 2 seconds
                 clearScreen();                          // Clears the screen
-                menu();                                 // Goes to main menu
+                leaveConfirm = 0;                       // signal to leave the do while loop (return to main menu)
             } else {
                 /*
                  * `fileNameOrNullopt` will have a string if it is valid or `std::nullopt` if invalid
@@ -40,7 +41,7 @@ void mazePick() {
         } else if (!cin.eof()) {          // Input of invalid type (not EOF)
             warnUser("fileIO");
         }
-    } while (!cin.eof());
+    } while (leaveConfirm != 0 && !cin.eof());
 }
 
 

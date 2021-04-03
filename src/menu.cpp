@@ -1,5 +1,6 @@
 #include "../includes/global.h"
 #include "../includes/menu.h"
+#include "../includes/inp_out.h"
 
 void menu() {
     short confirm = 1;                       // Leaving confirmation (initialized at a value different of 0 not to leave the loop)
@@ -65,7 +66,8 @@ void menuChoice(short choice, short &confirm) {
             break;
         }
         case 2: {               // Play
-            cout << "This is a stub for the main game" << endl;    //TODO: Insert the actual game
+            clearScreen();
+            mazePick();
             break;
         }
         default: {              // The input was of type `int`, but not a valid option
