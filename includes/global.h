@@ -9,14 +9,6 @@ using namespace std;
 
 
 /**
- * @brief Returns `true` if the input is valid and `false` if it isn't
- *
- * @return clears the input buffer and tracks if the input type is valid
- */
-bool trackClearBuffer();
-
-
-/**
  * @brief Clears the buffer
  *
  */
@@ -49,7 +41,7 @@ bool getInput(T &inp) {
     if (cin >> firstInp && cin.peek() == '\n') {
         inp = firstInp;
         return true;
-    } else {
+    } else if (!cin.eof()){
         clearBuffer();
         return false;
     }

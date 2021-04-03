@@ -2,13 +2,6 @@
 
 using namespace std;
 
-bool trackClearBuffer() {
-    bool result = cin.good();
-    cin.clear();
-    cin.ignore(numeric_limits<streamsize>::max(), '\n');
-    return result;
-}
-
 
 void clearBuffer() {
     cin.clear();
@@ -23,8 +16,8 @@ void clearScreen() {
 
 void waitForConfirmation() {
     char emptyInput = (char) cin.get();     // Waits until the user press enter
-    if (emptyInput != '\n')                 // Checks if the user inserted anything or just pressed enter as expected
-        clearBuffer();
+    if (emptyInput != '\n' && !cin.eof())   // Checks if the user inserted anything or just pressed enter as expected
+        clearBuffer();                      // Clears the buffer if the input was not `EOF`
 }
 
 
