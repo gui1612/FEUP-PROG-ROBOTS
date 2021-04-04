@@ -4,9 +4,30 @@
 #include <fstream>
 #include <string>
 #include <optional>
+#include <vector>
+
+// Type aliases
+using xval = int;
+using yval = int;
 
 
 using namespace std;
+
+
+struct Maze {
+        unsigned int width;
+        unsigned int height;
+        vector<vector<char>> coordinates;
+};
+
+
+/**
+ * @brief Displays a maze
+ *
+ * @param maze `Maze` type object
+ */
+void drawMaze(const Maze &maze);
+
 
 /**
  * @brief Gets the maze format filename if the number is valid

@@ -2,9 +2,11 @@
 #include "../includes/global.h"
 #include "../includes/menu.h"
 
+#include <typeinfo>
+
 using namespace std;
 
-
+//TODO: Document !!!
 void mazePick() {
     // File Input loop that ends when user sends "EOF"
     short leaveConfirm = 1;                            // Leaving confirmation (initialized at a value different of 0 not to leave the loop)
@@ -45,40 +47,57 @@ void mazePick() {
 }
 
 
-void mazeOpen(string levelPick){
+void mazeOpen(string levelPick) {
+    ifstream mazeFile;                                      // input type var to open and read from
+    int width = 0, height = 0;                     // string type var to store the content of levelFile
 
-    ifstream levelFile;                   // input type var to open and read from
-    string level, width, height;          // string type var to store the content of levelFile
-    int i=1;
+    const string PREFIX = "../mazes/";                      // prefix containing the file where the maze files are at
+    string filepath = PREFIX + levelPick;                   // full filepath string
 
-    const string PREFIX = "../mazes/";
-    string FILE_PATH = PREFIX + levelPick;
+    mazeFile.open(filepath.c_str());
+    if (mazeFile.fail()) {                                  // File not found (doesn't exist)
+        cout << "Error opening, file not found!" << endl;
+    } else {
+        mazeFile >> height;
+        mazeFile.ignore(3);
+        mazeFile >> width;
 
-    // TODO: method used to chose the user's level seems finicky and ignoring the first line is done in a weird way
-    levelFile.open(FILE_PATH, ios::in);
-    if (levelFile.is_open()) {
-        while (!levelFile.eof()) {
-            getline (levelFile, level);
-            if (i==1) {
-                for (int j = 0; j <= level.length() - 1; j++){
-                    if (level[j] == ' ' && i == 1){
-                        height = level.substr(0,j);
-                        i++;
-                    } else if (level[j] == ' ' && i == 2) {
-                        width = level.substr(j + 1, level.length() - 1);
-                    }
-                }
+        //TODO: Write the next code part smarter and cleaner
+        vector<char> lines;
+        vector<vector<char>> coordinates;
+
+        while (!mazeFile.eof()) {
+            char mazeCurr = static_cast<char>(mazeFile.get());
+            if (mazeCurr == '\n') {
+                coordinates.push_back(lines);
+                lines.clear();
             } else {
-                cout << level << endl;
+                lines.push_back(mazeCurr);
             }
         }
-        cout << height << " " << width << endl;
-    } else {
-        // TODO: make the user able to retry the input (loop)
-        cout << "That maze doesn't exist!" << endl;
+        coordinates.push_back(lines);
+        coordinates.back().pop_back();
+
+
+        Maze maze;
+        maze.height = height;
+        maze.width = width;
+        maze.coordinates = coordinates;
+
+        drawMaze(maze);
 
     }
-    levelFile.close();
+}
+
+
+// TODO: Fix this function into an actually regular readable for loop
+void drawMaze(const Maze &maze) {
+    for (auto i : maze.coordinates) {
+        for (auto j : i) {
+            cout << j << " ";
+        }
+        cout << endl;
+    }
 }
 
 

@@ -38,11 +38,13 @@ void waitForConfirmation();
 template<typename T>
 bool getInput(T &inp) {
     T firstInp;
-    if (cin >> firstInp && cin.peek() == '\n') {
+    if (cin >> firstInp && cin.peek() == '\n') {    //
         inp = firstInp;
         return true;
-    } else if (!cin.eof()){
+    } else if (!cin.eof()) {    // If the input is invalid (with the exception of EOF) returns a flag for invalid input without clearing the buffer
         clearBuffer();
+        return false;
+    } else {                    // If the input is EOF, returns a flag for invalid input without clearing the buffer
         return false;
     }
 }
