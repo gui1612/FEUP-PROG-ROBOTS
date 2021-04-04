@@ -13,11 +13,14 @@ using yval = int;
 
 using namespace std;
 
-
+/**
+ * @brief Data structure to store a maze file (stores the number of rows, columns and the char for each position of the maze)
+ *
+ */
 struct Maze {
-        unsigned int width;
-        unsigned int height;
-        vector<vector<char>> coordinates;
+        unsigned int rows;                  ///< The number of rows of the maze
+        unsigned int columns;               ///< The number of columns of the maze
+        vector<vector<char>> coordinates;   ///< A 2D vector  of dimensions `rows`x`columns` which contains the char in the maze for each individual position
 };
 
 

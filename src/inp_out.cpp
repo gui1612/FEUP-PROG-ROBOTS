@@ -2,11 +2,11 @@
 #include "../includes/global.h"
 #include "../includes/menu.h"
 
-#include <typeinfo>
-
 using namespace std;
 
-//TODO: Document !!!
+#include <iterator>
+
+
 void mazePick() {
     // File Input loop that ends when user sends "EOF"
     short leaveConfirm = 1;                            // Leaving confirmation (initialized at a value different of 0 not to leave the loop)
@@ -48,55 +48,55 @@ void mazePick() {
 
 
 void mazeOpen(string levelPick) {
-    ifstream mazeFile;                                      // input type var to open and read from
-    int width = 0, height = 0;                     // string type var to store the content of levelFile
+    ifstream mazeFile;                                      // File stream
+    unsigned int rows = 0, cols = 0;                        // initializing `rows` (horizontal) and  `columns` (vertical)
 
     const string PREFIX = "../mazes/";                      // prefix containing the file where the maze files are at
     string filepath = PREFIX + levelPick;                   // full filepath string
 
-    mazeFile.open(filepath.c_str());
+    mazeFile.open(filepath.c_str());                        // Trying to open the file with the name `filepath` contained in ../mazes directory
     if (mazeFile.fail()) {                                  // File not found (doesn't exist)
-        cout << "Error opening, file not found!" << endl;
-    } else {
-        mazeFile >> height;
-        mazeFile.ignore(3);
-        mazeFile >> width;
+        cout << "Error opening, file not found!\n"
+             << "Make sure the maze file exists and is places in the directory `mazes`" << endl;
+    } else {                                                // File found
+        // First line parse ('rows' x 'columns')
+        mazeFile >> rows;                                   // Rows
+        mazeFile.ignore(3);                              // Fill chars in between rows and columns
+        mazeFile >> cols;                                   // Columns
 
-        //TODO: Write the next code part smarter and cleaner
-        vector<char> lines;
-        vector<vector<char>> coordinates;
+        vector<char> rowsVec;                               // Vector which will contain a single row
+        vector<vector<char>> mazeVec;                       // 2D vector which will contain the chars in the maze at proper position
 
+        mazeFile.ignore(1);
+
+        // Loop until the file is totally read (reach the end of file `EOF`)
         while (!mazeFile.eof()) {
-            char mazeCurr = static_cast<char>(mazeFile.get());
-            if (mazeCurr == '\n') {
-                coordinates.push_back(lines);
-                lines.clear();
+            char mazeCurrChar = mazeFile.get();             // Gets the next char in the file
+            if (mazeCurrChar == '\n') {                     // If the char is `\n` (reached the end of a row)
+                mazeVec.push_back(rowsVec);                 // Appends the full row to `mazeVec`
+                rowsVec.clear();                            // Clears the row in order to save a new one
             } else {
-                lines.push_back(mazeCurr);
+                rowsVec.push_back(mazeCurrChar);            // Appends the current char in the file to the rows vector (`rowsVec`)
             }
         }
-        coordinates.push_back(lines);
-        coordinates.back().pop_back();
+        mazeVec.push_back(rowsVec);                         // Appends the last row to `rowsVec`
+        mazeVec.back().pop_back();                          // Removes the newline char from the last position of the last line, since we don't need it
 
-
-        Maze maze;
-        maze.height = height;
-        maze.width = width;
-        maze.coordinates = coordinates;
+        // Initializing maze object
+        Maze maze{rows, cols, mazeVec};
 
         drawMaze(maze);
-
     }
 }
 
 
-// TODO: Fix this function into an actually regular readable for loop
 void drawMaze(const Maze &maze) {
-    for (auto i : maze.coordinates) {
-        for (auto j : i) {
-            cout << j << " ";
+    clearScreen();
+     for (yval y = 0; y < maze.rows; y++) {         // Row vectors
+        for (xval x = 0; x < maze.columns; x++) {   // [Row][Column] (single position)
+            cout << maze.coordinates.at(y).at(x);   // Printing a single char of the maze
         }
-        cout << endl;
+        cout << endl;                               // New line for the new row
     }
 }
 
