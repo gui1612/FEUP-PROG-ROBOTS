@@ -1,6 +1,7 @@
 #include "../includes/global.h"
 #include "../includes/menu.h"
-#include "../includes/inp_out.h"
+#include "../includes/game.h"
+
 
 void menu() {
     short confirm = 1;                       // Leaving confirmation (initialized at a value different of 0 not to leave the loop)
@@ -67,7 +68,12 @@ void menuChoice(short choice, short &confirm) {
         }
         case 2: {               // Play
             clearScreen();
-            mazePick();
+            /////TEST START
+            Maze maze;
+            bool play = mazePick(maze);
+            if (play)
+                playGame(maze);
+            /////TEST END
             break;
         }
         default: {              // The input was of type `int`, but not a valid option

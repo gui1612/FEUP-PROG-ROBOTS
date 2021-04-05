@@ -1,5 +1,8 @@
 #pragma once
 
+
+#include "../includes/maze.h"
+
 // STL Includes
 #include <iostream>
 #include <string>

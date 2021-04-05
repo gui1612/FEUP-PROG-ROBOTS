@@ -1,23 +1,24 @@
-#include "../includes/inp_out.h"
+#include "../includes/maze.h"
 #include "../includes/global.h"
 #include "../includes/menu.h"
 
 using namespace std;
 
-#include <iterator>
 
-
-void mazePick() {
+bool mazePick(Maze &maze) {
+    bool playGame = false;
     // File Input loop that ends when user sends "EOF"
     short leaveConfirm = 1;                            // Leaving confirmation (initialized at a value different of 0 not to leave the loop)
     do {
         const unsigned int SLEEP_TIME = 2;             // sleep time if the user decides to leave the maze picker stage
         short levelPick;                               // string type var to store the number of the selected maze
 
+
         cout << "Choose a level to play (0 to return to main menu)! " << endl;
 
         // gets an input and if it is successfully (`validInput` -> `true`) writes it on `levelPick` (if not clears the buffer)
         bool validInput = getInput<short>(levelPick);
+        ifstream mazeFile;                                      // File stream
 
         if (validInput) {               // Input of valid type
             clearBuffer();
@@ -28,37 +29,49 @@ void mazePick() {
                 clearScreen();                          // Clears the screen
                 leaveConfirm = 0;                       // signal to leave the do while loop (return to main menu)
             } else {
-                /*
-                 * `fileNameOrNullopt` will have a string if it is valid or `std::nullopt` if invalid
-                 * `fileNameOrNull` will contain a string with a maze filename if `fileNameOrNullopt` has a valid string or else "Null"
-                 */
-                optional<string> fileNameOrNullopt = getMazeName(levelPick);
-                string fileNameOrNull = fileNameOrNullopt.value_or("Null");
+                string fullFilePath;
+                if (validMaze(levelPick, fullFilePath, mazeFile)) {
+                    playGame = true;
+                    maze = mazeOpen(fullFilePath, mazeFile);
+                } else {
+                    warnUser("fileIO");
+                }
 
-                if (fileNameOrNullopt != "Null")        // Valid filename (0 < fileName < 100)
-                    mazeOpen(fileNameOrNull);           // Opens maze
-                else                                    // Invalid filename ( 0 >= filename or 100 <= filename)
-                    warnUser("fileIO");      // Warns the user about invalid filename
             }
         } else if (!cin.eof()) {          // Input of invalid type (not EOF)
             warnUser("fileIO");
         }
     } while (leaveConfirm != 0 && !cin.eof());
+    return playGame;
 }
 
 
-void mazeOpen(string levelPick) {
-    ifstream mazeFile;                                      // File stream
+bool validMaze(const short &filename, string &fullPath, ifstream &mazeFile) {
+    const string PREFIX = "../input/";                      // prefix containing the file where the maze files are at
+
+    /*
+    * `fileNameOrNullopt` will have a string if it is valid or `std::nullopt` if invalid
+    * `fileNameOrNull` will contain a string with a maze filename if `fileNameOrNullopt` has a valid string or else "Null"
+    */
+    optional<string> fileNameOrNullopt = getMazeName(filename);
+    string fileNameOrNull = fileNameOrNullopt.value_or("Null");
+
+    if (fileNameOrNullopt != "Null") {       // Valid filename (0 < fileName < 100)
+        string filepath = PREFIX + fileNameOrNull;                   // full filepath string
+        fullPath = filepath;
+
+        mazeFile.open(filepath.c_str());                        // Trying to open the file with the name `filepath` contained in ../mazes directory
+        return mazeFile.good();
+
+    } else {                                    // Invalid filename ( 0 >= filename or 100 <= filename)
+        return false;
+    }
+}
+
+
+Maze mazeOpen(const string &levelPick, ifstream &mazeFile) {
     unsigned int rows = 0, cols = 0;                        // initializing `rows` (horizontal) and  `columns` (vertical)
 
-    const string PREFIX = "../mazes/";                      // prefix containing the file where the maze files are at
-    string filepath = PREFIX + levelPick;                   // full filepath string
-
-    mazeFile.open(filepath.c_str());                        // Trying to open the file with the name `filepath` contained in ../mazes directory
-    if (mazeFile.fail()) {                                  // File not found (doesn't exist)
-        cout << "Error opening, file not found!\n"
-             << "Make sure the maze file exists and is places in the directory `mazes`" << endl;
-    } else {                                                // File found
         // First line parse ('rows' x 'columns')
         mazeFile >> rows;                                   // Rows
         mazeFile.ignore(3);                              // Fill chars in between rows and columns
@@ -83,21 +96,9 @@ void mazeOpen(string levelPick) {
         mazeVec.back().pop_back();                          // Removes the newline char from the last position of the last line, since we don't need it
 
         // Initializing maze object
-        Maze maze{rows, cols, mazeVec};
-
-        drawMaze(maze);
-    }
-}
-
-
-void drawMaze(const Maze &maze) {
-    clearScreen();
-     for (yval y = 0; y < maze.rows; y++) {         // Row vectors
-        for (xval x = 0; x < maze.columns; x++) {   // [Row][Column] (single position)
-            cout << maze.coordinates.at(y).at(x);   // Printing a single char of the maze
-        }
-        cout << endl;                               // New line for the new row
-    }
+        Maze mazeInp{rows, cols, mazeVec};
+        drawMaze(mazeInp);
+        return mazeInp;
 }
 
 
@@ -109,5 +110,16 @@ optional<string> getMazeName(short levelChoice) {
         string firstPart = (levelChoice < 10) ? "0" + to_string(levelChoice) : to_string(levelChoice);
         string fileName = "MAZE_" + firstPart + ".txt";  // Passes the end format of the maze file to `fileName`
         return fileName;
+    }
+}
+
+
+void drawMaze(const Maze &maze) {
+    clearScreen();
+    for (yval y = 0; y < maze.rows; y++) {         // Row vectors
+        for (xval x = 0; x < maze.columns; x++) {   // [Row][Column] (single position)
+            cout << maze.coordinates.at(y).at(x);   // Printing a single char of the maze
+        }
+        cout << endl;                               // New line for the new row
     }
 }

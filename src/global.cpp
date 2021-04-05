@@ -43,6 +43,7 @@ void warnUser(string warningType) {
     clearScreen();                  //Clears the screen
 }
 
+
 void sleepFor(unsigned int sec) {
     this_thread::sleep_for(chrono::seconds(sec));
 }
