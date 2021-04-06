@@ -7,8 +7,8 @@ using namespace std;
 
 bool mazePick(Maze &maze) {
     bool playGame = false;
-    // File Input loop that ends when user sends "EOF"
     short leaveConfirm = 1;                            // Leaving confirmation (initialized at a value different of 0 not to leave the loop)
+    // File Input loop that ends when user sends "EOF" or when a valid maze is picked
     do {
         const unsigned int SLEEP_TIME = 2;             // sleep time if the user decides to leave the maze picker stage
         short levelPick;                               // string type var to store the number of the selected maze
@@ -16,32 +16,30 @@ bool mazePick(Maze &maze) {
 
         cout << "Choose a level to play (0 to return to main menu)! " << endl;
 
-        // gets an input and if it is successfully (`validInput` -> `true`) writes it on `levelPick` (if not clears the buffer)
         bool validInput = getInput<short>(levelPick);
-        ifstream mazeFile;                                      // File stream
+        ifstream mazeFile;                              // File stream
 
-        if (validInput) {               // Input of valid type
+        if (validInput) {                               // Input of valid type
             clearBuffer();
-            if (levelPick == 0) {       // Menu
-                clearScreen();                          // Clears the screen
+            if (levelPick == 0) {                       // Menu
+                clearScreen();
                 cout << "Returning to the main menu ..." << flush;
-                sleepFor(SLEEP_TIME);                   // Animation to improve UX: waits 2 seconds
-                clearScreen();                          // Clears the screen
-                leaveConfirm = 0;                       // signal to leave the do while loop (return to main menu)
+                sleepFor(SLEEP_TIME);                    // Animation to improve UX: waits 2 seconds
+                clearScreen();
+                leaveConfirm = 0;                        // Returns to the main menu
             } else {
                 string fullFilePath;
                 if (validMaze(levelPick, fullFilePath, mazeFile)) {
                     playGame = true;
+                    leaveConfirm = 0;
                     maze = mazeOpen(fullFilePath, mazeFile);
                 } else {
                     warnUser("fileIO");
                 }
-
             }
-        } else if (!cin.eof()) {          // Input of invalid type (not EOF)
+        } else if (!cin.eof())                             // Input of invalid type (not EOF)
             warnUser("fileIO");
-        }
-    } while (leaveConfirm != 0 && !cin.eof());
+        } while (leaveConfirm != 0 && !cin.eof());
     return playGame;
 }
 
@@ -86,8 +84,8 @@ Maze mazeOpen(const string &levelPick, ifstream &mazeFile) {
         while (!mazeFile.eof()) {
             char mazeCurrChar = mazeFile.get();             // Gets the next char in the file
             if (mazeCurrChar == '\n') {                     // If the char is `\n` (reached the end of a row)
-                mazeVec.push_back(rowsVec);                 // Appends the full row to `mazeVec`
-                rowsVec.clear();                            // Clears the row in order to save a new one
+                mazeVec.push_back(rowsVec);
+                rowsVec.clear();
             } else {
                 rowsVec.push_back(mazeCurrChar);            // Appends the current char in the file to the rows vector (`rowsVec`)
             }
@@ -97,7 +95,6 @@ Maze mazeOpen(const string &levelPick, ifstream &mazeFile) {
 
         // Initializing maze object
         Maze mazeInp{rows, cols, mazeVec};
-        drawMaze(mazeInp);
         return mazeInp;
 }
 
@@ -116,7 +113,7 @@ optional<string> getMazeName(short levelChoice) {
 
 void drawMaze(const Maze &maze) {
     clearScreen();
-    for (yval y = 0; y < maze.rows; y++) {         // Row vectors
+    for (yval y = 0; y < maze.rows; y++) {          // Row vectors
         for (xval x = 0; x < maze.columns; x++) {   // [Row][Column] (single position)
             cout << maze.coordinates.at(y).at(x);   // Printing a single char of the maze
         }

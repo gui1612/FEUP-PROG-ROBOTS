@@ -10,12 +10,12 @@ void menu() {
         short menuPick;                      // Menu choice
 
         const string banner = R"(
-                                 _____       ____      ____       ____      _______                    _____                  __  __     ______
-                                |  __ \     / __ \    |  _ \     / __ \    |__   __|                  / ____|       /\       |  \/  |   |  ____|
-                                | |__) |   | |  | |   | |_) |   | |  | |      | |                    | |  __       /  \      | \  / |   | |__
-                                |  _  /    | |  | |   |  _ <    | |  | |      | |                    | | |_ |     / /\ \     | |\/| |   |  __|
-                                | | \ \    | |__| |   | |_) |   | |__| |      | |                    | |__| |    / ____ \    | |  | |   | |____
-                                |_|  \_\    \____/    |____/     \____/       |_|                     \_____|   /_/    \_\   |_|  |_|   |______|
+       ______       ____      ____       ____      _______                _____                  __  __     ______
+       |  __ \     / __ \    |  _ \     / __ \    |__   __|              / ____|       /\       |  \/  |   |  ____|
+       | |__) |   | |  | |   | |_) |   | |  | |      | |                | |  __       /  \      | \  / |   | |__
+       |  _  /    | |  | |   |  _ <    | |  | |      | |                | | |_ |     / /\ \     | |\/| |   |  __|
+       | | \ \    | |__| |   | |_) |   | |__| |      | |                | |__| |    / ____ \    | |  | |   | |____
+       |_|  \_\    \____/    |____/     \____/       |_|                 \_____|   /_/    \_\   |_|  |_|   |______|
         )";
 
         // Banner and menu options display
@@ -68,13 +68,12 @@ void menuChoice(short choice, short &confirm) {
         }
         case 2: {               // Play
             clearScreen();
-            /////TEST START
+            /////GAME START
             Maze maze;
             bool play = mazePick(maze);
             if (play)
                 playGame(maze);
-            /////TEST END
-            break;
+            /////GAME END
         }
         default: {              // The input was of type `int`, but not a valid option
             warnUser("menu");             // Warns the user about wrong input
@@ -85,47 +84,47 @@ void menuChoice(short choice, short &confirm) {
 
 void displayRules() {
     cout << R"(
-    --------------------------------------------------------------------------------------------------------------------
-    |                                                          Instructions                                            |
-    |                                                                                                                  |
-    |   > MOVEMENT                                                                                                     |
-    |                                                                                                                  |
-    |               -------------------                               -----------------------------------              |
-    |               |  Q  |  W  |  E  |                               |  UP LEFT  |   UP   |  UP RIGHT  |              |
-    |               |-----------------|                               |---------------------------------|              |
-    |               |  A  |  S  |  D  |                   =>          |    LEFT   |  STAY  |    RIGHT   |              |
-    |               |-----------------|                               |---------------------------------|              |
-    |               |  Z  |  X  |  C  |                               | DOWN LEFT |  DOWN  | DOWN RIGHT |              |
-    |               -------------------                               -----------------------------------              |
-    |                                                                                                                  |
-    |                                                                                                                  |
-    |   > NOTATION                                                    |   > MAZE (*)                                   |
-    |                                                                 |                                                |
-    |    H/h -> Player (alive/dead)                                   |    High voltage fences/posts                   |
-    |    R/r -> Robot (alive/dead)                                    |                                                |
-    |    r   -> Several Robots collision                              |                                                |
-    |    *   -> Fence/Post                                            |                                                |
-    |                                                                                                                  |
-    |   > PLAYER (H/h)                                                |   > ROBOTS (R/r)                               |
-    |                                                                 |                                                |
-    |    Overview                                                     |    Death                                       |
-    |     Robots will try to destroy the player                       |     Robots will die in contact with            |
-    |                                                                 |     walls/each other                           |
-    |                                                                 |                                                |
-    |    Movement                                                     |    Movement                                    |
-    |     The player can move in any direction to an adjacent cell    |     For each player's cell movement the robot  |
-    |     (horizontally, vertically, or diagonally)                   |     also moves one cell in the direction of    |
-    |                                                                 |     the shortest path                          |
-    |                                                                                                                  |
-    |                                                                                                                  |
-    |   > WIN CONDITION                                               |   > GAME OVER                                  |
-    |                                                                 |                                                |
-    |     All robots are destroyed                                    |    Player touches maze or robot(s)             |
-    |                                                                                                                  |
-    |                                                                                                                  |
-    |                                                                                                                  |
-    |   Press ENTER to return to the main menu...                                                                      |
-    |                                                                                                                  |
-    --------------------------------------------------------------------------------------------------------------------
+  --------------------------------------------------------------------------------------------------------------------
+  |                                                 Instructions                                                     |
+  |                                                                                                                  |
+  |   > MOVEMENT                                                                                                     |
+  |                                                                                                                  |
+  |               -------------------                               -----------------------------------              |
+  |               |  Q  |  W  |  E  |                               |  UP LEFT  |   UP   |  UP RIGHT  |              |
+  |               |-----------------|                               |---------------------------------|              |
+  |               |  A  |  S  |  D  |                   =>          |    LEFT   |  STAY  |    RIGHT   |              |
+  |               |-----------------|                               |---------------------------------|              |
+  |               |  Z  |  X  |  C  |                               | DOWN LEFT |  DOWN  | DOWN RIGHT |              |
+  |               -------------------                               -----------------------------------              |
+  |                                                                                                                  |
+  |                                                                                                                  |
+  |   > NOTATION                                                    |   > MAZE (*)                                   |
+  |                                                                 |                                                |
+  |    H/h -> Player (alive/dead)                                   |    High voltage fences/posts                   |
+  |    R/r -> Robot (alive/dead)                                    |                                                |
+  |    r   -> Several Robots collision                              |                                                |
+  |    *   -> Fence/Post                                            |                                                |
+  |                                                                                                                  |
+  |   > PLAYER (H/h)                                                |   > ROBOTS (R/r)                               |
+  |                                                                 |                                                |
+  |    Overview                                                     |    Death                                       |
+  |     Robots will try to destroy the player                       |     Robots will die in contact with            |
+  |                                                                 |     walls/each other                           |
+  |                                                                 |                                                |
+  |    Movement                                                     |    Movement                                    |
+  |     The player can move in any direction to an adjacent cell    |     For each player's cell movement the robot  |
+  |     (horizontally, vertically, or diagonally)                   |     also moves one cell in the direction of    |
+  |                                                                 |     the shortest path                          |
+  |                                                                                                                  |
+  |                                                                                                                  |
+  |   > WIN CONDITION                                               |   > GAME OVER                                  |
+  |                                                                 |                                                |
+  |     All robots are destroyed                                    |    Player touches maze or robot(s)             |
+  |                                                                                                                  |
+  |                                                                                                                  |
+  |                                                                                                                  |
+  |   Press ENTER to return to the main menu...                                                                      |
+  |                                                                                                                  |
+  --------------------------------------------------------------------------------------------------------------------
     )";
 }

@@ -16,6 +16,6 @@ struct Game {
 /**
  * @brief Starts a game based on the maze passed
  *
- * @param maze Maze isntance
+ * @param maze Maze instance
  */
 void playGame(Maze &maze);
