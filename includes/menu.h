@@ -1,5 +1,8 @@
 #pragma once
 
+
+#include "../includes/maze.h"
+
 // STL Includes
 #include <iostream>
 #include <string>
@@ -21,12 +24,6 @@ void menu();
  * @param confirm tracks if the user really wants to leave the game
  */
 void menuChoice(short choice, short &confirm);
-
-
-/**
- * @brief Warns the user about bad input
- */
-void warnUser();
 
 
 /**

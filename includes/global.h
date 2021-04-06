@@ -2,16 +2,10 @@
 
 #include <iostream>
 #include <limits>
+#include <thread>
+#include <chrono>
 
 using namespace std;
-
-
-/**
- * @brief Returns `true` if the input is valid and `false` if it isn't
- *
- * @return clears the input buffer and tracks if the input type is valid
- */
-bool trackClearBuffer();
 
 
 /**
@@ -44,11 +38,13 @@ void waitForConfirmation();
 template<typename T>
 bool getInput(T &inp) {
     T firstInp;
-    if (cin >> firstInp && cin.peek() == '\n') {
+    if (cin >> firstInp && cin.peek() == '\n') {    //
         inp = firstInp;
         return true;
-    } else {
+    } else if (!cin.eof()) {    // If the input is invalid (with the exception of EOF) returns a flag for invalid input without clearing the buffer
         clearBuffer();
+        return false;
+    } else {                    // If the input is EOF, returns a flag for invalid input without clearing the buffer
         return false;
     }
 }
@@ -67,3 +63,23 @@ bool getInput(T &inp) {
  * validInput would be `false`, since 1.23 is not an integer
  */
 bool validInputType();
+
+
+/**
+ * @brief Warns the user about bad input in a single frame (Note: Safe to use, since it clears the screen and buffer before and after its call)
+ *
+ * @param warningType string to define the warning type
+ *
+ * @details
+ * `fileIO` -> IO warning
+ * `menu`   -> Menu warning
+ */
+void warnUser(string warningType);
+
+
+/**
+ * @brief Sleeps for the given amount of seconds
+ *
+ * @param sec sleep time in seconds
+ */
+void sleepFor(unsigned int sec);
