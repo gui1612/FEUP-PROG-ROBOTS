@@ -2,6 +2,8 @@
 
 #include <vector>
 #include <iostream>
+#include "robot.h"
+#include "player.h"
 
 using namespace std;
 
@@ -13,6 +15,8 @@ using ID = int;
  */
 struct Robot {
         bool alive;
-        int ID;
-        vector<int> pos;
+        ID id;
+        vector<int> coordinates;
 };
+
+void updateRobot(Robot &robot, const Maze &maze, const Player player);

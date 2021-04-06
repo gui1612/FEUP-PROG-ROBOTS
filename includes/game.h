@@ -16,6 +16,12 @@ struct Game {
 /**
  * @brief Starts a game based on the maze passed
  *
- * @param maze Maze instance
+ * @param maze Maze isntance
  */
 void playGame(Maze &maze);
+
+
+void initializeGame(Maze maze, Player &player, Robot &robot);
+
+
+bool outOfBounds(const vector<int> &pos,const Maze &maze);

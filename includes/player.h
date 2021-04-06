@@ -2,6 +2,7 @@
 
 #include <vector>
 #include <iostream>
+#include "maze.h"
 
 using namespace std;
 
@@ -12,5 +13,9 @@ using namespace std;
 struct Player {
     bool alive;
     int score;
-    vector<int> pos;
+    vector<int> coordinates;
 };
+
+void updatePlayer(char key, Player &player, const Maze &maze);
+
+void playerDraw(Player player, Maze &maze);
