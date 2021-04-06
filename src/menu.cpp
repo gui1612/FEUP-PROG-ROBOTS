@@ -1,6 +1,6 @@
-#include "../includes/global.h"
-#include "../includes/menu.h"
-#include "../includes/game.h"
+#include "global.h"
+#include "menu.h"
+#include "game.h"
 
 
 void menu() {
@@ -59,7 +59,7 @@ void menuChoice(short choice, short &confirm) {
             clearScreen();              // clears the screen before the next menu display or the end of the game
             break;
         }
-        case 1: {               // Rules
+        case 1: {              // Rules
             clearScreen();          // Clears the screen
             displayRules();         // Displays the rules
             waitForConfirmation();  // Waits for user input
@@ -73,6 +73,7 @@ void menuChoice(short choice, short &confirm) {
             bool play = mazePick(maze);
             if (play)
                 playGame(maze);
+            break;
             /////GAME END
         }
         default: {              // The input was of type `int`, but not a valid option

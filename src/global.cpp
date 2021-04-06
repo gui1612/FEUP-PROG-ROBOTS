@@ -1,4 +1,5 @@
-#include "../includes/global.h"
+#include "global.h"
+#include "entities.h"
 
 using namespace std;
 
@@ -28,19 +29,21 @@ bool validInputType() {
 
 
 void warnUser(string warningType) {
-    clearScreen();                  // clears the screen before the warning is displayed
+    clearScreen();                          // clears the screen before the warning is displayed
     if (warningType == "menu") {            // warning layout for menu
         cout << "That is not a valid input (Options: 0, 1, 2)\n"
-             << "Press ENTER to return to the main menu..."<< endl;
+             << "Press ENTER to return to the main menu..." << endl;
     } else if (warningType == "fileIO") {   // warning layout for file input/output
-        cout << "That is not a valid input (fileNumber: 1, 2, ..., 99)\n"
-             << "Press ENTER to return to the main menu..."<< endl;
-    } else  {
+        cout << "That is not a valid input (Options: 1, 2, ..., 99)\n"
+             << "Press ENTER to return to the main menu..." << endl;
+    } else if (warningType == "game") {     // warning layout for file input/output
+        cout << "That is not a valid input (Options: Q, W, E, A, S, D, Z, X, C)"<< endl;
+    } else {
         cout << "That is not a valid input\n"
              << "Press ENTER to return to the main menu..." << endl;
     }
-    waitForConfirmation();          // Waits for the user to press something
-    clearScreen();                  //Clears the screen
+    waitForConfirmation();                  // Waits for the user to press something
+    clearScreen();                          // Clears the screen
 }
 
 
