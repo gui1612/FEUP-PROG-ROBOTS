@@ -74,7 +74,7 @@ bool validInputType();
  * `fileIO` -> IO warning
  * `menu`   -> Menu warning
  */
-void warnUser(string warningType);
+void warnUser(const string warningType);
 
 
 /**

@@ -3,39 +3,43 @@
 
 
 void playGame(Maze &maze) {
-    Player player;
-    Robot robot;
-    vector<int> robotIDS;
-    Point lastPos;
+    // Vector of phrases to be displayed when player wins
+    vector<string> win = {"Well done, champ!!", "You have beat those evil robots. Good job!!",
+                      "Perfect!!", "You've aced the game", "Well done! Those robots were a bit RUSTy, am I right?"};
+    // Vector of phrases to be displayed when player looses
+    vector<string> loss = {"Better luck next time.", "Try again", "You can only win if you keep trying!",
+                            "Don't let those robots survive!", "You loss"};
 
-    // TODO: Implement multiple robots with their respective IDs
+    const int RAND_IDX = rand() % 6;
+
+
+    Player player;
+    RobotMap robotMap;
+
 
     // Getting all the necessary values for the player and robots
-    initializeGame(maze, player, robot);
+    initializeGame(maze, player, robotMap);
 
+    auto start = high_resolution_clock::now();                      // Game timer starts
     do {
-        char key;                                                   // Initialize the player's input variable
+        char key;                                                                   // Initialize the player's input variable
 
         drawMaze(maze);
         cout << "Where do you wish to move to?" << endl;
 
-        bool validInput = getInput<char>(key);                   // Checks if the input is valid for the type "char"
+        bool validInput = getInput<char>(key);                                    // Checks if the input is valid for the type "char"
 
-        if (validInput){                             // Valid input
+        if (validInput){                            // Valid input
             if (validMove(key)) {                   // Valid move
+            // GAME ROUND
 
                 clearBuffer();
+                bool validPlayerUpdate = updatePlayer(player, key, maze);
 
-                // TODO: Create a function that does both at a time
-                updatePlayer(player, key, maze);                   // Updates the player position
-                updateRobot(robot, player, maze);                  // Updates the robot position
-
-                if (outOfBounds(player.coordinates, maze)) {           // Checking if the player is inbounds
-                    cout << "Watch out you are leaving the play area! Input a valid move!" << endl;
-                    continue;
-                } else if (!player.alive) {                            // Checking if the player is alive
-                    cout << "you died!" << endl;
-                    break;
+                if (validPlayerUpdate) {            // Move doesn't violate the games' rules
+                    updateAllRobot(robotMap, player, maze);
+                } else {
+                    warnUser("game-move");
                 }
             } else {                                // Invalid input
                 clearBuffer();
@@ -44,60 +48,52 @@ void playGame(Maze &maze) {
         } else {                                    // The user's input was not valid (correct type)
             warnUser("game");
         }
-    } while (!cin.eof() && (player.alive || robotIDS.size() != 0));
+    } while (!cin.eof() && player.alive && robotMap.size() != 0);
+
+    auto end = high_resolution_clock::now();                                        // Game timer ends
+    duration<double> gameTime = duration_cast<duration<double>>(end - start);       // Calculates Game time
+    cout << gameTime.count() <<  endl;
 }
 
 
-void initializeGame(Maze maze, Player &player, Robot &robot) {
+bool playerLoss(const Player &player) {
+    return !player.alive;
+}
 
-    vector<int> entPos(2);       // Stub variable for the position vector of the player/robot
-    vector<int> robotIDS;           // Currently not used, but in the future a vector to store all IDs and keep track of living robots
-    int idSelector = 1;             // Stub variable fot the future of the robots IDs
+
+bool playerWin(const Player &player, RobotMap robotMap) {
+    return (player.alive && !robotMap.empty());
+}
+
+
+void initializeGame(Maze maze, Player &player, RobotMap &robotIdMap) {
+    Point entPos;                   // Stub for the position vector of the entity (player/robot)
+    //vector<int> robotIDS;           // Currently not used, but in the future a vector to store all IDs and keep track of living robots
+    ID idSelector = 1;             // Stub variable fot the future of the robots IDs
 
     //  Iterating through the maze object in order to find instances of players/robots
     for (yval y = 0; y < maze.rows; y++) {
         for (xval x = 0; x < maze.columns; x++) {
-           char currPos = maze.coordinates.at(y).at(x);         // Current maze position
+           char currPos = maze.coordinates.at(y).at(x);              // Char at current maze position
+           entPos = {x, y};                                          // Current maze coordinate
             switch (currPos) {
-                case ('H'): case ('h'):                         // Player
-                    cout << "found the player!" << endl;        // Debugging tool
-                    entPos.push_back(x);                        // Saving x coordinate
-                    entPos.push_back(y);                        // Saving y coordinate
-                    player.coordinates = entPos;                // Giving the player instance its "coordinates" attribute
-                    entPos.clear();                             // Clearing the position vector for use in the next iteration
-                    player.alive = isupper(currPos);            // Giving the player instance its "alive" attribute
+                case ('H'): case ('h'):                              // Player
+                    player.coordinates = {entPos.x, entPos.y};       // Giving the player instance its "coordinates" attribute
+                    player.alive = isupper(currPos);                 // Giving the player instance its "alive" attribute
                     break;
-                case ('R'):                                     // Robot (alive)
-                    cout << "found a robot!" << endl;           // Debugging tool
-                    entPos.push_back(x);                        // Saving x coordinate
-                    entPos.push_back(y);                        // Saving y coordinate
-                    robot.coordinates = entPos;                 // Giving the robot instance its "coordinates" attribute
-                    entPos.clear();                             // Clearing the position vector for use in the next iteration
-                    robot.alive = true;                         // Giving the robot instance its "alive" attribute
-                    robot.id = idSelector;                      // Giving the robot its ID
-                    robotIDS.push_back(robot.id);               // Appending the robot's ID to the 'robotIDS' vector
-                    idSelector++;                               // Moving to the next ID
-                    break;
-                case ('r'):                                     // Robot (dead) - same procedure used in the alive instance, except the instance is dead
-                    entPos.push_back(x);
-                    entPos.push_back(y);
-                    robot.coordinates = entPos;
-                    entPos.clear();
-                    robot.alive = false;
-                    robot.id = idSelector;
-                    robotIDS.push_back(robot.id);
-                    idSelector++;
+                case ('R'): case ('r'):                              // Robot
+                    Robot robot;
+                    robot.coordinates = {entPos.x, entPos.y};       // Giving the robot instance its "coordinates" attribute
+                    robot.alive = isupper(currPos);                 // Giving the robot instance its "alive" attribute
+                    if (robot.alive) {          // Robot (alive)
+                        robot.id = idSelector;                      // Giving the robot its ID
+                        robotIdMap[idSelector] = robot;
+                        idSelector++;                               // Moving to the next ID
+                    }
                     break;
             }
         }
     }
-}
-
-
-bool outOfBounds(const vector<int> &pos,const Maze &maze){
-    const unsigned int HEIGHT = maze.rows, WIDTH = maze.columns;    // Creating height and width variables by looking at the maze instance
-    int x = pos.at(0), y = pos.at(1);                           // Getting the x and y position of the player
-    return !(0 < y < HEIGHT && 0 < x < WIDTH);                      // Returning true (if inbounds) and false (if out of bounds)
 }
 
 

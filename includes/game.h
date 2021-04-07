@@ -3,13 +3,16 @@
 #include "entities.h"
 
 #include <algorithm>
+#include <random>
+#include <chrono>
 
 using namespace std;
+using namespace std::chrono;
 
 // Type aliases
 using xval = int;
 using yval = int;
-using ID = int;
+using ID = unsigned int;
 
 
 /**
@@ -25,19 +28,30 @@ void playGame(Maze &maze);
  *
  * @param maze Maze to be read from
  * @param player Player instance
- * @param robot Robot instance
+ * @param robotIdMap Unordered map with <key, value> pairs of Ids and Robots
  */
-void initializeGame(Maze maze, Player &player, Robot &robot);
+void initializeGame(Maze maze, Player &player, RobotMap &robotIdMap);
 
 
 /**
- * @brief Checks if the player is trying to move to a position out of bounds
+ * @brief Checks if the player has won the game
  *
- * @param pos Position the player is trying to move
- * @param maze Maze instance
- * @return returns `true` if out of bounds, `false` if not
+ * @param player Player instance
+ * @param robotMap Unordered map with <key, value> pairs of Ids and Robots
+ *
+ * @return `true` if the player has won and `false` if he hasn't
  */
-bool outOfBounds(const vector<int> &pos,const Maze &maze);
+bool playerWin(const Player &player, RobotMap robotMap);
+
+
+/**
+ * @brief Checks if the player has lost the game
+ *
+ * @param player player instance
+ *
+ * @return `true` if the player has lost and `false` if he hasn't
+ */
+bool playerLoss(const Player &player);
 
 
 /**

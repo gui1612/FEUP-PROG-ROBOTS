@@ -63,7 +63,7 @@ void menuChoice(short choice, short &confirm) {
             clearScreen();          // Clears the screen
             displayRules();         // Displays the rules
             waitForConfirmation();  // Waits for user input
-            if (!cin.eof()) { clearScreen(); }  // Clears the screen if the user didn't press EOF in the confirmation
+            if (!cin.eof()) { clearScreen();}  // Clears the screen if the user didn't press EOF in the confirmation
             break;
         }
         case 2: {               // Play

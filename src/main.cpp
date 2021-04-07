@@ -3,6 +3,9 @@
 using namespace std;
 
 int main() {
+    srand(time(NULL));
+    menu();
+    /*
     try {
         // Menu call, which will trigger the entire game
         menu();
@@ -10,5 +13,6 @@ int main() {
         cerr << "An unexpected error has occurred!\n";
         EXIT_FAILURE;
     }
+     */
     return 0;
 }
