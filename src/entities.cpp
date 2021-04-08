@@ -15,7 +15,6 @@ bool mazePick(Maze &maze) {
         cout << "Choose a level to play (0 to return to main menu)! " << endl;
         bool validInput = getInput<short>(levelPick);
 
-
         ifstream mazeFile;                              // File stream
 
         if (validInput) {                               // Input of valid type
@@ -67,14 +66,8 @@ bool validMaze(const short &filename, string &fullPath, ifstream &mazeFile) {
 }
 
 
-void updateMaze(RobotMap &robotMap, Player &player, Maze &maze, char chr) {
-    updatePlayer(player, chr, maze);
-    updateAllRobot(robotMap, player, maze);
-}
-
-
 void mazeReplace(Maze &maze, Point point, char replacingChar) {
-    maze.coordinates.at(point.y).at(point.x) = replacingChar;
+    maze.gameBoard.at(point.y).at(point.x) = replacingChar;
 }
 
 
@@ -125,9 +118,9 @@ void drawMaze(const Maze &maze) {
     clearScreen();
     for (yval y = 0; y < maze.rows; y++) {          // Row vectors
         for (xval x = 0; x < maze.columns; x++) {   // [Row][Column] (single position)
-            char currChar = maze.coordinates.at(y).at(x);
+            char currChar = maze.gameBoard.at(y).at(x);
             if (currChar == 'D')
-                cout << '*' << ' ';
+                cout << "\033[32m" << "*" << "\033[0m";
             else
                 cout << currChar << ' ';
         }
@@ -138,48 +131,91 @@ void drawMaze(const Maze &maze) {
 
 ///////// ROBOT ///////////
 
-
+/*
 void updateAllRobot(RobotMap &robotMap, Player &player, Maze &maze) {
     ID id = 1;
-    for (int i = 0; i < robotMap.size(); i++) {
-        cout << "GUUUUUD" << endl;
-        cout << "ID: " << id << endl;
+    PathMap pathMap;                        // Creates a `std::unordered::dict` with <ID, Point> pairs, where point is the ideal move
+
+    for (int i = 0; i < robotMap.size(); i++) { // Dict with elements with ID+shortestPath
         Robot robot = robotMap[id];
-        cout << "HERE?" << endl;
-        updateRobot(robot, player, maze);
-        cout << "NOT HERE!!" << endl;
-        if (!robot.alive) {
-            cout << "LUUL" << endl;
-            robotMap.erase(id);
+        Point shortestPath = bestMove(robot, player, maze);
+        pathMap[id] = shortestPath;          // adds a <key, value> pair to `pathMap`
+        id++;                                // Next i
+    }
+    id = 1;
+    for (int j = 0; j < pathMap.size() - 1; j++) {
+        Point idPath = pathMap[id];
+        for (int k = j + 1; k < pathMap.size(); k++) {
+            pathMap.at(k);
+            Point testingPath = pathMap[id+k];
         }
         id++;
     }
 }
+*/
 
+void updateAllRobots(Player &player, Maze &maze) {
+    for (int i = 0; i < maze.robotVec.size(); i++) {
 
-void updateRobot(Robot &robot, Player &player, Maze &maze) {
-    Point shortestPath = bestMove(robot, player, maze);
-    cout << shortestPath.x << endl;
-    cout << shortestPath.y << endl;
-    char charInPos = maze.coordinates.at(shortestPath.y).at(shortestPath.x);
-    mazeReplace(maze, robot.coordinates, ' ');
-    //maze.coordinates.at(robot.coordinates.y).at(robot.coordinates.x) = ' ';
-    switch (charInPos) {
-        case '*':               // maze is the shortest path
-            robot.alive = false;                                                    // robot dies
-            mazeReplace(maze, robot.coordinates, 'r');              // places 'r' at the previous robot position
+        Robot currRobot = maze.robotVec.at(i);
+        Point lastPos = currRobot.coordinates;
+        ID id = currRobot.id;
+
+        //////////////DEBUG/////////////////
+        cout << "{\n";
+        for (auto robot : maze.robotVec) {
+            Point p = robot.coordinates;
+            cout << "\t{\n\talive: " << robot.alive << ",\n\tCoordinates: " <<  "(" << p.x << ", " << p.y << "), \n\t" << "ID: "<< robot.id << "\n\t}, \n";
+        }
+        cout << "}" << endl;
+        ////////////////////////////////////
+
+        if (!currRobot.alive) {continue;};
+
+        Point newPos = bestMove(currRobot, player, maze);
+
+        char charInPos = maze.gameBoard.at(newPos.y).at(newPos.x);
+
+        if (charInPos == 'R' || charInPos == 'r') {      // Robot gets stuck
+            cout << "Robot gets stuck" << endl;
+            maze.robotVec.at(i).alive = false;           // First robot dies
+            maze.aliveRobots--;                          // Updates aliveRobots
+            maze.robotVec.at(i).coordinates = newPos;    // Coordinates update
+            for (int j = 0; j < maze.robotVec.size(); j++) {
+                Robot secRobot = maze.robotVec.at(j);
+                if (currRobot == secRobot) {continue;};
+
+                if (secRobot.coordinates == newPos) {            // If there's a robot collision, kills the other robot
+                    maze.robotVec.at(j).alive = false;           // Second robot dies
+                    maze.aliveRobots--;                          // Updates aliveRobots
+                    break;
+                }
+                mazeReplace(maze, lastPos, ' ');
+                mazeReplace(maze, newPos, 'r');
+            }
+
+        } else if (charInPos == '*') {                  // Robot moves to electric fence
+            cout << "Robot collides with eletric fence";
+            cout << "2" << endl;
+            maze.robotVec.at(i).alive = false;           // First robot dies
+            maze.aliveRobots--;                          // Updates aliveRobots
+            mazeReplace(maze, lastPos, 'r');
+            mazeReplace(maze, newPos, 'D');
+        } else if (charInPos == 'D') {                  // Robot moves to non-electric fence
+            cout << "3" << endl;
+            continue;
+        } else if (charInPos == 'H') {                  // Player gets caught by robot
+            cout << "4" << endl;
+            player.alive = false;                       // Player dies
+            mazeReplace(maze, lastPos, ' ');
+            mazeReplace(maze, newPos, 'h');
             break;
-        case 'r': case 'R':     // another robot (dead or alive) is the shortest path
-            robot.alive = false;                                                    // robot dies
-            mazeReplace(maze, robot.coordinates, 'r');              // places 'r' at the previous robot position
-            break;
-        case 'H':               // player was caught
-            player.alive = false;                                                    // player dies
-            mazeReplace(maze, robot.coordinates, 'h');              // places 'h' at the previous robot position
-            break;
-        default:                // normal robot move
-            mazeReplace(maze, robot.coordinates, 'R');              // places 'H' at thethe position he was moving into
-            break;
+        } else {                                        // Regular robot move
+            cout << "5" << endl;
+            //maze.gameBoard.at(lastPos.y).at(lastPos.x) = ' ';
+            //maze.gameBoard.at(newPos.y).at(newPos.x) = 'R';
+            robotDraw(lastPos, maze.robotVec.at(i), maze);
+        }
     }
 }
 
@@ -197,7 +233,6 @@ Point bestMove(const Robot &robot, const Player &player, const Maze &maze) {
     double minDist = numeric_limits<double>::max();                     // Max double
     Point bestMove;                                                     // Variable to store the optimal position to move
     for (int i = 0; i < moveVec.size(); i++) {
-        //vector newPlace = {x + moveVec.at(i).at(0), y + moveVec.at(i).at(1)};
         if (!outOfBounds(moveVec.at(i), maze)) {                        // The position is inside the maze bounds
             double dist = pointDist(moveVec.at(i), player.coordinates); // Distance between that move option and the player
             if (dist < minDist) {       // If that move is the best until the moment
@@ -211,6 +246,11 @@ Point bestMove(const Robot &robot, const Player &player, const Maze &maze) {
     return bestMove;
 }
 
+
+void robotDraw(Point lastPos, const Robot &robot, Maze &maze) {
+    maze.gameBoard.at(lastPos.y).at(lastPos.x) = ' ';         // Replacing robot last position
+    mazeReplace(maze, robot.coordinates, 'R');   // Replacing robot new position
+}
 
 ///////// PLAYER ///////////
 
@@ -256,7 +296,7 @@ bool updatePlayer(Player &player, char key, Maze &maze){
     yval y = player.coordinates.y;
 
     if (!outOfBounds(player.coordinates, maze)) {                                // Checks if the player is inside the maze bounds
-        char newPosChar = maze.coordinates.at(y).at(x);
+        char newPosChar = maze.gameBoard.at(y).at(x);
         if (newPosChar == ' ' || newPosChar == 'H') {                            // Valid player movement
             playerDraw(lastPos, player, maze);                                // Updates coordinates on the maze
             return true;
@@ -272,7 +312,7 @@ bool updatePlayer(Player &player, char key, Maze &maze){
 
 
 void playerDraw(Point lastPos, const Player &player, Maze &maze) {
-    maze.coordinates.at(lastPos.y).at(lastPos.x) = ' ';        // Replacing player last position
+    maze.gameBoard.at(lastPos.y).at(lastPos.x) = ' ';        // Replacing player last position
     mazeReplace(maze, player.coordinates, 'H'); // Replacing player new position
 }
 

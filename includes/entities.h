@@ -27,17 +27,16 @@ using ID = unsigned int;
  */
 struct Point {int x; int y;};
 
-
 /**
- * @brief Data structure to store a maze file (stores the number of rows, columns and the char for each position of the maze)
+ * @brief Overload of "==" for point equality
  *
+ * @param p1 Point instance
+ * @param p2 Point instance
+ * @return `true` if the points are the same, otherwise `false`
  */
-struct Maze {
-    string number;                      ///< The number of the maze (string format)
-    unsigned int rows;                  ///< The number of rows of the maze
-    unsigned int columns;               ///< The number of columns of the maze
-    vector<vector<char>> coordinates;   ///< A 2D vector  of dimensions `rows`x`columns` which contains the char in the maze for each individual position
-};
+inline bool operator==(Point p1, Point p2) {
+    return p1.x == p2.x && p1.y == p2.y;
+}
 
 
 /**
@@ -45,39 +44,81 @@ struct Maze {
  *
  */
 struct Robot {
+    // `true` if the robot is alive, otherwise `false`
     bool alive;
+
+    // The ID of the robot (unique for each robot)
     ID id;
+
+    // The current coordinates of the robot in the `Maze`
     Point coordinates;
 };
 
-
-using RobotMap = unordered_map<ID, Robot>;
-
+/**
+ * @brief Overload of operator "==" for Robot equality
+ *
+ * @param r1 Robot instance
+ * @param r2 Robot instance
+ *
+ * @return `true` if the robots are the same, otherwise `false`
+ */
+inline bool operator==(Robot r1, Robot r2) {
+    // Since ID's are unique, we only need to compare them to know if the robot is the same
+    return r1.id == r2.id;
+}
 
 /**
  * @brief Data structure to store a Person (stores his position, score, name and position)
  *
  */
 struct Player {
+   // The name of the player playing the game
    string name;
+
+   // The score of the current player
    int score;
+
+   // `true` if the player is alive, otherwise `false`
    bool alive;
+
+   // The current coordinates of the player in the `Maze`
    Point coordinates;
 };
 
 
-/**
-* @brief Starts a game based on the maze passed
-*
-* @param maze Maze instance
-*/
-struct Game {
-    Maze maze;
-    Player player;
-    Robot robot;
-};
-
 ///////// MAZE ///////////
+
+
+/**
+ * @brief Data structure that contains all the info about the maze
+ *
+ */
+struct Maze {
+    // A string containing the number of the current maze (ex.: '01', '02', ..., '99')
+    string number;
+
+    // The dimensions of the maze (`rows`x`columns`)
+    unsigned int rows, columns;
+
+    /*
+     * A 2D vector of dimensions `rows`x`columns` which contains the chars in the maze
+     *
+     * ** MAZE NOTATION **
+     * '*' -> Electric fence
+     * 'D' -> Non-electric fence (Note: This is game internal notation. The player sees both 'D' and '*' as a normal '*')
+     * 'H' -> Alive Human
+     * 'h' -> Dead Human
+     * 'R' -> Alive Robot
+     * 'r' -> Dead Robot
+     */
+    vector<vector<char>> gameBoard;
+
+    // Vector which contains all the Robots in the maze sorted by their ID's
+    vector<Robot> robotVec;
+
+    // Variable that tracks the number of alive Robots in the current game
+    unsigned int aliveRobots = 0;
+};
 
 
 /**
@@ -86,17 +127,6 @@ struct Game {
  * @param maze `Maze` type object
  */
 void drawMaze(const Maze &maze);
-
-
-/**
- * @brief Updates all the maze (The player and the robot)
- *
- * @param robotMap Unordered map with <key, value> pairs of Ids and Robots
- * @param player `Player` instance
- * @param maze the current `maze` state
- * @param chr `char` containing the user movement input
- */
-void updateMaze(RobotMap &robotMap, Player &player, Maze &maze, char chr);
 
 
 /**
@@ -162,12 +192,10 @@ Maze mazeOpen(const string &levelPick, ifstream &mazeFile);
  * @brief Updates the status of all the robots (position and alive/dead) and their side effects
  * (positions on the maze, if they collide with the player, etc.)
  *
- * @param robotMap Unordered map with <key, value> pairs of Ids and Robots
- * @param robot Robot instance
  * @param player Player instance
  * @param maze
  */
-void updateAllRobot(RobotMap &robotMap, Player &player, Maze &maze);
+void updateAllRobots(Player &player, Maze &maze);
 
 
 /**
@@ -194,17 +222,29 @@ void updateRobot(Robot &robot,Player &player, Maze &maze);
  */
 Point bestMove(const Robot &robot, const Player &player, const Maze &maze);
 
+
 /**
- * @brief Gets the robot adress from its `id` or `nullptr` if it is not valid
+ * @brief Draws the robot's new position, clearing the previous one
  *
- * @param id
- * @param robotMap
+ * @param robot Robot instance
+ * @param maze the maze of the current game
+ * @param lastPos the previous position of the robot
  *
- * @return `id` or `nullptr` if it is not valid
  */
-/*
-Robot* getById(ID id, RobotMap &robotMap);
-*/
+void robotDraw(Point lastPos, const Robot &robot, Maze &maze);
+
+
+/**
+ * @brief Calculates the distance between 2 points
+ *
+ * @param p1 first point
+ * @param p2 second point
+ *
+ * @return distance between `p1` and `p2`
+ */
+double pointDist(Point p1, Point p2);
+
+
 ///////// PLAYER ///////////
 
 
@@ -221,25 +261,13 @@ bool updatePlayer(Player &player, char key, Maze &maze);
 
 
 /**
- * @brief stub
+ * @brief Draws the player's new position, clearing the previous one
  *
- * @param player the player
- * @param maze the maze
+ * @param player Player instance
+ * @param maze the maze of the current game
  * @param lastPos the previous position of the player
- *
  */
 void playerDraw(Point lastPos, const Player &player, Maze &maze);
-
-
-/**
- * @brief Calculates the distance between 2 points
- *
- * @param p1 first point
- * @param p2 second point
- *
- * @return distance between `p1` and `p2`
- */
-double pointDist(Point p1, Point p2);
 
 
 /**

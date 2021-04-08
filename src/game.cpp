@@ -14,11 +14,11 @@ void playGame(Maze &maze) {
 
 
     Player player;
-    RobotMap robotMap;
-
+    vector<Robot> robotVec;
+    //RobotMap robotMap;
 
     // Getting all the necessary values for the player and robots
-    initializeGame(maze, player, robotMap);
+    initializeGame(maze, player);
 
     auto start = high_resolution_clock::now();                      // Game timer starts
     do {
@@ -32,12 +32,11 @@ void playGame(Maze &maze) {
         if (validInput){                            // Valid input
             if (validMove(key)) {                   // Valid move
             // GAME ROUND
-
                 clearBuffer();
                 bool validPlayerUpdate = updatePlayer(player, key, maze);
 
                 if (validPlayerUpdate) {            // Move doesn't violate the games' rules
-                    updateAllRobot(robotMap, player, maze);
+                    updateAllRobots(player, maze);
                 } else {
                     warnUser("game-move");
                 }
@@ -48,10 +47,11 @@ void playGame(Maze &maze) {
         } else {                                    // The user's input was not valid (correct type)
             warnUser("game");
         }
-    } while (!cin.eof() && player.alive && robotMap.size() != 0);
+    } while (!cin.eof() && player.alive && maze.aliveRobots != 0);
 
     auto end = high_resolution_clock::now();                                        // Game timer ends
     duration<double> gameTime = duration_cast<duration<double>>(end - start);       // Calculates Game time
+    drawMaze(maze);
     cout << gameTime.count() <<  endl;
 }
 
@@ -61,35 +61,31 @@ bool playerLoss(const Player &player) {
 }
 
 
-bool playerWin(const Player &player, RobotMap robotMap) {
-    return (player.alive && !robotMap.empty());
+bool playerWin(const Player &player, const Maze &maze) {
+    return (player.alive && maze.aliveRobots == 0);
 }
 
 
-void initializeGame(Maze maze, Player &player, RobotMap &robotIdMap) {
+void initializeGame(Maze &maze, Player &player) {
     Point entPos;                   // Stub for the position vector of the entity (player/robot)
-    //vector<int> robotIDS;           // Currently not used, but in the future a vector to store all IDs and keep track of living robots
-    ID idSelector = 1;             // Stub variable fot the future of the robots IDs
+    ID idSelector = 1;              // Stub variable fot the future of the robots IDs
 
     //  Iterating through the maze object in order to find instances of players/robots
     for (yval y = 0; y < maze.rows; y++) {
         for (xval x = 0; x < maze.columns; x++) {
-           char currPos = maze.coordinates.at(y).at(x);              // Char at current maze position
-           entPos = {x, y};                                          // Current maze coordinate
+           char currPos = maze.gameBoard.at(y).at(x);                 // Char at current maze position
+           entPos = {x, y};                                           // Current maze coordinate
             switch (currPos) {
-                case ('H'): case ('h'):                              // Player
-                    player.coordinates = {entPos.x, entPos.y};       // Giving the player instance its "coordinates" attribute
-                    player.alive = isupper(currPos);                 // Giving the player instance its "alive" attribute
+                case ('H'): case ('h'):                               // Player
+                    player.coordinates = {entPos.x, entPos.y};        // Giving the player instance its "coordinates" attribute
+                    player.alive = isupper(currPos);                  // Giving the player instance its "alive" attribute
                     break;
-                case ('R'): case ('r'):                              // Robot
-                    Robot robot;
-                    robot.coordinates = {entPos.x, entPos.y};       // Giving the robot instance its "coordinates" attribute
-                    robot.alive = isupper(currPos);                 // Giving the robot instance its "alive" attribute
-                    if (robot.alive) {          // Robot (alive)
-                        robot.id = idSelector;                      // Giving the robot its ID
-                        robotIdMap[idSelector] = robot;
-                        idSelector++;                               // Moving to the next ID
-                    }
+                case ('R'): case ('r'):                               // Robot
+                    bool alive = isupper(currPos);
+                    Robot robot {alive, idSelector, entPos};          // Creates a `Robot` instance
+                    maze.robotVec.push_back(robot);                   // Appends the robot to a vector existing robots
+                    if (alive) {maze.aliveRobots++;};                 // If the robot is alive updates the number of alive robots
+                    idSelector++;                                     // Moving to the next ID
                     break;
             }
         }

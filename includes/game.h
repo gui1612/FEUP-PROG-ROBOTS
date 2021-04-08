@@ -28,20 +28,19 @@ void playGame(Maze &maze);
  *
  * @param maze Maze to be read from
  * @param player Player instance
- * @param robotIdMap Unordered map with <key, value> pairs of Ids and Robots
  */
-void initializeGame(Maze maze, Player &player, RobotMap &robotIdMap);
+void initializeGame(Maze &maze, Player &player);
 
 
 /**
  * @brief Checks if the player has won the game
  *
  * @param player Player instance
- * @param robotMap Unordered map with <key, value> pairs of Ids and Robots
+ * @param maze The maze of the current game
  *
  * @return `true` if the player has won and `false` if he hasn't
  */
-bool playerWin(const Player &player, RobotMap robotMap);
+bool playerWin(const Player &player, const Maze &maze);
 
 
 /**
