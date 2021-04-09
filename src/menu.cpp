@@ -2,6 +2,7 @@
 #include "menu.h"
 #include "game.h"
 
+#include <iomanip>
 
 void menu() {
     short confirm = 1;                       // Leaving confirmation (initialized at a value different of 0 not to leave the loop)
@@ -20,9 +21,22 @@ void menu() {
 
         // Banner and menu options display
         cout << banner << endl;
-        cout << "(2) Play\n"
-             << "(1) Rules\n"
-             << "(0) Exit" << endl;
+        cout << R"(
+                                        ----------------------------------------------
+                                        |                                            |
+                                        |                                            |
+                                        |                                            |
+                                        |                                            |
+                                        |                (3) Leaderboard             |
+                                        |                (2) Play                    |
+                                        |                (1) Rules                   |
+                                        |                (0) Exit                    |
+                                        |                                            |
+                                        |                                            |
+                                        |                                            |
+                                        |                                            |
+                                        ----------------------------------------------
+                    )";
 
         // gets an input and if it is successfully (`validInput` -> `true`) writes it on `menuPick` (if not clears the buffer)
         bool validInput = getInput<short>(menuPick);
@@ -35,6 +49,25 @@ void menu() {
         }
 
     } while (confirm != 0 && !cin.eof());
+
+    clearScreen();
+    cout << R"(
+          __,_,
+         [_|_/
+          //                    ___  __  __   ____
+         //                    / _ ) \ \/ /  / __/
+        //                    / _  |  \  /  / _/
+       //                    /____/   /_/  /___/    The humanity appreciates your efforts
+     _//    __
+    (_|)   |@@| Bip bop ...
+     \ \__ \--/ __
+      \o__|----|  |   __
+          \ }{ /\ )_ / _\
+          /\__/\ \__O (__
+         (--/\--)    \__/
+         _)(  )(_
+        `---''---`
+            )";
 }
 
 
@@ -47,8 +80,7 @@ void menuChoice(short choice, short &confirm) {
             // gets an input and if it is successfully (`validInput` -> `true`) writes it on `confirm` (if not clears the buffer)
             bool validInput = getInput<short>(confirm);
 
-            if (cin.eof())       // EOF flag
-                break;
+            if (cin.eof()) {break;}     // EOF flag
 
             if (!validInput) {    // Invalid input
                 confirm = 1;            // Resets `confirm` for cases in which user inputs a problematic value

@@ -35,12 +35,11 @@ void initializeGame(Maze &maze, Player &player);
 /**
  * @brief Checks if the player has won the game
  *
- * @param player Player instance
- * @param maze The maze of the current game
+ * @param maze the maze of the current game
  *
  * @return `true` if the player has won and `false` if he hasn't
  */
-bool playerWin(const Player &player, const Maze &maze);
+bool playerWin(const Maze &maze);
 
 
 /**

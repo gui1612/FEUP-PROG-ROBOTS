@@ -48,12 +48,20 @@ void playGame(Maze &maze) {
             warnUser("game");
         }
         cout << maze.aliveRobots << endl;
-    } while (!cin.eof() && player.alive && maze.aliveRobots != 0);
-
+    } while (!cin.eof() && !playerLoss(player) && !playerWin(maze));
     auto end = high_resolution_clock::now();                                        // Game timer ends
-    duration<double> gameTime = duration_cast<duration<double>>(end - start);       // Calculates Game time
     drawMaze(maze);
-    cout << gameTime.count() <<  endl;
+
+    duration<double> gameTime = duration_cast<duration<double>>(end - start);       // Calculates Game time
+    if (playerWin(maze)) {
+        cout << win.at(RAND_IDX) << endl;
+        cout << "Your time: " << gameTime.count() << "s" << endl;
+        cout << "Insert your username: ";
+        getInput<string>(player.name);
+        // TODO: WRITE TO THE LEADERBOARD
+    } else {
+        cout << loss.at(RAND_IDX) << endl;
+    }
 }
 
 
@@ -62,8 +70,8 @@ bool playerLoss(const Player &player) {
 }
 
 
-bool playerWin(const Player &player, const Maze &maze) {
-    return (player.alive && maze.aliveRobots == 0);
+bool playerWin(const Maze &maze) {
+    return maze.aliveRobots == 0;
 }
 
 
