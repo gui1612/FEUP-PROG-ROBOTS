@@ -15,4 +15,16 @@ using namespace std;
  * @param time Time of the game (in seconds)
  * @param maze maze in which the player has won the game
  */
-void updateScoreBoard(string playerName, int time, string filename, const Maze &maze);
+//void updateScoreBoard(string playerName, int time, string filename, const Maze &maze);
+
+
+void updateScoreBoard(Player player, const Maze maze, string fullPath);
+
+
+void displayScoreboard(Player player, const Maze maze);
+
+
+void getPlayerName(string &playerName);
+
+
+void printScoreboard(string fullPath);

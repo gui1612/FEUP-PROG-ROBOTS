@@ -3,7 +3,7 @@
 using namespace std;
 
 int main() {
-    srand(time(NULL));
+   // srand(time(NULL));
 
     try {
         // Menu call, which will trigger the entire game

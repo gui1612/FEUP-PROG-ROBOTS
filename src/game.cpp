@@ -1,4 +1,5 @@
 #include "game.h"
+#include "score.h"
 #include "global.h"
 
 
@@ -52,16 +53,17 @@ void playGame(Maze &maze) {
     auto end = high_resolution_clock::now();                                        // Game timer ends
     drawMaze(maze);
 
-    duration<double> gameTime = duration_cast<duration<double>>(end - start);       // Calculates Game time
+    duration<int> gameTime = duration_cast<duration<int>>(end - start);       // Calculates Game time
+
     if (playerWin(maze)) {
-        cout << win.at(RAND_IDX) << endl;
+        //cout << win.at(RAND_IDX) << endl;
         cout << "Your time: " << gameTime.count() << "s" << endl;
-        cout << "Insert your username: ";
-        getInput<string>(player.name);
+        displayScoreboard(player, maze);
         // TODO: WRITE TO THE LEADERBOARD
     } else {
-        cout << loss.at(RAND_IDX) << endl;
+        //cout << loss.at(RAND_IDX) << endl;
     }
+
 }
 
 
