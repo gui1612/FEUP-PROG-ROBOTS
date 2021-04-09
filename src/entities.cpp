@@ -169,7 +169,6 @@ void updateAllRobots(Player &player, Maze &maze) {
                 if (secRobot.coordinates == newPos) {            // If there's a robot collision, kills the other robot
                     maze.robotVec.at(j).alive = false;           // Second robot dies
                     if (secRobot.alive) {maze.aliveRobots--;};                        // Updates aliveRobots
-                    break;
                 }
                 mazeReplace(maze, lastPos, ' ');
                 mazeReplace(maze, newPos, 'r');
