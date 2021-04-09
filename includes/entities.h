@@ -117,7 +117,7 @@ struct Maze {
     vector<Robot> robotVec;
 
     // Variable that tracks the number of alive Robots in the current game
-    unsigned int aliveRobots = 0;
+    int aliveRobots = 0;
 };
 
 
