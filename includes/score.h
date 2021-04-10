@@ -5,8 +5,17 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <vector>
+#include <iomanip>
+#include <cmath>
+
 
 using namespace std;
+
+
+// Vector of players to store each player in the scoreboard
+using ScoreBoard = vector<Player>;
+
 
 /**
  * @brief Updates the scoreboard with a new time and name
@@ -18,13 +27,42 @@ using namespace std;
 //void updateScoreBoard(string playerName, int time, string filename, const Maze &maze);
 
 
-void updateScoreBoard(Player player, const Maze maze, string fullPath);
 
 
+
+/**
+ * @brief
+ *
+ * @param player
+ * @param maze
+ * @param fullPath
+ */
+void updateScoreBoard(Player player, const Maze maze, ScoreBoard &scoreboard);
+
+
+/**
+ * @brief
+ *
+ * @param player
+ * @param maze
+ */
 void displayScoreboard(Player player, const Maze maze);
 
 
-void getPlayerName(string &playerName);
+/**
+ * @brief
+ *
+ * @param player
+ */
+void getPlayerName(Player &player);
 
 
+/**
+ * @brief
+ *
+ * @param fullPath
+ */
 void printScoreboard(string fullPath);
+
+
+void getScoreboard(Player &player, const Maze &maze);

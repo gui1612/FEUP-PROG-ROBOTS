@@ -2,7 +2,6 @@
 #include "menu.h"
 #include "game.h"
 
-#include <iomanip>
 
 void menu() {
     short confirm = 1;                       // Leaving confirmation (initialized at a value different of 0 not to leave the loop)

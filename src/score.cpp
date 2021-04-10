@@ -1,42 +1,90 @@
 #include "score.h"
 #include "global.h"
 
-void updateScoreboard(Player player, const Maze &maze, string fullPath) {
+/*
+Player          - Time
+----------------------
+Joseph Joestar  - 512
+Dio             - 413
 
-    ofstream oscoreboardFile(fullPath.c_str());
+vector<Player> = {p1, p2}
+p1 = {Joseph Joestar, 512}
+p2 = {Dio, 413}
+ ----------------------
+ Name: Giorno
+ Score: 490
+ Person person;
+ person.name = "Giorno"
+ person.score = "490"
+ ----------------------
 
-    oscoreboardFile.open(fullPath.c_str());
-    oscoreboardFile.close();
+vector<Player> v= {p3, p1, p2}
+sort(v.begin(), v.end(), [](Person p1, Person p2) {p1.score < p2.score});
 
-    oscoreboardFile.open(fullPath.c_str());
-    if (oscoreboardFile){
-        oscoreboardFile << "I ALREADY EXIST BUT THATS COOL";
-        cout << "aaaaaaaaaaa" << endl;
-        oscoreboardFile.close();
-    } else{
-        oscoreboardFile << "I DIDN'T EXIST BUT NOW I DO :)";
-        cout << "bbbbbbbbb" << endl;
-        oscoreboardFile.close();
-    }
-}
+-----------------------
+ cout << " Player          - Time"
+      << " ----------------------";
+
+ for (auto person : v) {
+    cout << setw(16) << person.name() << "- " << person.score;
+ }
+*/
 
 
-void getPlayerName(string &playerName){
+void getPlayerName(Player &player){
+
     do{
+        string playerName;
+        int count = 0;
 
+        cout << "What's your name?" << endl;
         bool validInput = getInput<string>(playerName);
 
-        if (validInput && 0 < playerName.length() && playerName.length()<= 15){
+        for (int i = 0; playerName[i]!='\0'; i++) {count++;}
+
+        cout << count << endl;
+
+        if (validInput && 0 < count && count<= 15){
+            player.name = playerName;
             clearBuffer();
             break;
-        } else if (!cin.eof()){
+        } else if (!cin.eof()) {
+            clearBuffer();
             warnUser("name");
         }
     } while (!cin.eof());
 }
 
 
-void printScoreboard(string fullPath){
+void updateScoreboard(Player &player, const Maze &maze, ScoreBoard scoreboard) {
+
+    const string PREFIX = "../input/";
+
+    scoreboard.push_back(player);
+
+    fstream leaderBoard;
+    leaderBoard.open(PREFIX + "MAZE_" + maze.number + "_WINNERS.txt");
+
+    if (leaderBoard.good()) {
+        string line1, line2;
+        getline(leaderBoard, line1);
+        getline(leaderBoard, line2);
+
+    } else {
+        cout << "Player              - Time\n"
+             << "--------------------------\n"
+             << player.name << setw(25-(player.name.length())+int(ceil(log10(player.score))+1)) << "- " << player.score;
+
+    }
+    leaderBoard.close();
+
+}
+
+
+
+/*
+void displayScoreboard(Player player, const Maze maze) {
+
     ifstream iscoreboardFile;
     string str;
 
@@ -46,66 +94,13 @@ void printScoreboard(string fullPath){
     }
     iscoreboardFile.close();
 }
-
-void displayScoreboard(Player player, const Maze maze){
-    const string PREFIX = "../output/";                      // prefix containing the file where the maze files are at
-
-    string str;
-    vector<Player> playerVec;
-    vector<char> rowsVec;
-    vector<vector<char>> scoreVec;
-
-    string filename = "MAZE_" + maze.number + "_WINNERS.TXT";
-    string fullPath = PREFIX + filename;
-
-    // clearScreen();
-    // Getting player's name
-    cout << "What's your name?" << endl;
-    getPlayerName(player.name);
-
-    updateScoreboard(player, maze, fullPath);
-
-    printScoreboard(fullPath);
-
-/*
-    ifstream iscoreboardFile;
-    iscoreboardFile.open("../output/"+filename);
-    if (iscoreboardFile.is_open()) {
-        string line;
-        while (getline(iscoreboardFile, line)) {
-            // using printf() in all tests for consistency
-            printf("%s", line.c_str());
-        }
-        iscoreboardFile.close();
-    }
 */
+
+void getScoreboard(Player &player, const Maze &maze) {
+
+    ScoreBoard scoreboard;
+
+    getPlayerName(player);      // Gets and validates the player's name
+
+    updateScoreboard(player, maze, scoreboard);
 }
-/*
- vector<Player> vec;
-
-//insert code to fill vector up
-
-sort(vec.begin(), vec.end(), [](Player a, Player b){
-  return a.time < b.time;
-});
- */
-
-/*
-void parseTable(const Player &player, vector<Player> playerVec) {
-
-}
-
-
-vector<Player>*
-
-bool validTable(ofstream &scoreFile) {
-    string firstLine = getline(scoreFile);
-    string secondLine = getline(scoreFile);
-    if
-    getl
-    Player          - Time
-    ----------------------
-    Joseph Joestar  - 512
-    Dio             - 413
-}
-*/

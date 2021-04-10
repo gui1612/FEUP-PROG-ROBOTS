@@ -40,6 +40,8 @@ void warnUser(const string warningType) {
         cout << "That is not a valid input (Options: Q, W, E, A, S, D, Z, X, C)" << endl;
     } else if (warningType == "game-move") { // warning layout for game movement
         cout << "Invalid move: There's something in the way!" << endl;
+    } else if (warningType == "name") { // warning layout for game movement
+        cout << "Invalid input: maximum name length of 15!" << endl;
     } else {
         cout << "That is not a valid input\n"
              << "Press ENTER to return to the main menu..." << endl;

@@ -44,7 +44,7 @@ bool mazePick(Maze &maze) {
 
 
 bool validMaze(const short &filename, string &fullPath, ifstream &mazeFile) {
-    const string PREFIX = "../input/";                      // prefix containing the file where the maze files are at
+    const string PREFIX = "../../../input/";                      // prefix containing the file where the maze files are at
 
     /*
     * `fileNameOrNullopt` will have a string if it is valid or `std::nullopt` if invalid
@@ -168,20 +168,18 @@ void updateAllRobots(Player &player, Maze &maze) {
 
                 if (secRobot.coordinates == newPos) {            // If there's a robot collision, kills the other robot
                     maze.robotVec.at(j).alive = false;           // Second robot dies
-                    if (secRobot.alive) {maze.aliveRobots--;};                        // Updates aliveRobots
+                    if (secRobot.alive) {maze.aliveRobots--;};   // Updates aliveRobots
                 }
                 mazeReplace(maze, lastPos, ' ');
                 mazeReplace(maze, newPos, 'r');
             }
 
         } else if (charInPos == '*') {                  // Robot moves to electric fence
-            cout << "Robot collides with eletric fence";
+            cout << "Robot collides with electric fence";
             maze.robotVec.at(i).alive = false;           // First robot dies
             maze.aliveRobots--;                          // Updates aliveRobots
-            mazeReplace(maze, lastPos, 'r');
-            mazeReplace(maze, newPos, 'D');
-        } else if (charInPos == 'D') {                  // Robot moves to non-electric fence
-            continue;
+            mazeReplace(maze, lastPos, ' ');
+            mazeReplace(maze, newPos, 'r');
         } else if (charInPos == 'H') {                  // Player gets caught by robot
             cout << "4" << endl;
             player.alive = false;                       // Player dies
@@ -207,12 +205,12 @@ Point bestMove(const Robot &robot, const Player &player, const Maze &maze) {
                              {x-1, y},             {x+1, y},
                              {x-1, y+1}, {x, y+1}, {x+1, y+1}};
 
-    double minDist = numeric_limits<double>::max();                     // Max double
-    Point bestMove;                                                     // Variable to store the optimal position to move
+    double minDist = numeric_limits<double>::max();                         // Max double
+    Point bestMove;                                                         // Variable to store the optimal position to move
     for (int i = 0; i < moveVec.size(); i++) {
-        if (!outOfBounds(moveVec.at(i), maze)) {                        // The position is inside the maze bounds
-            double dist = pointDist(moveVec.at(i), player.coordinates); // Distance between that move option and the player
-            if (dist < minDist) {       // If that move is the best until the moment
+        if (!outOfBounds(moveVec.at(i), maze)) {                            // The position is inside the maze bounds
+            double dist = pointDist(moveVec.at(i), player.coordinates);     // Distance between that move option and the player
+            if (dist < minDist) {                                           // If that move is the best until the moment
                 minDist = dist;
                 bestMove = moveVec.at(i);
             }
@@ -225,7 +223,7 @@ Point bestMove(const Robot &robot, const Player &player, const Maze &maze) {
 
 
 void robotDraw(Point lastPos, const Robot &robot, Maze &maze) {
-    maze.gameBoard.at(lastPos.y).at(lastPos.x) = ' ';         // Replacing robot last position
+    maze.gameBoard.at(lastPos.y).at(lastPos.x) = ' ';             // Replacing robot last position
     mazeReplace(maze, robot.coordinates, 'R');   // Replacing robot new position
 }
 
@@ -275,9 +273,13 @@ bool updatePlayer(Player &player, char key, Maze &maze){
     if (!outOfBounds(player.coordinates, maze)) {                                // Checks if the player is inside the maze bounds
         char newPosChar = maze.gameBoard.at(y).at(x);
         if (newPosChar == ' ' || newPosChar == 'H') {                            // Valid player movement
-            playerDraw(lastPos, player, maze);                                // Updates coordinates on the maze
+            playerDraw(lastPos, player, maze);                               // Updates coordinates on the maze
             return true;
-        } else {                                                                 // Invalid player move (player moves to fences/dead robot/ alive robot)
+        } else if (newPosChar == 'R' || newPosChar == '*') {                     // Kills the player if they move into a live robot or electric fence
+            player.alive = false;
+            mazeReplace(maze, lastPos, 'h');
+            return true;
+        } else {                                                                 // Invalid player move
             player.coordinates = lastPos;
             return false;
         }
