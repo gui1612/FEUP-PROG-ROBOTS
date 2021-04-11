@@ -278,3 +278,6 @@ void playerDraw(Point lastPos, const Player &player, Maze &maze);
  * @return returns `true` if out of bounds, `false` if not
  */
 bool outOfBounds(const Point &pos, const Maze &maze);
+
+
+void displayLeaderboard();

@@ -43,7 +43,8 @@ void updateScoreBoard(const string fullPath, ScoreBoard &scoreboard, const strin
  * @param player
  * @param maze
  */
-void displayScoreboard(const string fullPath);
+void displayScoreboard(const string &fullPath);
+
 
 
 /**

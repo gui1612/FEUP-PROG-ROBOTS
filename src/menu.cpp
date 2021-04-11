@@ -53,10 +53,6 @@ void menu() {
         >==() | | ()/               Humanity appreciates your efforts!
             _(___)_
            [-]   [-]
-
-
-
-
             )";
 }
 
@@ -98,6 +94,9 @@ void menuChoice(short choice, short &confirm) {
             break;
             /////GAME END
         }
+        case 3:
+            displayLeaderboard();
+            break;
         default: {              // The input was of type `int`, but not a valid option
             warnUser("menu");             // Warns the user about wrong input
         }

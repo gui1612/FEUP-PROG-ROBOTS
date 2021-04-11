@@ -143,7 +143,7 @@ size_t getLastAlphaIdx(string str) {
 }
 
 
-void displayScoreboard(const string fullPath){
+void displayScoreboard(const string &fullPath){
     string line;
     ifstream scoreboard;
     scoreboard.open(fullPath);

@@ -31,6 +31,7 @@ bool mazePick(Maze &maze) {
                     playGame = true;
                     leaveConfirm = 0;
                     maze = mazeOpen(fullFilePath, mazeFile);
+                    mazeFile.close();       // Closing the maze `ifstream`
                     maze.number = (levelPick < 10) ? "0" + to_string(levelPick) : to_string(levelPick);     // Setting the maze level to later use in the scoreboard
                 } else {
                     warnUser("fileIO");
@@ -40,6 +41,35 @@ bool mazePick(Maze &maze) {
             warnUser("fileIO");
     } while (leaveConfirm != 0 && !cin.eof());
     return playGame;
+}
+
+
+void displayLeaderboard() {
+    const string PREFIX = "../input/";                      // prefix containing the file where the maze files are at
+    short leaderBoardNum;
+    ifstream leaderboardFile;
+    short leaveConfirm = 1;
+    do {
+        cout << "Insert the number of the maze (0 to leave): ";
+        bool validInput = getInput<short>(leaderBoardNum);
+        if (validInput && leaderBoardNum > 0 && leaderBoardNum < 99) {
+            string num = leaderBoardNum < 10 ? "0" + to_string(leaderBoardNum) : to_string(leaderBoardNum);
+            string fullFilepath = PREFIX + "MAZE_" + num + "_WINNERS.txt";
+            leaderboardFile.open(fullFilepath);
+            if (leaderboardFile.is_open()) {
+                cout << leaderboardFile.rdbuf() << endl;
+            } else {
+                clearBuffer();
+                warnUser("leaderboard");
+            }
+        } else if (leaderBoardNum == 0) {
+            leaveConfirm = 0;
+        } else if (!cin.eof()) {
+            warnUser("fileIO");
+        }
+    } while (!cin.eof() && leaveConfirm != 0);
+    clearScreen();
+    leaderboardFile.close();
 }
 
 
@@ -57,7 +87,7 @@ bool validMaze(const short &filename, string &fullPath, ifstream &mazeFile) {
         string filepath = PREFIX + fileNameOrNull;                   // full filepath string
         fullPath = filepath;
 
-        mazeFile.open(filepath.c_str());                        // Trying to open the file with the name `filepath` contained in ../mazes directory
+        mazeFile.open(filepath.c_str());                             // Trying to open the file with the name `filepath` contained in ../mazes directory
         return mazeFile.good();
 
     } else {                                    // Invalid filename ( 0 >= filename or 100 <= filename)
@@ -221,6 +251,7 @@ void robotDraw(Point lastPos, const Robot &robot, Maze &maze) {
     maze.gameBoard.at(lastPos.y).at(lastPos.x) = ' ';             // Replacing robot last position
     mazeReplace(maze, robot.coordinates, 'R');   // Replacing robot new position
 }
+
 
 ///////// PLAYER ///////////
 
