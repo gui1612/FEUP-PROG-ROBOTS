@@ -37,7 +37,7 @@ void playGame(Maze &maze) {
                 bool validPlayerUpdate = updatePlayer(player, key, maze);
 
                 if (validPlayerUpdate) {            // Move doesn't violate the games' rules
-                    if (player.alive){updateAllRobots(player, maze);}            // Verifies that the player is alive
+                    if (player.alive) {updateAllRobots(player, maze);}            // Verifies that the player is alive
                 } else {
                     warnUser("game-move");
                 }

@@ -27,9 +27,6 @@ using ScoreBoard = vector<Player>;
 //void updateScoreBoard(string playerName, int time, string filename, const Maze &maze);
 
 
-
-
-
 /**
  * @brief
  *
@@ -37,7 +34,7 @@ using ScoreBoard = vector<Player>;
  * @param maze
  * @param fullPath
  */
-void updateScoreBoard(Player player, const Maze maze, ScoreBoard &scoreboard);
+void updateScoreBoard(const Maze maze, ScoreBoard &scoreboard);
 
 
 /**
@@ -66,3 +63,9 @@ void printScoreboard(string fullPath);
 
 
 void getScoreboard(Player &player, const Maze &maze);
+
+
+void parseLines(ifstream &leaderBoard, ScoreBoard &scoreBoard);
+
+
+size_t getLastAlphaIdx(string str);

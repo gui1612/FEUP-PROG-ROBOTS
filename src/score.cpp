@@ -1,35 +1,6 @@
 #include "score.h"
 #include "global.h"
 
-/*
-Player          - Time
-----------------------
-Joseph Joestar  - 512
-Dio             - 413
-
-vector<Player> = {p1, p2}
-p1 = {Joseph Joestar, 512}
-p2 = {Dio, 413}
- ----------------------
- Name: Giorno
- Score: 490
- Person person;
- person.name = "Giorno"
- person.score = "490"
- ----------------------
-
-vector<Player> v= {p3, p1, p2}
-sort(v.begin(), v.end(), [](Person p1, Person p2) {p1.score < p2.score});
-
------------------------
- cout << " Player          - Time"
-      << " ----------------------";
-
- for (auto person : v) {
-    cout << setw(16) << person.name() << "- " << person.score;
- }
-*/
-
 
 void getPlayerName(Player &player){
 
@@ -56,51 +27,99 @@ void getPlayerName(Player &player){
 }
 
 
-void updateScoreboard(Player &player, const Maze &maze, ScoreBoard scoreboard) {
-
+void updateScoreboard(const Maze &maze, ScoreBoard scoreboard) {
     const string PREFIX = "../input/";
+    const string fullPath = PREFIX + "MAZE_" + maze.number + "_WINNERS.txt";
 
-    scoreboard.push_back(player);
+    ifstream if_leaderBoard(fullPath);
 
-    fstream leaderBoard;
-    leaderBoard.open(PREFIX + "MAZE_" + maze.number + "_WINNERS.txt");
+    if_leaderBoard.open(fullPath);
 
-    if (leaderBoard.good()) {
-        string line1, line2;
-        getline(leaderBoard, line1);
-        getline(leaderBoard, line2);
 
+    if (if_leaderBoard.is_open()) {
+        cout << "ABFSAHFJOAJFNOIASLJFNSOAFHJNSAOPJFOASFJ" << endl;
+        parseLines(if_leaderBoard, scoreboard);
+        if_leaderBoard.close();
+
+        ofstream of_leaderBoard;
+        of_leaderBoard.open(fullPath.c_str());
+
+        of_leaderBoard << "Player              - Time" << endl
+                       << "--------------------------" << endl;
+
+        for (auto player : scoreboard){
+
+            int MAX_LENGTH = 26;
+
+            size_t playerNameLen = player.name.length();
+            size_t playerScoreLen = (floor(log10(player.score))) + 1;
+            int offset = MAX_LENGTH - (playerNameLen + playerScoreLen);
+
+            of_leaderBoard << player.name << setw(offset) << "- " << player.score;
+        }
+
+        of_leaderBoard.close();
     } else {
-        cout << "Player              - Time\n"
-             << "--------------------------\n"
-             << player.name << setw(25-(player.name.length())+int(ceil(log10(player.score))+1)) << "- " << player.score;
+        if_leaderBoard.close();
 
+        int MAX_LENGTH = 26;
+        ofstream of_leaderBoard;
+        of_leaderBoard.open(fullPath);
+
+        Player player = scoreboard.at(0);
+        size_t playerNameLen = player.name.length();
+        size_t playerScoreLen = (floor(log10(player.score))) + 1;
+        size_t offset = MAX_LENGTH - (playerNameLen + playerScoreLen);
+
+        of_leaderBoard << "Player              - Time" << endl
+                       << "--------------------------" << endl
+                       << player.name << setw(offset) << "- " << player.score;
+
+        of_leaderBoard.close();
     }
-    leaderBoard.close();
-
 }
 
-
-
-/*
-void displayScoreboard(Player player, const Maze maze) {
-
-    ifstream iscoreboardFile;
-    string str;
-
-    iscoreboardFile.open(fullPath.c_str());
-    while (getline (iscoreboardFile, str)){
-        cout << str;
-    }
-    iscoreboardFile.close();
-}
-*/
 
 void getScoreboard(Player &player, const Maze &maze) {
-
     ScoreBoard scoreboard;
 
     getPlayerName(player);      // Gets and validates the player's name
+    scoreboard.push_back(player);
 
-    updateScoreboard(player, maze, scoreboard);
+    updateScoreboard(maze, scoreboard);
+}
+
+
+void parseLines(ifstream &leaderBoard, ScoreBoard &scoreBoard) {
+    string line1, line2;
+    getline(leaderBoard, line1);
+    getline(leaderBoard, line2);
+
+    while (!leaderBoard.eof()) {
+        string line;
+        getline(leaderBoard, line);
+
+        size_t lastDashPos = line.length() + line.find_last_of('-');
+        int score = stoi(line.substr(lastDashPos + 2));
+
+        string firstPart = line.substr(0, lastDashPos);
+        size_t lastAlphaPos = getLastAlphaIdx(firstPart);
+
+        string name = firstPart.substr(0, lastAlphaPos);
+
+        Player player;
+        player.name = name;
+        player.score = score;
+
+        cout << player.name << " " << player.score << endl;
+
+        scoreBoard.push_back(player);
+    }
+}
+
+size_t getLastAlphaIdx(string str) {
+    for (size_t i = str.length(); i > 0; i--) {
+        if (isalpha(str.at(i))) { return i; }
+    }
+    return -1;
 }

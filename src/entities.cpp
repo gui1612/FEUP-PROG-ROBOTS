@@ -31,7 +31,7 @@ bool mazePick(Maze &maze) {
                     playGame = true;
                     leaveConfirm = 0;
                     maze = mazeOpen(fullFilePath, mazeFile);
-                    maze.number = levelPick;              // Setting the maze level to later use in the scoreboard
+                    maze.number = (levelPick < 10) ? "0" + to_string(levelPick) : to_string(levelPick);     // Setting the maze level to later use in the scoreboard
                 } else {
                     warnUser("fileIO");
                 }
@@ -44,7 +44,7 @@ bool mazePick(Maze &maze) {
 
 
 bool validMaze(const short &filename, string &fullPath, ifstream &mazeFile) {
-    const string PREFIX = "../../../input/";                      // prefix containing the file where the maze files are at
+    const string PREFIX = "../input/";                      // prefix containing the file where the maze files are at
 
     /*
     * `fileNameOrNullopt` will have a string if it is valid or `std::nullopt` if invalid
@@ -119,11 +119,6 @@ void drawMaze(const Maze &maze) {
     for (yval y = 0; y < maze.rows; y++) {          // Row vectors
         for (xval x = 0; x < maze.columns; x++) {   // [Row][Column] (single position)
             char currChar = maze.gameBoard.at(y).at(x);
-            /*
-            if (currChar == 'D')
-                cout << "\033[32m" << "*" << "\033[0m";
-            else
-                         */
                 cout << currChar << ' ';
 
         }
