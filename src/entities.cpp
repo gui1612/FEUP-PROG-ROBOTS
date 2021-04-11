@@ -1,5 +1,6 @@
 #include "entities.h"
 #include "global.h"
+#include "score.h"
 
 ///////// MAZE ///////////
 
@@ -50,14 +51,19 @@ void displayLeaderboard() {
     ifstream leaderboardFile;
     short leaveConfirm = 1;
     do {
+        clearScreen();
         cout << "Insert the number of the maze (0 to leave): ";
         bool validInput = getInput<short>(leaderBoardNum);
+        clearBuffer();
+
         if (validInput && leaderBoardNum > 0 && leaderBoardNum < 99) {
             string num = leaderBoardNum < 10 ? "0" + to_string(leaderBoardNum) : to_string(leaderBoardNum);
             string fullFilepath = PREFIX + "MAZE_" + num + "_WINNERS.txt";
             leaderboardFile.open(fullFilepath);
+
             if (leaderboardFile.is_open()) {
-                cout << leaderboardFile.rdbuf() << endl;
+                displayScoreboard(fullFilepath);
+                waitForConfirmation();
             } else {
                 clearBuffer();
                 warnUser("leaderboard");

@@ -53,38 +53,26 @@ void updateScoreboard(const string fullPath, ScoreBoard scoreboard, const string
         sort(scoreboard.begin(), scoreboard.end(), [](Player p1, Player p2){return p1.score < p2.score;});
 
         for (auto player : scoreboard){
-
-            int MAX_LENGTH = 26;
-
-            size_t playerNameLen = player.name.length();
-            size_t playerScoreLen = (floor(log10(player.score))) + 1;
-            int offset = MAX_LENGTH - (playerNameLen + playerScoreLen);
-
             if (counter != scoreboardSize) {
-                of_leaderBoard << player.name << setw(offset) << "- " << player.score << endl;
+                of_leaderBoard << left << setw(20)  << player.name   << "- " << right << setw(4) << player.score << endl;
                 counter++;
             } else {
-                of_leaderBoard << player.name << setw(offset) << "- " << player.score;
+                of_leaderBoard << left << setw(20)  << player.name   << "- " << right << setw(4) << player.score;
             }
         }
 
         of_leaderBoard.close();
     } else {
         if_leaderBoard.close();
-
-        int MAX_LENGTH = 26;
         ofstream of_leaderBoard;
         of_leaderBoard.open(fullPath);
 
         Player player = scoreboard.at(0);
-        size_t playerNameLen = player.name.length();
-        size_t playerScoreLen = (floor(log10(player.score))) + 1;
-        size_t offset = MAX_LENGTH - (playerNameLen + playerScoreLen);
 
         of_leaderBoard <<"MAZE " << mazeNumber << " SCOREBOARD" << endl
                        << "Player              - Time" << endl
                        << "--------------------------" << endl
-                       << player.name << setw(offset) << "- " << player.score;
+                       << left << setw(20)  << player.name   << "- " << right << setw(4) << player.score;;
 
         of_leaderBoard.close();
     }
