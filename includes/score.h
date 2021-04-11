@@ -34,7 +34,7 @@ using ScoreBoard = vector<Player>;
  * @param maze
  * @param fullPath
  */
-void updateScoreBoard(const Maze maze, ScoreBoard &scoreboard);
+void updateScoreBoard(const string fullPath, ScoreBoard &scoreboard, const string mazeNumber);
 
 
 /**
@@ -43,7 +43,7 @@ void updateScoreBoard(const Maze maze, ScoreBoard &scoreboard);
  * @param player
  * @param maze
  */
-void displayScoreboard(Player player, const Maze maze);
+void displayScoreboard(const string fullPath);
 
 
 /**
@@ -54,14 +54,6 @@ void displayScoreboard(Player player, const Maze maze);
 void getPlayerName(Player &player);
 
 
-/**
- * @brief
- *
- * @param fullPath
- */
-void printScoreboard(string fullPath);
-
-
 void getScoreboard(Player &player, const Maze &maze);
 
 
@@ -69,3 +61,6 @@ void parseLines(ifstream &leaderBoard, ScoreBoard &scoreBoard);
 
 
 size_t getLastAlphaIdx(string str);
+
+
+int findLastIndex(string& str, char x);

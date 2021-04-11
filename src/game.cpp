@@ -60,7 +60,6 @@ void playGame(Maze &maze) {
         cout << "Your time: " << gameTime.count() << "s" << endl;
         player.score = gameTime.count();
         getScoreboard(player, maze);
-        // TODO: WRITE TO THE LEADERBOARD
     } else {
         cout << loss.at(RAND_IDX) << endl;
         cout << "Your time: " << gameTime.count() << "s" << endl;

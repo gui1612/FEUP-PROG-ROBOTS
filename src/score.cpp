@@ -13,8 +13,6 @@ void getPlayerName(Player &player){
 
         for (int i = 0; playerName[i]!='\0'; i++) {count++;}
 
-        cout << count << endl;
-
         if (validInput && 0 < count && count<= 15){
             player.name = playerName;
             clearBuffer();
@@ -27,25 +25,32 @@ void getPlayerName(Player &player){
 }
 
 
-void updateScoreboard(const Maze &maze, ScoreBoard scoreboard) {
-    const string PREFIX = "../input/";
-    const string fullPath = PREFIX + "MAZE_" + maze.number + "_WINNERS.txt";
+void updateScoreboard(const string fullPath, ScoreBoard scoreboard, const string mazeNumber) {
+    ifstream if_leaderBoard;
 
-    ifstream if_leaderBoard(fullPath);
+    if_leaderBoard.open(fullPath.c_str());
 
-    if_leaderBoard.open(fullPath);
+    if (if_leaderBoard.good()) {
+        string str;
 
+        string line1, line2, line3;
+        getline(if_leaderBoard,line1);
+        getline(if_leaderBoard, line2);
+        getline(if_leaderBoard, line3);
 
-    if (if_leaderBoard.is_open()) {
-        cout << "ABFSAHFJOAJFNOIASLJFNSOAFHJNSAOPJFOASFJ" << endl;
         parseLines(if_leaderBoard, scoreboard);
         if_leaderBoard.close();
 
         ofstream of_leaderBoard;
         of_leaderBoard.open(fullPath.c_str());
 
-        of_leaderBoard << "Player              - Time" << endl
+        of_leaderBoard << "MAZE " << mazeNumber << " SCOREBOARD" << endl
+                       << "Player              - Time" << endl
                        << "--------------------------" << endl;
+
+        int scoreboardSize = scoreboard.size();
+        int counter = 1;
+        sort(scoreboard.begin(), scoreboard.end(), [](Player p1, Player p2){return p1.score < p2.score;});
 
         for (auto player : scoreboard){
 
@@ -55,7 +60,12 @@ void updateScoreboard(const Maze &maze, ScoreBoard scoreboard) {
             size_t playerScoreLen = (floor(log10(player.score))) + 1;
             int offset = MAX_LENGTH - (playerNameLen + playerScoreLen);
 
-            of_leaderBoard << player.name << setw(offset) << "- " << player.score;
+            if (counter != scoreboardSize) {
+                of_leaderBoard << player.name << setw(offset) << "- " << player.score << endl;
+                counter++;
+            } else {
+                of_leaderBoard << player.name << setw(offset) << "- " << player.score;
+            }
         }
 
         of_leaderBoard.close();
@@ -71,7 +81,8 @@ void updateScoreboard(const Maze &maze, ScoreBoard scoreboard) {
         size_t playerScoreLen = (floor(log10(player.score))) + 1;
         size_t offset = MAX_LENGTH - (playerNameLen + playerScoreLen);
 
-        of_leaderBoard << "Player              - Time" << endl
+        of_leaderBoard <<"MAZE " << mazeNumber << " SCOREBOARD" << endl
+                       << "Player              - Time" << endl
                        << "--------------------------" << endl
                        << player.name << setw(offset) << "- " << player.score;
 
@@ -82,25 +93,33 @@ void updateScoreboard(const Maze &maze, ScoreBoard scoreboard) {
 
 void getScoreboard(Player &player, const Maze &maze) {
     ScoreBoard scoreboard;
+    const string PREFIX = "../input/";
+    const string fullPath = PREFIX + "MAZE_" + maze.number + "_WINNERS.txt";
+    const string mazeNumber = maze.number;
+
 
     getPlayerName(player);      // Gets and validates the player's name
     scoreboard.push_back(player);
 
-    updateScoreboard(maze, scoreboard);
+    updateScoreboard(fullPath, scoreboard, mazeNumber);
+
+    clearScreen();
+    displayScoreboard(fullPath);
+    cout << endl << "Press ENTER to return to the main menu..." << endl;
+    waitForConfirmation();
 }
 
 
 void parseLines(ifstream &leaderBoard, ScoreBoard &scoreBoard) {
-    string line1, line2;
-    getline(leaderBoard, line1);
-    getline(leaderBoard, line2);
+
 
     while (!leaderBoard.eof()) {
         string line;
         getline(leaderBoard, line);
 
-        size_t lastDashPos = line.length() + line.find_last_of('-');
-        int score = stoi(line.substr(lastDashPos + 2));
+        size_t lastDashPos = line.rfind('-');
+        string strScore = line.substr(lastDashPos + 2);
+        int score = stoi(strScore);
 
         string firstPart = line.substr(0, lastDashPos);
         size_t lastAlphaPos = getLastAlphaIdx(firstPart);
@@ -111,15 +130,27 @@ void parseLines(ifstream &leaderBoard, ScoreBoard &scoreBoard) {
         player.name = name;
         player.score = score;
 
-        cout << player.name << " " << player.score << endl;
-
         scoreBoard.push_back(player);
     }
 }
 
+
 size_t getLastAlphaIdx(string str) {
-    for (size_t i = str.length(); i > 0; i--) {
-        if (isalpha(str.at(i))) { return i; }
+    for (size_t i = str.length() - 1; i > 0; i--) {
+        if (!isspace(str.at(i))) { return i; }
     }
     return -1;
+}
+
+
+void displayScoreboard(const string fullPath){
+    string line;
+    ifstream scoreboard;
+    scoreboard.open(fullPath);
+    if(scoreboard.good()) {
+        while(!scoreboard.eof()) {
+            getline(scoreboard, line);
+            cout << line << endl;
+        }
+    }
 }

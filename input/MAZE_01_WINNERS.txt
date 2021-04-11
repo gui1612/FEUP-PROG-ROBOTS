@@ -1,3 +1,17 @@
+MAZE 01 SCOREBOARD
 Player              - Time
 --------------------------
-asdf                   - 2
+qwqdcvc                - 1
+eww                    - 1
+as                     - 1
+c                      - 1
+i                      - 1
+a                      - 1
+s                      - 1
+a                      - 2
+a                      - 3
+e                      - 3
+adqww                  - 4
+eq                     - 4
+s                      - 5
+o                     - 11
