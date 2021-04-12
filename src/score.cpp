@@ -43,7 +43,6 @@ void getScoreboard(const string &fullPath, ScoreBoard scoreboard, const Player &
     if_leaderBoard.open(fullPath.c_str());              // Opening the file
 
     if (if_leaderBoard.good()) {        // File exists
-        cout << "EXISTSSSSS" <<  endl;
         string str;
 
         // Skipping the lines for the header
@@ -69,10 +68,10 @@ void getScoreboard(const string &fullPath, ScoreBoard scoreboard, const Player &
 
         for (auto player2 : scoreboard) {
             if (counter != scoreboardSize) {                // Not the end of the table
-                of_leaderBoard << left << setw(20)  << player.name   << "- " << right << setw(4) << player.score << endl;
+                of_leaderBoard << left << setw(20)  << player2.name   << "- " << right << setw(4) << player2.score << endl;
                 counter++;
             } else {                                        // The end of the table
-                of_leaderBoard << left << setw(20)  << player.name   << "- " << right << setw(4) << player.score;
+                of_leaderBoard << left << setw(20)  << player2.name   << "- " << right << setw(4) << player2.score;
             }
         }
 
@@ -131,14 +130,19 @@ void parseLines(ifstream &leaderBoard, ScoreBoard &scoreBoard, const Player &pla
 
         string name = firstPart.substr(0, lastAlphaPos + 1);    // Parses the `name` from the string
 
-        //TODO: FIX THIS, SINCE IT'S NOT SKIPPING AND THE SAME NAMES ARE STILL BEING REPEATED
-        if (name == player.name) {continue;}                            // If the name already exists gives priority to the last one
         // Creates a player instance being the`Player` instance only fields that are relevant to initialize `name` and `score`
         Player player2;
         player2.name = name;
         player2.score = score;
 
-        scoreBoard.push_back(player);                                    // Appends the current `player2` instance to the `scoreBoard`
+        if (name == player.name && score > player.score) {                    // If the player already exists and the they were faster (lower score)
+            continue;                                                         // The previous score was worse so it will not be printed (not appended to the vector)
+        } else if (name != player.name){                                      // If it is a different player
+            scoreBoard.push_back(player2);                                    // Appends the current `player2` instance to the `scoreBoard`
+        } else {                                                              // If the player already exists and the they were slower (higher score)
+            scoreBoard.erase(scoreBoard.begin());                             // Remove the player's score of the current run from the vector
+            scoreBoard.push_back(player2);                                    // Appends the current `player2` instance to the `scoreBoard`
+        }
     }
 }
 
