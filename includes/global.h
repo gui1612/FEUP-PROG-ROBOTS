@@ -71,10 +71,14 @@ bool validInputType();
  * @param warningType string to define the warning type
  *
  * @details
- * `fileIO` -> IO warning
- * `menu`   -> Menu warning
+ * `fileIO`     -> IO warning;
+ * `menu`       -> Menu warning;
+ * `game`       -> Game warning;
+ * `game-move`  -> Movement warning;
+ * `name`       -> Name length warning;
+ * `leaderboard`-> Leaderboard warning.
  */
-void warnUser(const string warningType);
+void warnUser(const string &warningType);
 
 
 /**

@@ -1,4 +1,5 @@
 #include "game.h"
+#include "score.h"
 #include "global.h"
 
 
@@ -10,7 +11,7 @@ void playGame(Maze &maze) {
     vector<string> loss = {"Better luck next time.", "Try again", "You can only win if you keep trying!",
                             "Don't let those robots survive!", "You loss"};
 
-    const int RAND_IDX = rand() % 6;
+    const int RAND_IDX = rand() % 5;
 
 
     Player player;
@@ -36,7 +37,7 @@ void playGame(Maze &maze) {
                 bool validPlayerUpdate = updatePlayer(player, key, maze);
 
                 if (validPlayerUpdate) {            // Move doesn't violate the games' rules
-                    updateAllRobots(player, maze);
+                    if (player.alive) {updateAllRobots(player, maze);}            // Verifies that the player is alive
                 } else {
                     warnUser("game-move");
                 }
@@ -49,19 +50,22 @@ void playGame(Maze &maze) {
         }
         cout << maze.aliveRobots << endl;
     } while (!cin.eof() && !playerLoss(player) && !playerWin(maze));
-    auto end = high_resolution_clock::now();                                        // Game timer ends
+    auto end = high_resolution_clock::now();                                  // Game timer ends
     drawMaze(maze);
 
-    duration<double> gameTime = duration_cast<duration<double>>(end - start);       // Calculates Game time
+    duration<int> gameTime = duration_cast<duration<int>>(end - start);       // Calculates Game time
+
     if (playerWin(maze)) {
-        cout << win.at(RAND_IDX) << endl;
-        cout << "Your time: " << gameTime.count() << "s" << endl;
-        cout << "Insert your username: ";
-        getInput<string>(player.name);
-        // TODO: WRITE TO THE LEADERBOARD
+        cout << win.at(RAND_IDX) << endl;                                      // Prints a winning message
+        cout << "Your time: " << gameTime.count() << "s" << endl;              // Displays the player game time
+        player.score = gameTime.count();
+        updateScoreboard(player, maze);                                        // Updates the scoreboard for the current maze
     } else {
         cout << loss.at(RAND_IDX) << endl;
+        cout << "Your time: " << gameTime.count() << "s" << endl;              // Displays the player game time
+        waitForConfirmation();
     }
+
 }
 
 
