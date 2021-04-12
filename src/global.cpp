@@ -43,7 +43,7 @@ void warnUser(const string &warningType) {
     } else if (warningType == "name") {         // warning layout for the player name
         cout << "Invalid input: maximum name length of 15!" << endl;
     } else if (warningType == "leaderboard") {  // warning layout for the leaderboard
-        cout << "Invalid input: That leaderboard doesn't exist yet" << endl;
+        cout << "Invalid input: That leaderboard doesn't exist yet!" << endl;
     } else {                                    // Fall case
         cout << "That is not a valid input\n"
              << "Press ENTER to return to the main menu..." << endl;

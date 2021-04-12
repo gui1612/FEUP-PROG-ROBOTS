@@ -50,19 +50,19 @@ void playGame(Maze &maze) {
         }
         cout << maze.aliveRobots << endl;
     } while (!cin.eof() && !playerLoss(player) && !playerWin(maze));
-    auto end = high_resolution_clock::now();                                        // Game timer ends
+    auto end = high_resolution_clock::now();                                  // Game timer ends
     drawMaze(maze);
 
     duration<int> gameTime = duration_cast<duration<int>>(end - start);       // Calculates Game time
 
     if (playerWin(maze)) {
-        cout << win.at(RAND_IDX) << endl;
-        cout << "Your time: " << gameTime.count() << "s" << endl;
+        cout << win.at(RAND_IDX) << endl;                                      // Prints a winning message
+        cout << "Your time: " << gameTime.count() << "s" << endl;              // Displays the player game time
         player.score = gameTime.count();
-        getScoreboard(player, maze);
+        updateScoreboard(player, maze);                                        // Updates the scoreboard for the current maze
     } else {
         cout << loss.at(RAND_IDX) << endl;
-        cout << "Your time: " << gameTime.count() << "s" << endl;
+        cout << "Your time: " << gameTime.count() << "s" << endl;              // Displays the player game time
         waitForConfirmation();
     }
 

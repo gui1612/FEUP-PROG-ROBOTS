@@ -61,44 +61,42 @@ void menuChoice(short choice, short &confirm) {
     switch (choice) {
         case 0: {               // Exit
             clearScreen();
-            cout << "Are you sure you want to exit (0 to confirm)?\n";
+            cout << "Are you sure you want to exit (0 to confirm)?" << endl;
 
             // gets an input and if it is successfully (`validInput` -> `true`) writes it on `confirm` (if not clears the buffer)
             bool validInput = getInput<short>(confirm);
 
-            if (cin.eof()) {break;}     // EOF flag
+            if (cin.eof()) { break; }   // EOF flag
 
             if (!validInput) {    // Invalid input
-                confirm = 1;            // Resets `confirm` for cases in which user inputs a problematic value
-                warnUser("menu");             // Warns the user about invalid input
+                confirm = 1;                             // Resets `confirm` for cases in which user inputs a problematic value
             } else {                    // Valid input
-                clearBuffer();          // Clears the buffer
+                clearBuffer();                           // Clears the buffer
             }
-            clearScreen();              // clears the screen before the next menu display or the end of the game
+            clearScreen();                               // clears the screen before the next menu display or the end of the game
             break;
         }
         case 1: {              // Rules
-            clearScreen();          // Clears the screen
-            displayRules();         // Displays the rules
-            waitForConfirmation();  // Waits for user input
-            if (!cin.eof()) { clearScreen();}  // Clears the screen if the user didn't press EOF in the confirmation
+            clearScreen();                               // Clears the screen
+            displayRules();                              // Displays the rules
+            waitForConfirmation();                       // Waits for user input
+            if (!cin.eof()) { clearScreen();}            // Clears the screen if the user didn't press EOF in the confirmation
             break;
         }
         case 2: {               // Play
             clearScreen();
             /////GAME START
-            Maze maze;
-            bool play = mazePick(maze);
-            if (play)
-                playGame(maze);
+            Maze maze;                                    // Initializes the `Maze` for the current game
+            bool play = mazePick(maze);                // Checks if the player wants to play
+            if (play) {playGame(maze);}                // If the player wants to play, starts the game
             break;
             /////GAME END
         }
-        case 3:
-            displayLeaderboard();
+        case 3:                 // Leaderboard
+            displayLeaderboard();                          // Asks for user input and displays the leaderboard
             break;
         default: {              // The input was of type `int`, but not a valid option
-            warnUser("menu");             // Warns the user about wrong input
+            warnUser("menu");                    // Warns the user about wrong input
         }
     }
 }

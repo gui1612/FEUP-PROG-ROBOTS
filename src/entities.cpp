@@ -46,36 +46,44 @@ bool mazePick(Maze &maze) {
 
 
 void displayLeaderboard() {
-    const string PREFIX = "../input/";                      // prefix containing the file where the maze files are at
-    short leaderBoardNum;
-    ifstream leaderboardFile;
-    short leaveConfirm = 1;
+    const unsigned int SLEEP_TIME = 2;             // sleep time if the user decides to leave the maze picker stage
+    const string PREFIX = "../input/";                      // Prefix containing the file where the maze files are at
+    short leaderBoardNum;                                   // Variable to store the number of the leaderboard's maze
+
+    short leaveConfirm = 1;                                 // Variable to signal the leaving of the do-while loop
     do {
+        ifstream leaderboardFile;                               // Opens a stream for file input
         clearScreen();
         cout << "Insert the number of the maze (0 to leave): ";
         bool validInput = getInput<short>(leaderBoardNum);
-        clearBuffer();
 
         if (validInput && leaderBoardNum > 0 && leaderBoardNum < 99) {
+            clearBuffer();
+            // if the number has one digit fills with a '0' on the left
             string num = leaderBoardNum < 10 ? "0" + to_string(leaderBoardNum) : to_string(leaderBoardNum);
-            string fullFilepath = PREFIX + "MAZE_" + num + "_WINNERS.txt";
-            leaderboardFile.open(fullFilepath);
+            string fullFilepath = PREFIX + "MAZE_" + num + "_WINNERS.txt";  // gets the relative file path and the filename
+            leaderboardFile.open(fullFilepath);                             // opening the file
 
-            if (leaderboardFile.is_open()) {
-                displayScoreboard(fullFilepath);
+            if (leaderboardFile.is_open()) {        // file exists
+                cout << leaderboardFile.rdbuf() << endl;                    // displays the scoreboard to the user
+                cout << "Press Enter to continue ...";
                 waitForConfirmation();
-            } else {
-                clearBuffer();
+                clearScreen();
+            } else {                                // file does not exist
                 warnUser("leaderboard");
             }
-        } else if (leaderBoardNum == 0) {
+        } else if (leaderBoardNum == 0) {           // User wants to leave to the main menu
             leaveConfirm = 0;
+            cout << "Returning to the main menu ..." << flush;
+            sleepFor(SLEEP_TIME);                    // Animation to improve UX: waits 2 seconds
+
         } else if (!cin.eof()) {
             warnUser("fileIO");
         }
+        leaderboardFile.close();
     } while (!cin.eof() && leaveConfirm != 0);
-    clearScreen();
-    leaderboardFile.close();
+    clearScreen();                                   // Clears the screen before going to the main menu
+    //leaderboardFile.close();                         // Closes the stream for file input
 }
 
 
@@ -173,52 +181,43 @@ void updateAllRobots(Player &player, Maze &maze) {
         Point lastPos = currRobot.coordinates;
         ID id = currRobot.id;
 
-        //////////////DEBUG/////////////////
-        cout << "{\n";
-        for (auto robot : maze.robotVec) {
-            Point p = robot.coordinates;
-            cout << "\t{\n\talive: " << robot.alive << ",\n\tCoordinates: " <<  "(" << p.x << ", " << p.y << "), \n\t" << "ID: "<< robot.id << "\n\t}, \n";
-        }
-        cout << "}" << endl;
-        ////////////////////////////////////
-
         if (!currRobot.alive) {continue;};
 
         Point newPos = bestMove(currRobot, player, maze);
 
         char charInPos = maze.gameBoard.at(newPos.y).at(newPos.x);
 
-        if (charInPos == 'R' || charInPos == 'r') {      // Robot gets stuck
+        if (charInPos == 'R' || charInPos == 'r') {                 // Robot gets stuck
             cout << "Robot gets stuck" << endl;
-            maze.robotVec.at(i).alive = false;           // First robot dies
-            maze.aliveRobots--;                          // Updates aliveRobots
-            maze.robotVec.at(i).coordinates = newPos;    // Coordinates update
+            maze.robotVec.at(i).alive = false;                      // First robot dies
+            maze.aliveRobots--;                                     // Updates aliveRobots
+            maze.robotVec.at(i).coordinates = newPos;               // Coordinates update
             for (int j = 0; j < maze.robotVec.size(); j++) {
                 Robot secRobot = maze.robotVec.at(j);
                 if (currRobot == secRobot) {continue;};
 
-                if (secRobot.coordinates == newPos) {            // If there's a robot collision, kills the other robot
-                    maze.robotVec.at(j).alive = false;           // Second robot dies
-                    if (secRobot.alive) {maze.aliveRobots--;};   // Updates aliveRobots
+                if (secRobot.coordinates == newPos) {               // If there's a robot collision, kills the other robot
+                    maze.robotVec.at(j).alive = false;              // Second robot dies
+                    if (secRobot.alive) {maze.aliveRobots--;};      // Updates aliveRobots
                 }
                 mazeReplace(maze, lastPos, ' ');
                 mazeReplace(maze, newPos, 'r');
             }
 
-        } else if (charInPos == '*') {                  // Robot moves to electric fence
+        } else if (charInPos == '*') {                              // Robot moves to electric fence
             cout << "Robot collides with electric fence";
-            maze.robotVec.at(i).alive = false;           // First robot dies
-            maze.aliveRobots--;                          // Updates aliveRobots
+            maze.robotVec.at(i).alive = false;                      // First robot dies
+            maze.aliveRobots--;                                     // Updates aliveRobots
             mazeReplace(maze, lastPos, ' ');
             mazeReplace(maze, newPos, 'r');
-        } else if (charInPos == 'H') {                  // Player gets caught by robot
+        } else if (charInPos == 'H') {                              // Player gets caught by robot
             cout << "4" << endl;
-            player.alive = false;                       // Player dies
+            player.alive = false;                                   // Player dies
             mazeReplace(maze, lastPos, 'R');
             mazeReplace(maze, newPos, 'h');
             break;
-        } else {                                        // Regular robot move
-            maze.robotVec.at(i).coordinates = newPos;   // Updates robot position
+        } else {                                                    // Regular robot move
+            maze.robotVec.at(i).coordinates = newPos;               // Updates robot position
             mazeReplace(maze, lastPos, ' ');
             mazeReplace(maze, newPos, 'R');
         }
@@ -247,8 +246,6 @@ Point bestMove(const Robot &robot, const Player &player, const Maze &maze) {
             }
         }
     }
-
-    cout << "Move vec (" << bestMove.x << ", " << bestMove.y << ");" << endl;
     return bestMove;
 }
 
@@ -305,7 +302,7 @@ bool updatePlayer(Player &player, char key, Maze &maze){
     if (!outOfBounds(player.coordinates, maze)) {                                // Checks if the player is inside the maze bounds
         char newPosChar = maze.gameBoard.at(y).at(x);
         if (newPosChar == ' ' || newPosChar == 'H') {                            // Valid player movement
-            playerDraw(lastPos, player, maze);                               // Updates coordinates on the maze
+            playerDraw(lastPos, player, maze);                                // Updates coordinates on the maze
             return true;
         } else if (newPosChar == 'R' || newPosChar == '*') {                     // Kills the player if they move into a live robot or electric fence
             player.alive = false;
@@ -323,7 +320,7 @@ bool updatePlayer(Player &player, char key, Maze &maze){
 
 
 void playerDraw(Point lastPos, const Player &player, Maze &maze) {
-    maze.gameBoard.at(lastPos.y).at(lastPos.x) = ' ';        // Replacing player last position
+    maze.gameBoard.at(lastPos.y).at(lastPos.x) = ' ';         // Replacing player last position
     mazeReplace(maze, player.coordinates, 'H'); // Replacing player new position
 }
 
@@ -334,6 +331,6 @@ double pointDist(Point p1, Point p2) {
 
 
 bool outOfBounds(const Point &pos, const Maze &maze) {
-    const unsigned int HEIGHT = maze.rows, WIDTH = maze.columns;        // Creating height and width variables by looking at the maze instance
-    return !(0 <= pos.y && pos.y < HEIGHT && 0 <= pos.x && pos.x < WIDTH);                  // Returning true (if inbounds) and false (if out of bounds)
+    const unsigned int HEIGHT = maze.rows, WIDTH = maze.columns;                    // Creating height and width variables by looking at the maze instance
+    return !(0 <= pos.y && pos.y < HEIGHT && 0 <= pos.x && pos.x < WIDTH);          // Returning true (if inbounds) and false (if out of bounds)
 }

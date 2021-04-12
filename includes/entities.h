@@ -280,4 +280,8 @@ void playerDraw(Point lastPos, const Player &player, Maze &maze);
 bool outOfBounds(const Point &pos, const Maze &maze);
 
 
+/**
+ * @brief asks the user for input and displays a leaderboard if it exists
+ *
+ */
 void displayLeaderboard();
