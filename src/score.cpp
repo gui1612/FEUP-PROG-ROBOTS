@@ -122,13 +122,16 @@ void parseLines(ifstream &leaderBoard, ScoreBoard &scoreBoard, const Player &pla
         getline(leaderBoard, line);                             // Stores the current line of the iteration on `line`
 
         size_t lastDashPos = line.rfind('-');                       // Gets the index of the last '-' occurrence
+        cout << lastDashPos;
         string strScore = line.substr(lastDashPos + 2);           // Parses the `score` from the line
         int score = stoi(strScore);                                    // Converts store into an integer
 
         string firstPart = line.substr(0, lastDashPos);           // Parses the string of the line untiil '-'
         size_t lastAlphaPos = getLastAlphaIdx(firstPart);              // Gets the index of the first char that is not ' '
 
+        cout << "I:" << firstPart << ":F" << endl;
         string name = firstPart.substr(0, lastAlphaPos + 1);    // Parses the `name` from the string
+        cout << "NAME: " << name << endl;
 
         // Creates a player instance being the`Player` instance only fields that are relevant to initialize `name` and `score`
         Player player2;
@@ -151,5 +154,9 @@ size_t getLastAlphaIdx(string str) {
     for (size_t i = str.length() - 1; i > 0; i--) {
         if (!isspace(str.at(i))) { return i; }
     }
-    return -1;
+    /*
+     * if the first char of the string is ' ' the string is fully empty and -1 is returned
+     * otherwise, it means that the string has one char different from 0 and, in that case returns 0 (first index)
+     */
+    return str.at(0) == ' ' ? -1 : 0;
 }

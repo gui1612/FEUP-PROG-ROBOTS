@@ -34,8 +34,7 @@ void warnUser(const string &warningType) {
         cout << "That is not a valid input (Options: 0, 1, 2)\n"
              << "Press ENTER to return to the main menu..." << endl;
     } else if (warningType == "fileIO") {       // warning layout for file input/output
-        cout << "That is not a valid input (Options: 1, 2, ..., 99)\n"
-             << "Press ENTER to return to the main menu..." << endl;
+        cout << "That is not a valid input (Options: 1, 2, ..., 99)" << endl;
     } else if (warningType == "game") {         // warning layout for file input/output
         cout << "That is not a valid input (Options: Q, W, E, A, S, D, Z, X, C)" << endl;
     } else if (warningType == "game-move") {    // warning layout for game movement
