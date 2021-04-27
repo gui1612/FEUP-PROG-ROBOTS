@@ -1,8 +1,14 @@
+/**
+ * @file entities.h
+ * @author Guilherme Almeida and António Santos
+ * @brief
+ */
+
+// Includes
 #include "menu.h"
 #include "entities.h"
 
-#include <time.h>
-
+// Namespace
 using namespace std;
 
 int main() {

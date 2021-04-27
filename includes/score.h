@@ -1,7 +1,7 @@
 #pragma once
 
+// Includes
 #include "game.h"
-
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -9,7 +9,7 @@
 #include <iomanip>
 #include <cmath>
 
-
+// Namespace
 using namespace std;
 
 

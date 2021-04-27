@@ -1,3 +1,4 @@
+// Includes
 #include "score.h"
 #include "global.h"
 
@@ -12,24 +13,22 @@ void getPlayerName(Player &player){
         cout << "What's your name?" << endl;
         bool validInput = getInput(playerName);
 
-        if (validInput) {                          // Valid type
+        if (validInput) {                                   // Valid type
             clearBuffer();
-            //TODO: Remove this and count UTF-8 length
-            //for (int i = 0; playerName[i]!='\0'; i++) {nameLen++;}
             nameLen = playerName.length();
 
-            if (0 < nameLen && nameLen <= 15) {     // Invalid name size
+            if (0 < nameLen && nameLen <= 15) {             // Invalid name size
                 player.name = playerName;
                 leave = 0;                                  // Leave the loop
             } else {
                 warnUser("name");
             }
-        } else if (!cin.eof()) {                    // Invalid type
+        } else if (!cin.eof()) {                            // Invalid type
             /**
              * Note: we need this condition for inputs like:
-             * "ABCDE FGHJKLMNOPQRSTUV" were the name would exceed the 15
-             * chars limit, but since only the string "ABCDE" would go to
-             * the buffer, the scoreboard would be wrongly updated
+             * "ABCDEFGHJKLMNOPQRSTUV" where the name would exceed the 15
+             * chars limit, but since only the string "ABCDEFGHJKLMNOP" would go to
+             * the buffer, the scoreboard would be incorrectly updated
              */
             warnUser("name");
         }
@@ -42,7 +41,7 @@ void getScoreboard(const string &fullPath, ScoreBoard scoreboard, const Player &
 
     if_leaderBoard.open(fullPath.c_str());              // Opening the file
 
-    if (if_leaderBoard.good()) {        // File exists
+    if (if_leaderBoard.good()) {                        // File exists
         string str;
 
         // Skipping the lines for the header
@@ -51,10 +50,10 @@ void getScoreboard(const string &fullPath, ScoreBoard scoreboard, const Player &
         getline(if_leaderBoard, line2);
 
         parseLines(if_leaderBoard, scoreboard, player); // Parsing the previous scoreboard to `scoreboard`
-        if_leaderBoard.close();                               // Closing the stream for file input
+        if_leaderBoard.close();                                // Closing the stream for file input
 
-        ofstream of_leaderBoard;                              // Opening a stream for file output
-        of_leaderBoard.open(fullPath.c_str());                // Opening the file to write into
+        ofstream of_leaderBoard;                               // Opening a stream for file output
+        of_leaderBoard.open(fullPath.c_str());                 // Opening the file to write into
 
         // Writing the table header
         of_leaderBoard << "Player              - Time" << endl
@@ -83,7 +82,7 @@ void getScoreboard(const string &fullPath, ScoreBoard scoreboard, const Player &
 
         Player player = scoreboard.at(0);
 
-        // writes the header of the leaderboard to the file
+        // Writes the header of the leaderboard to the file
         of_leaderBoard << "Player              - Time" << endl
                        << "--------------------------" << endl
                        << left << setw(20)  << player.name   << "- " << right << setw(4) << player.score;
@@ -96,12 +95,12 @@ void getScoreboard(const string &fullPath, ScoreBoard scoreboard, const Player &
 void updateScoreboard(Player &player, const Maze &maze) {
     // Initializing a ScoreBoard (vector<Player>) to track the players in the leaderboard
     ScoreBoard scoreboard;
-    const string PREFIX = "../input/";                                          // prefix for relative path file location
-    const string fullPath = PREFIX + "MAZE_" + maze.number + "_WINNERS.txt";    // full path and filename
+    const string PREFIX = "../input/";                                          // Prefix for relative path file location
+    const string fullPath = PREFIX + "MAZE_" + maze.number + "_WINNERS.txt";    // Full path and filename
 
 
-    getPlayerName(player);          // Gets and validates the player's name
-    if (!cin.eof()) {                  // Continues to write if the player didn't signal 'EOF'
+    getPlayerName(player);
+    if (!cin.eof()) {
         scoreboard.push_back(player);  // Inserts the current game player in the scoreboard
 
         // Updates the scoreboard
@@ -123,25 +122,26 @@ void parseLines(ifstream &leaderBoard, ScoreBoard &scoreBoard, const Player &pla
 
         size_t lastDashPos = line.rfind('-');                       // Gets the index of the last '-' occurrence
         string strScore = line.substr(lastDashPos + 2);           // Parses the `score` from the line
-        int score = stoi(strScore);                                    // Converts store into an integer
+        int score = stoi(strScore);                                    // Converts score into an integer
 
         string firstPart = line.substr(0, lastDashPos);           // Parses the string of the line until '-'
-        size_t lastAlphaPos = getLastAlphaIdx(firstPart);              // Gets the index of the first char that is not ' '
+        size_t lastAlphaPos = getLastAlphaIdx(firstPart);          // Gets the index of the first char that is not ' '
 
-        string name = firstPart.substr(0, lastAlphaPos + 1);    // Parses the `name` from the string
+        string name = firstPart.substr(0, lastAlphaPos + 1);   // Parses the `name` from the string
 
         // Creates a player instance being the`Player` instance only fields that are relevant to initialize `name` and `score`
         Player player2;
         player2.name = name;
         player2.score = score;
 
-        if (name == player.name && score > player.score) {                    // If the player already exists and the they were faster (lower score)
-            continue;                                                         // The previous score was worse so it will not be printed (not appended to the vector)
-        } else if (name != player.name){                                      // If it is a different player
-            scoreBoard.push_back(player2);                                    // Appends the current `player2` instance to the `scoreBoard`
-        } else {                                                              // If the player already exists and the they were slower (higher score)
+        // Updating the scoreboard taking into account the best score registered for the current player
+        if (name == player.name && score > player.score) {                    // The player already exists and was faster
+            continue;                                                         // The previous value (player2) is now slower so it isn't put on the scoreboard
+        } else if (name != player.name){                                      // It is a different player
+            scoreBoard.push_back(player2);
+        } else {                                                              // The player already exists and was slower
             scoreBoard.erase(scoreBoard.begin());                             // Remove the player's score of the current run from the vector
-            scoreBoard.push_back(player2);                                    // Appends the current `player2` instance to the `scoreBoard`
+            scoreBoard.push_back(player2);                                    // Append the current `player2` instance to the `scoreBoard`
         }
     }
 }

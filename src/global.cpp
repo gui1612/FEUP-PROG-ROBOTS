@@ -1,6 +1,8 @@
+// Includes
 #include "global.h"
 #include "entities.h"
 
+// Namespace
 using namespace std;
 
 
@@ -16,33 +18,27 @@ void clearScreen() {
 
 
 void waitForConfirmation() {
-    char emptyInput = (char) cin.get();     // Waits until the user press enter
-    if (emptyInput != '\n' && !cin.eof())   // Checks if the user inserted anything or just pressed enter as expected
+    char emptyInput = (char) cin.get();     // Waits until the user presses enter
+    if (emptyInput != '\n' && !cin.eof())
         clearBuffer();                      // Clears the buffer if the input was not `EOF`
 }
 
 
-bool validInputType() {
-    bool validInput = cin.good() && cin.peek() == '\n';     // Tracks if the user input is valid
-    return validInput;
-}
-
-
 void warnUser(const string &warningType) {
-    clearScreen();                              // clears the screen before the warning is displayed
-    if (warningType == "menu") {                // warning layout for menu
+    clearScreen();                              // Clears the screen before the warning is displayed
+    if (warningType == "menu") {                // Warning layout for menu
         cout << "That is not a valid input (Options: 0, 1, 2)\n"
              << "Press ENTER to return to the main menu..." << endl;
-    } else if (warningType == "fileIO") {       // warning layout for file input/output
+    } else if (warningType == "fileIO") {       // Warning layout for file input/output
         cout << "That is not a valid input (Options: 1, 2, ..., 99)\n"
              << "Press ENTER to return to the main menu..." << endl;
-    } else if (warningType == "game") {         // warning layout for file input/output
+    } else if (warningType == "game") {         // Warning layout for file input/output
         cout << "That is not a valid input (Options: Q, W, E, A, S, D, Z, X, C)" << endl;
-    } else if (warningType == "game-move") {    // warning layout for game movement
+    } else if (warningType == "game-move") {    // Warning layout for game movement
         cout << "Invalid move: There's something in the way!" << endl;
-    } else if (warningType == "name") {         // warning layout for the player name
+    } else if (warningType == "name") {         // Warning layout for the player name
         cout << "Invalid input: maximum name length of 15!" << endl;
-    } else if (warningType == "leaderboard") {  // warning layout for the leaderboard
+    } else if (warningType == "leaderboard") {  // Warning layout for the leaderboard
         cout << "Invalid input: That leaderboard doesn't exist yet!" << endl;
     } else {                                    // Fall case
         cout << "That is not a valid input\n"

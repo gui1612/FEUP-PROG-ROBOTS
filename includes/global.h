@@ -1,10 +1,12 @@
 #pragma once
 
+// Includes
 #include <iostream>
 #include <limits>
 #include <thread>
 #include <chrono>
 
+// Namespace
 using namespace std;
 
 
@@ -48,21 +50,6 @@ bool getInput(T &inp) {
         return false;
     }
 }
-
-
-/**
- * @brief Checks if the input is an is valid
- *
- * @return boolean value (`true` if the user has input the right type only to the buffer `false` in not)
- *
- * @code
- * int x;
- * cin >> x;    // User input: 1.23
- * bool validInput = validInputType();
- * @endcode
- * validInput would be `false`, since 1.23 is not an integer
- */
-bool validInputType();
 
 
 /**

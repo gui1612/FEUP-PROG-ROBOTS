@@ -1,11 +1,11 @@
 #pragma once
 
-// STL Includes
+// Includes
 #include <iostream>
 #include <string>
 
+// Namespace
 using namespace std;
-
 
 
 /**

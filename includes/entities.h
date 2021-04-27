@@ -6,7 +6,7 @@
 
 #pragma once
 
-// STL includes
+// Includes
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -223,17 +223,6 @@ void updateRobot(Robot &robot,Player &player, Maze &maze);
  * @note This algorithm calculates the best move based on distance only
  */
 Point bestMove(const Robot &robot, const Player &player, const Maze &maze);
-
-
-/**
- * @brief Draws the robot's new position, clearing the previous one
- *
- * @param robot Robot instance
- * @param maze the maze of the current game
- * @param lastPos the previous position of the robot
- *
- */
-void robotDraw(Point lastPos, const Robot &robot, Maze &maze);
 
 
 /**

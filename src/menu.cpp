@@ -1,13 +1,14 @@
+// Includes
 #include "global.h"
 #include "menu.h"
 #include "game.h"
 
 
 void menu() {
-    short confirm = 1;                       // Leaving confirmation (initialized at a value different of 0 not to leave the loop)
-    // Menu loop will end either when user sends "EOF" or when he double confirms he wants to Exit (option 0 of the menu)
+    short confirm = 1;
+    // Menu loop will ends when the user sends "EOF" or when they confirm to Exit (option 0)
     do {
-        short menuPick;                      // Menu choice
+        short menuPick;
 
         const string banner = R"(
        ______       ____      ____       ____      _______                _____                  __  __     ______
@@ -31,16 +32,14 @@ void menu() {
                                         ----------------------------------------------
                     )";
 
-        // gets an input and if it is successfully (`validInput` -> `true`) writes it on `menuPick` (if not clears the buffer)
         bool validInput = getInput<short>(menuPick);
 
-        if (validInput) {               // Valid input type
-            clearBuffer();                    // Clears the buffer from the last `cin` call
+        if (validInput) {
+            clearBuffer();
             menuChoice(menuPick, confirm);
-        } else if (!cin.eof()) {              // If the input is invalid (with the exception of `EOF`) the screen is cleared and options are displayed again
-            warnUser("menu");      // Warns the user about wrong input
+        } else if (!cin.eof()) {
+            warnUser("menu");
         }
-
     } while (confirm != 0 && !cin.eof());
 
     clearScreen();
@@ -59,44 +58,43 @@ void menu() {
 
 void menuChoice(short choice, short &confirm) {
     switch (choice) {
-        case 0: {               // Exit
+        case 0: {                                        // Exit
             clearScreen();
-            cout << "Are you sure you want to exit (0 to confirm)?" << endl;
 
-            // gets an input and if it is successfully (`validInput` -> `true`) writes it on `confirm` (if not clears the buffer)
+            cout << "Are you sure you want to exit (0 to confirm)?" << endl;
             bool validInput = getInput<short>(confirm);
 
-            if (cin.eof()) { break; }   // EOF flag
+            if (cin.eof()) { break; }                    // EOF flag
 
-            if (!validInput) {    // Invalid input
-                confirm = 1;                             // Resets `confirm` for cases in which user inputs a problematic value
-            } else {                    // Valid input
+            if (!validInput) {
+                confirm = 1;                             // Resets `confirm` (user doesn't want to exit)
+            } else {
                 clearBuffer();                           // Clears the buffer
             }
-            clearScreen();                               // clears the screen before the next menu display or the end of the game
+            clearScreen();
             break;
         }
-        case 1: {              // Rules
-            clearScreen();                               // Clears the screen
-            displayRules();                              // Displays the rules
-            waitForConfirmation();                       // Waits for user input
-            if (!cin.eof()) { clearScreen();}            // Clears the screen if the user didn't press EOF in the confirmation
+        case 1: {                                        // Rules
+            clearScreen();
+            displayRules();
+            waitForConfirmation();
+            if (!cin.eof()) { clearScreen();}
             break;
         }
-        case 2: {               // Play
+        case 2: {                                        // Play
             clearScreen();
             /////GAME START
-            Maze maze;                                    // Initializes the `Maze` for the current game
-            bool play = mazePick(maze);                // Checks if the player wants to play
-            if (play) {playGame(maze);}                // If the player wants to play, starts the game
+            Maze maze;                                   // Initializes the `Maze` for the current game
+            bool play = mazePick(maze);              // Checks if the player wants to play
+            if (play) {playGame(maze);}              // If the player wants to play, starts the game
             break;
             /////GAME END
         }
-        case 3:                 // Leaderboard
-            displayLeaderboard();                          // Asks for user input and displays the leaderboard
+        case 3:                                          // Leaderboard
+            displayLeaderboard();
             break;
-        default: {              // The input was of type `int`, but not a valid option
-            warnUser("menu");                    // Warns the user about wrong input
+        default: {                                       // The input was of type `int`, but not a valid option
+            warnUser("menu");
         }
     }
 }

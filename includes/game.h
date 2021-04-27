@@ -1,9 +1,7 @@
 #pragma once
 
-// Header file includes
-#include "entities.h"
-
 // Includes
+#include "entities.h"
 #include <algorithm>
 #include <random>
 #include <chrono>
