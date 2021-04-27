@@ -1,7 +1,0 @@
-Player              - Time
---------------------------
-dfdd                -    0
-fadfafeww           -    0
-dsgfgdf             -    0
-ghfg                -    2
-ppp                 -    2
