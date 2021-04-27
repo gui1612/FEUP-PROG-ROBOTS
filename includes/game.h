@@ -1,11 +1,14 @@
 #pragma once
 
+// Header file includes
 #include "entities.h"
 
+// Includes
 #include <algorithm>
 #include <random>
 #include <chrono>
 
+// Namespaces
 using namespace std;
 using namespace std::chrono;
 

@@ -7,11 +7,11 @@
 
 bool mazePick(Maze &maze) {
     bool playGame = false;
-    short leaveConfirm = 1;                            // Leaving confirmation (initialized at a value different of 0 not to leave the loop)
+    short leaveConfirm = 1;
     // File Input loop that ends when user sends "EOF" or when a valid maze is picked
     do {
-        const unsigned int SLEEP_TIME = 2;             // sleep time if the user decides to leave the maze picker stage
-        short levelPick;                               // string type var to store the number of the selected maze
+        const unsigned int SLEEP_TIME = 2;
+        short levelPick;
 
         cout << "Choose a level to play (0 to return to main menu)! " << endl;
         bool validInput = getInput<short>(levelPick);
@@ -32,7 +32,7 @@ bool mazePick(Maze &maze) {
                     playGame = true;
                     leaveConfirm = 0;
                     maze = mazeOpen(fullFilePath, mazeFile);
-                    mazeFile.close();       // Closing the maze `ifstream`
+                    mazeFile.close();                    // Closing the maze `ifstream`
                     maze.number = (levelPick < 10) ? "0" + to_string(levelPick) : to_string(levelPick);     // Setting the maze level to later use in the scoreboard
                 } else {
                     warnUser("fileIO");
@@ -46,29 +46,30 @@ bool mazePick(Maze &maze) {
 
 
 void displayLeaderboard() {
-    const unsigned int SLEEP_TIME = 2;             // sleep time if the user decides to leave the maze picker stage
+    const unsigned int SLEEP_TIME = 2;
     const string PREFIX = "../input/";                      // Prefix containing the file where the maze files are at
-    short leaderBoardNum;                                   // Variable to store the number of the leaderboard's maze
+    short leaderBoardNum;
+    short leaveConfirm = 1;
 
-    short leaveConfirm = 1;                                 // Variable to signal the leaving of the do-while loop
     do {
-        ifstream leaderboardFile;                               // Opens a stream for file input
+        ifstream leaderboardFile;
         clearScreen();
-        cout << "Insert the number of the maze (0 to leave): ";
+        cout << "Insert the number of the maze (0 to leave):";
         bool validInput = getInput<short>(leaderBoardNum);
 
         if (validInput && leaderBoardNum > 0 && leaderBoardNum < 99) {
             clearBuffer();
-            // if the number has one digit fills with a '0' on the left
+            // If the number has one digit fills with a '0' on the left
             string num = leaderBoardNum < 10 ? "0" + to_string(leaderBoardNum) : to_string(leaderBoardNum);
-            string fullFilepath = PREFIX + "MAZE_" + num + "_WINNERS.txt";  // gets the relative file path and the filename
-            leaderboardFile.open(fullFilepath);                             // opening the file
+            string fullFilepath = PREFIX + "MAZE_" + num + "_WINNERS.txt";  // Gets the relative file path and the filename
+            leaderboardFile.open(fullFilepath);                             // Opening the file
 
             if (leaderboardFile.is_open()) {        // file exists
-                cout << leaderboardFile.rdbuf() << endl;                    // displays the scoreboard to the user
+                cout << leaderboardFile.rdbuf() << endl;                    // Displays the scoreboard
                 cout << "Press Enter to continue ...";
                 waitForConfirmation();
                 clearScreen();
+                leaderboardFile.close();                         // Closes the stream for file input
             } else {                                // file does not exist
                 warnUser("leaderboard");
             }
@@ -83,22 +84,22 @@ void displayLeaderboard() {
         leaderboardFile.close();
     } while (!cin.eof() && leaveConfirm != 0);
     clearScreen();                                   // Clears the screen before going to the main menu
-    //leaderboardFile.close();                         // Closes the stream for file input
 }
 
 
 bool validMaze(const short &filename, string &fullPath, ifstream &mazeFile) {
-    const string PREFIX = "../input/";                      // prefix containing the file where the maze files are at
+    const string PREFIX = "../input/";                      // Prefix containing the file where the maze files are at
 
     /*
     * `fileNameOrNullopt` will have a string if it is valid or `std::nullopt` if invalid
     * `fileNameOrNull` will contain a string with a maze filename if `fileNameOrNullopt` has a valid string or else "Null"
     */
+
     optional<string> fileNameOrNullopt = getMazeName(filename);
     string fileNameOrNull = fileNameOrNullopt.value_or("Null");
 
-    if (fileNameOrNullopt != "Null") {       // Valid filename (0 < fileName < 100)
-        string filepath = PREFIX + fileNameOrNull;                   // full filepath string
+    if (fileNameOrNullopt != "Null") {                               // Valid filename (0 < fileName < 100)
+        string filepath = PREFIX + fileNameOrNull;                   // Full filepath string
         fullPath = filepath;
 
         mazeFile.open(filepath.c_str());                             // Trying to open the file with the name `filepath` contained in ../mazes directory
@@ -116,11 +117,11 @@ void mazeReplace(Maze &maze, Point point, char replacingChar) {
 
 
 Maze mazeOpen(const string &levelPick, ifstream &mazeFile) {
-    unsigned int rows = 0, cols = 0;                    // initializing `rows` (horizontal) and  `columns` (vertical)
+    unsigned int rows = 0, cols = 0;
     // First line parse ('rows' x 'columns')
-    mazeFile >> rows;                                   // Rows
-    mazeFile.ignore(3);                              // Fill chars in between rows and columns
-    mazeFile >> cols;                                   // Columns
+    mazeFile >> rows;
+    mazeFile.ignore(3);                               // Fill chars in between rows and columns
+    mazeFile >> cols;
 
     vector<char> rowsVec;                               // Vector which will contain a single row
     vector<vector<char>> mazeVec;                       // 2D vector which will contain the chars in the maze at proper position
@@ -147,7 +148,7 @@ Maze mazeOpen(const string &levelPick, ifstream &mazeFile) {
 
 
 optional<string> getMazeName(short levelChoice) {
-    if (levelChoice < 1 || levelChoice > 99) {           // Invalid number for a maze file (there are only 99 mazes max)
+    if (levelChoice < 1 || levelChoice > 99) {           // Invalid name for a maze file (there are only 99 mazes max)
         return nullopt;
     } else {                                             // Valid name for a maze
         // Checks if the user input number has one or two digits, turns it into a string, and, if it has one digit fills with a "0" at the left
@@ -164,7 +165,6 @@ void drawMaze(const Maze &maze) {
         for (xval x = 0; x < maze.columns; x++) {   // [Row][Column] (single position)
             char currChar = maze.gameBoard.at(y).at(x);
                 cout << currChar << ' ';
-
         }
         cout << endl;                               // New line for the new row
     }
@@ -252,7 +252,7 @@ Point bestMove(const Robot &robot, const Player &player, const Maze &maze) {
 
 void robotDraw(Point lastPos, const Robot &robot, Maze &maze) {
     maze.gameBoard.at(lastPos.y).at(lastPos.x) = ' ';             // Replacing robot last position
-    mazeReplace(maze, robot.coordinates, 'R');   // Replacing robot new position
+    mazeReplace(maze, robot.coordinates, 'R');       // Replacing robot new position
 }
 
 
@@ -321,7 +321,7 @@ bool updatePlayer(Player &player, char key, Maze &maze){
 
 void playerDraw(Point lastPos, const Player &player, Maze &maze) {
     maze.gameBoard.at(lastPos.y).at(lastPos.x) = ' ';         // Replacing player last position
-    mazeReplace(maze, player.coordinates, 'H'); // Replacing player new position
+    mazeReplace(maze, player.coordinates, 'H');  // Replacing player new position
 }
 
 

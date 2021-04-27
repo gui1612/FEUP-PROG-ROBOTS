@@ -86,7 +86,7 @@ void getScoreboard(const string &fullPath, ScoreBoard scoreboard, const Player &
         // writes the header of the leaderboard to the file
         of_leaderBoard << "Player              - Time" << endl
                        << "--------------------------" << endl
-                       << left << setw(20)  << player.name   << "- " << right << setw(4) << player.score;;
+                       << left << setw(20)  << player.name   << "- " << right << setw(4) << player.score;
 
         of_leaderBoard.close();
     }
@@ -125,7 +125,7 @@ void parseLines(ifstream &leaderBoard, ScoreBoard &scoreBoard, const Player &pla
         string strScore = line.substr(lastDashPos + 2);           // Parses the `score` from the line
         int score = stoi(strScore);                                    // Converts store into an integer
 
-        string firstPart = line.substr(0, lastDashPos);           // Parses the string of the line untiil '-'
+        string firstPart = line.substr(0, lastDashPos);           // Parses the string of the line until '-'
         size_t lastAlphaPos = getLastAlphaIdx(firstPart);              // Gets the index of the first char that is not ' '
 
         string name = firstPart.substr(0, lastAlphaPos + 1);    // Parses the `name` from the string

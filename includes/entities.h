@@ -1,16 +1,20 @@
+/**
+ * @file entities.h
+ * @author Guilherme Almeida and António Santos
+ * @brief
+ */
+
 #pragma once
 
-
+// STL includes
 #include <iostream>
 #include <fstream>
 #include <string>
 #include <optional>
 #include <vector>
 #include <cmath>
-#include <climits>
-#include <map>
-#include <unordered_map>
 
+// Namespace
 using namespace std;
 
 // Type aliases
@@ -19,19 +23,19 @@ using yval = int;
 using ID = unsigned int;
 
 
-///////// STRUCTS ///////////
+//////////////////////// Structs /////////////////////////////////
 
-/**
- * @brief Data structure to store a Point (pair of coordinates x, y)
- *
- */
+
+//////////////////////// Point /////////////////////////////////
+
+
+/** @brief Data structure to store a Point (pair of coordinates x, y) */
 struct Point {int x; int y;};
 
-/**
- * @brief Overload of "==" for point equality
- *
+/** @overload
  * @param p1 Point instance
  * @param p2 Point instance
+ *
  * @return `true` if the points are the same, otherwise `false`
  */
 inline bool operator==(Point p1, Point p2) {
@@ -39,23 +43,23 @@ inline bool operator==(Point p1, Point p2) {
 }
 
 
-/**
- * @brief Data structure to store a Person (stores his position, score and his position)
- *
- */
+//////////////////////// Robot /////////////////////////////////
+
+
+/** @brief Data structure to store a Person (stores his position, score and his position) */
 struct Robot {
-    // `true` if the robot is alive, otherwise `false`
+    /** @brief `true` if the robot is alive, otherwise `false` */
     bool alive;
 
-    // The ID of the robot (unique for each robot)
+    /** @brief ID of the robot (unique for each robot) */
     ID id;
 
-    // The current coordinates of the robot in the `Maze`
+    /** @brief Coordinates of the robot in the `Maze` */
     Point coordinates;
 };
 
-/**
- * @brief Overload of operator "==" for Robot equality
+
+/** @overload
  *
  * @param r1 Robot instance
  * @param r2 Robot instance
@@ -67,56 +71,54 @@ inline bool operator==(Robot r1, Robot r2) {
     return r1.id == r2.id;
 }
 
-/**
- * @brief Data structure to store a Person (stores his position, score, name and position)
- *
- */
+
+/** @brief Data structure to store a Person (stores his position, score, name and position) */
 struct Player {
-   // The name of the player playing the game
+   /** The name of the player playing the game */
    string name;
 
-   // The score of the current player
+   /** Score of the current player */
    int score;
 
-   // `true` if the player is alive, otherwise `false`
+   /** @brief `true` if the player is alive, otherwise `false` */
    bool alive;
 
-   // The current coordinates of the player in the `Maze`
+   /** @brief Coordinates of the player in the `Maze` */
    Point coordinates;
 };
 
 
-///////// MAZE ///////////
+//////////////////////// Maze /////////////////////////////////
 
 
-/**
- * @brief Data structure that contains all the info about the maze
- *
- */
+/** @brief Data structure that contains all the info about the maze */
 struct Maze {
-    // A string containing the number of the current maze (ex.: '01', '02', ..., '99')
+    /** @brief String containing the number of the current maze (ex.: '01', '02', ..., '99') */
     string number;
 
-    // The dimensions of the maze (`rows`x`columns`)
+    /** @brief The dimensions of the maze (`rows`x`columns`) */
     unsigned int rows, columns;
 
-    /*
-     * A 2D vector of dimensions `rows`x`columns` which contains the chars in the maze
+    /**
+     * @brief A 2D vector of dimensions `rows`x`columns` which contains the chars in the maze
      *
-     * ** MAZE NOTATION **
-     * '*' -> Electric fence
-     * 'D' -> Non-electric fence (Note: This is game internal notation. The player sees both 'D' and '*' as a normal '*')
-     * 'H' -> Alive Human
-     * 'h' -> Dead Human
-     * 'R' -> Alive Robot
-     * 'r' -> Dead Robot
-     */
+     * | Symbol | Description        |
+     * |--------|--------------------|
+     * | *      | Electric Fence     |
+     * | D      | Non-electric fence |
+     * | H      | Alive Human        |
+     * | h      | Dead Human         |
+     * | R      | Alive Robot        |
+     * | r      | Dead Robot         |
+     *
+     * @note 'D' is internal notation. The user sees it as a normal fence ('*')
+    */
     vector<vector<char>> gameBoard;
 
-    // Vector which contains all the Robots in the maze sorted by their ID's
+    /** @brief Vector which contains all the Robots in the maze sorted by their ID's */
     vector<Robot> robotVec;
 
-    // Variable that tracks the number of alive Robots in the current game
+    /** @brief Variable that tracks the number of alive Robots in the current game */
     int aliveRobots = 0;
 };
 

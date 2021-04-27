@@ -13,10 +13,8 @@ void playGame(Maze &maze) {
 
     const int RAND_IDX = rand() % 5;
 
-
     Player player;
     vector<Robot> robotVec;
-    //RobotMap robotMap;
 
     // Getting all the necessary values for the player and robots
     initializeGame(maze, player);
@@ -56,13 +54,13 @@ void playGame(Maze &maze) {
     duration<int> gameTime = duration_cast<duration<int>>(end - start);       // Calculates Game time
 
     if (playerWin(maze)) {
-        cout << win.at(RAND_IDX) << endl;                                      // Prints a winning message
-        cout << "Your time: " << gameTime.count() << "s" << endl;              // Displays the player game time
+        cout << win.at(RAND_IDX) << endl                                       // Prints a winning message
+             << "Your time: " << gameTime.count() << "s" << endl;              // Displays the player game time
         player.score = gameTime.count();
-        updateScoreboard(player, maze);                                        // Updates the scoreboard for the current maze
+        updateScoreboard(player, maze);                                     // Updates the scoreboard for the current maze
     } else {
-        cout << loss.at(RAND_IDX) << endl;
-        cout << "Your time: " << gameTime.count() << "s" << endl;              // Displays the player game time
+        cout << loss.at(RAND_IDX) << endl
+             << "Your time: " << gameTime.count() << "s" << endl;              // Displays the player game time
         waitForConfirmation();
     }
 
@@ -97,7 +95,7 @@ void initializeGame(Maze &maze, Player &player) {
                     bool alive = isupper(currPos);
                     Robot robot {alive, idSelector, entPos};          // Creates a `Robot` instance
                     maze.robotVec.push_back(robot);                   // Appends the robot to a vector existing robots
-                    if (alive) {maze.aliveRobots++;};                 // If the robot is alive updates the number of alive robots
+                    if (alive) {maze.aliveRobots++;}                  // If the robot is alive updates the number of alive robots
                     idSelector++;                                     // Moving to the next ID
                     break;
             }
