@@ -1,5 +1,4 @@
 Player              - Time
 --------------------------
-fsdfs               -    1
-adsad               -    1
-Guilherme           -    8
+g                   -    5
+l                   -    8

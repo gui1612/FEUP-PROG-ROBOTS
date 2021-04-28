@@ -118,9 +118,10 @@ void mazeReplace(Maze &maze, Point point, char replacingChar) {
 
 Maze mazeOpen(const string &levelPick, ifstream &mazeFile) {
     unsigned int rows = 0, cols = 0;
+    char sep;
     // First line parse ('rows' x 'columns')
     mazeFile >> rows;
-    mazeFile.ignore(3);                              // Fill chars in between rows and columns
+    mazeFile >> sep;                                    // Fill char in between rows and columns
     mazeFile >> cols;
 
     vector<char> rowsVec;                               // Vector which will contain a single row

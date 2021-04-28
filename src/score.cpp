@@ -151,5 +151,9 @@ size_t getLastAlphaIdx(string str) {
     for (size_t i = str.length() - 1; i > 0; i--) {
         if (!isspace(str.at(i))) { return i; }
     }
-    return -1;
+    /*
+     * If the first char of the string is ' ' the string is fully empty and -1 is returned
+     * otherwise, it means that the string has one char different from 0 and, in that case returns 0 (first index)
+     */
+    return str.at(0) == ' ' ? -1 : 0;
 }
