@@ -188,7 +188,6 @@ void updateAllRobots(Player &player, Maze &maze) {
         char charInPos = maze.gameBoard.at(newPos.y).at(newPos.x);
 
         if (charInPos == 'R' || charInPos == 'r') {                 // Robot gets stuck
-            cout << "Robot gets stuck" << endl;
             maze.robotVec.at(i).alive = false;                      // First robot dies
             maze.aliveRobots--;                                     // Updates aliveRobots
             maze.robotVec.at(i).coordinates = newPos;               // Coordinates update
@@ -205,13 +204,11 @@ void updateAllRobots(Player &player, Maze &maze) {
             }
 
         } else if (charInPos == '*') {                              // Robot moves to electric fence
-            cout << "Robot collides with electric fence";
             maze.robotVec.at(i).alive = false;                      // Robot dies
             maze.aliveRobots--;                                     // Updates aliveRobots
             mazeReplace(maze, lastPos, ' ');
             mazeReplace(maze, newPos, 'r');
         } else if (charInPos == 'H') {                              // Player gets caught by robot
-            cout << "4" << endl;
             player.alive = false;                                   // Player dies
             mazeReplace(maze, lastPos, 'R');
             mazeReplace(maze, newPos, 'h');
@@ -228,7 +225,6 @@ void updateAllRobots(Player &player, Maze &maze) {
 Point bestMove(const Robot &robot, const Player &player, const Maze &maze) {
     xval x = robot.coordinates.x;
     yval y = robot.coordinates.y;
-    cout << "ROBOT (" << x << ", " << y << ");" << endl;
 
     // Possible move positions for the Robot
     vector<Point> moveVec = {{x-1, y-1}, {x, y-1}, {x+1, y-1},
