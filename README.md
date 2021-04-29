@@ -44,6 +44,7 @@ of them easier;
         <li>MAZE 02 - Q > Q > Q > Q</li>
         <li>MAZE 03 - S > S > S</li>
         <li>MAZE 04 - C > C > C > Q > E > D > S > W > S > S > S > S > S > S > S</li>
+        <li>MAZE 05 - Invalid maze!</li>
     </ul>
 </details>
 
