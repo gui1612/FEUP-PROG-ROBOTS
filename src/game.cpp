@@ -47,7 +47,6 @@ void playGame(Maze &maze) {
         } else {                                    // The user's input was not valid (correct type)
             warnUser("game");
         }
-        cout << maze.aliveRobots << endl;
     } while (!cin.eof() && !playerLoss(player) && !playerWin(maze));
 
     auto end = high_resolution_clock::now();                                  // Game timer ends

@@ -149,7 +149,7 @@ Functions</h2></td></tr>
 <tr class="memitem:a00acf269e16214fe46673005e0e928ae"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="entities_8h.html#a00acf269e16214fe46673005e0e928ae">mazeReplace</a> (<a class="el" href="structMaze.html">Maze</a> &amp;maze, <a class="el" href="structPoint.html">Point</a> point, char replacingChar)</td></tr>
 <tr class="memdesc:a00acf269e16214fe46673005e0e928ae"><td class="mdescLeft">&#160;</td><td class="mdescRight">Replaces a char at a position in the maze.  <a href="entities_8h.html#a00acf269e16214fe46673005e0e928ae">More...</a><br /></td></tr>
 <tr class="separator:a00acf269e16214fe46673005e0e928ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac657d6cd2c6b01589c01ee92911f2575"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structMaze.html">Maze</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="entities_8h.html#ac657d6cd2c6b01589c01ee92911f2575">mazeOpen</a> (const string &amp;levelPick, ifstream &amp;mazeFile)</td></tr>
+<tr class="memitem:ac657d6cd2c6b01589c01ee92911f2575"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structMaze.html">Maze</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="entities_8h.html#ac657d6cd2c6b01589c01ee92911f2575">mazeOpen</a> (const string &amp;levelPick, ifstream &amp;mazeFile, bool &valid)</td></tr>
 <tr class="memdesc:ac657d6cd2c6b01589c01ee92911f2575"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parses a txt file containing a maze file in the right format to a <code><a class="el" href="structMaze.html" title="Data structure that contains all the info about the maze.">Maze</a></code> struct.  <a href="entities_8h.html#ac657d6cd2c6b01589c01ee92911f2575">More...</a><br /></td></tr>
 <tr class="separator:ac657d6cd2c6b01589c01ee92911f2575"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae718d924d8c02271eab33b2dc6f6c13c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="entities_8h.html#ae718d924d8c02271eab33b2dc6f6c13c">updateAllRobots</a> (<a class="el" href="structPlayer.html">Player</a> &amp;player, <a class="el" href="structMaze.html">Maze</a> &amp;maze)</td></tr>
@@ -294,6 +294,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="enti
           <td>(</td>
           <td class="paramtype">const string &amp;&#160;</td>
           <td class="paramname"><em>levelPick</em>, </td>
+          <td class="paramname"><em>bool &valid</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>

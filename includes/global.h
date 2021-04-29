@@ -63,7 +63,8 @@ bool getInput(T &inp) {
  * `game`       -> Game warning;
  * `game-move`  -> Movement warning;
  * `name`       -> Name length warning;
- * `leaderboard`-> Leaderboard warning.
+ * `leaderboard`-> Leaderboard warning;
+ *  `mazeFile`  -> Warning layout for the mazefile.
  */
 void warnUser(const string &warningType);
 
