@@ -3,6 +3,7 @@
 // Includes
 #include <iostream>
 #include <string>
+#include <ctime>
 
 // Namespace
 using namespace std;

@@ -1,6 +1,6 @@
 Player              - Time
 --------------------------
-rgrrg               -    1
-asdf                -    1
-g                   -    5
-l                   -    8
+Antonio1            -    2
+MortyC137           -    4
+ABCDEFGHIJKLMNO     -    9
+Guilherme           -   10

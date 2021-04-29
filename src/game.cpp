@@ -7,10 +7,10 @@
 void playGame(Maze &maze) {
     // Vector of phrases to be displayed when player wins
     vector<string> win = {"Well done, champ!!", "You have beat those evil robots. Good job!!",
-                      "Perfect!!", "You've aced the game", "Well done! Those robots were a bit RUSTy, am I right?"};
+                      "Perfect!!", "You've aced the game!", "Well done! Those robots were a bit RUSTy, am I right?"};
     // Vector of phrases to be displayed when player looses
-    vector<string> loss = {"Better luck next time.", "Try again", "You can only win if you keep trying!",
-                            "Don't let those robots survive!", "You loss"};
+    vector<string> loss = {"Better luck next time.", "Try again...", "You can only win if you keep on trying!",
+                            "Don't let those robots survive!", "You lost..."};
 
     const int RAND_IDX = rand() % 5;
 
