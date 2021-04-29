@@ -39,6 +39,8 @@ void warnUser(const string &warningType) {
         cout << "Invalid input: maximum name length of 15!" << endl;
     } else if (warningType == "leaderboard") {  // Warning layout for the leaderboard
         cout << "Invalid input: That leaderboard doesn't exist yet!" << endl;
+    } else if (warningType == "mazefile") {  // Warning layout for the mazefile
+        cout << "Invalid mazefile: The file format is not correct!" << endl;
     } else {                                    // Fall case
         cout << "That is not a valid input\n"
              << "Press ENTER to return to the main menu..." << endl;

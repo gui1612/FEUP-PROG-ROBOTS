@@ -176,10 +176,11 @@ void mazeReplace(Maze &maze, Point point, char replacingChar);
  *
  * @param levelPick maze filename (with its relative path)
  * @param mazeFile file input stream
+ * @param valid tracks if the maze is valid
  *
  * @return returns a Maze struct
  */
-Maze mazeOpen(const string &levelPick, ifstream &mazeFile);
+Maze mazeOpen(const string &levelPick, ifstream &mazeFile, bool &valid);
 
 ///////// ROBOT ///////////
 

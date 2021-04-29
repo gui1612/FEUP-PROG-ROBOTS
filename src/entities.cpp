@@ -32,7 +32,13 @@ bool mazePick(Maze &maze) {
                 if (validMaze(levelPick, fullFilePath, mazeFile)) {
                     playGame = true;
                     leaveConfirm = 0;
-                    maze = mazeOpen(fullFilePath, mazeFile);
+                    bool valid;                         // Variable used to check if maze is correctly stored (dimensions)
+                    maze = mazeOpen(fullFilePath, mazeFile, valid);
+                    if (!valid) {                       // Checking if the maze is correctly stored (dimensions)
+                        leaveConfirm = 1;
+                        warnUser("mazefile");
+                        playGame = false;
+                    }
                     mazeFile.close();                    // Closing the maze `ifstream`
                     maze.number = (levelPick < 10) ? "0" + to_string(levelPick) : to_string(levelPick);     // Setting the maze level to later use in the scoreboard
                 } else {
@@ -116,7 +122,8 @@ void mazeReplace(Maze &maze, Point point, char replacingChar) {
 }
 
 
-Maze mazeOpen(const string &levelPick, ifstream &mazeFile) {
+Maze mazeOpen(const string &levelPick, ifstream &mazeFile, bool &valid) {
+    valid = true;
     unsigned int rows = 0, cols = 0;
     char sep;
     // First line parse ('rows' x 'columns')
@@ -129,6 +136,9 @@ Maze mazeOpen(const string &levelPick, ifstream &mazeFile) {
 
     mazeFile.ignore(1);
 
+    size_t dimensions = rows * cols;
+    size_t counter = 0;
+
     // Loop until the file is totally read (reach the end of file `EOF`)
     while (!mazeFile.eof()) {
         char mazeCurrChar = mazeFile.get();             // Gets the next char in the file
@@ -137,10 +147,14 @@ Maze mazeOpen(const string &levelPick, ifstream &mazeFile) {
             rowsVec.clear();
         } else {
             rowsVec.push_back(mazeCurrChar);            // Appends the current char in the file to the rows vector (`rowsVec`)
+            counter++;
         }
     }
     mazeVec.push_back(rowsVec);                         // Appends the last row to `rowsVec`
     mazeVec.back().pop_back();                          // Removes the newline char from the last position of the last line, since we don't need it
+    counter--;                                          // Removing the additional value from counter, which shouldn't be added
+
+    if (counter != dimensions) { valid = false; }       // Deems the maze invalid (wrong dimensions)
 
     // Initializing maze object
     Maze mazeInp{"0" , rows, cols, mazeVec};    // maze.number is just a initialization which will be changed
