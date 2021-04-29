@@ -1,7 +1,6 @@
 /**
  * @file entities.h
  * @author Guilherme Almeida and António Santos
- * @brief
  */
 
 // Includes
@@ -13,6 +12,7 @@ using namespace std;
 
 int main() {
     try {
+        srand(time(NULL));
         // Menu call, which will trigger the entire game
         menu();
     } catch(...) {  // If there is an eventual bug we haven't noticed, the user will be notified

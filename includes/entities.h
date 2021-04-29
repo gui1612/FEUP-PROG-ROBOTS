@@ -1,9 +1,3 @@
-/**
- * @file entities.h
- * @author Guilherme Almeida and António Santos
- * @brief
- */
-
 #pragma once
 
 // Includes
