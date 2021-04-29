@@ -32,9 +32,9 @@ bool mazePick(Maze &maze) {
                 if (validMaze(levelPick, fullFilePath, mazeFile)) {
                     playGame = true;
                     leaveConfirm = 0;
-                    bool valid;
+                    bool valid;                         // Variable used to check if maze is correctly stored (dimensions)
                     maze = mazeOpen(fullFilePath, mazeFile, valid);
-                    if (!valid) {
+                    if (!valid) {                       // Checking if the maze is correctly stored (dimensions)
                         leaveConfirm = 1;
                         warnUser("mazefile");
                         playGame = false;
@@ -154,7 +154,7 @@ Maze mazeOpen(const string &levelPick, ifstream &mazeFile, bool &valid) {
     mazeVec.back().pop_back();                          // Removes the newline char from the last position of the last line, since we don't need it
     counter--;                                          // Removing the additional value from counter, which shouldn't be added
 
-    if (counter > dimensions) { valid = false; }
+    if (counter != dimensions) { valid = false; }       // Deems the maze invalid (wrong dimensions)
 
     // Initializing maze object
     Maze mazeInp{"0" , rows, cols, mazeVec};    // maze.number is just a initialization which will be changed
