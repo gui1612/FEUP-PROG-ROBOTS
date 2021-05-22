@@ -11,7 +11,7 @@
 #include <string>
 #include <optional>
 
-using gameBoard = std::vector<std::vector<char>>;
+using ScoreBoard = std::vector<Player>;
 
 class Game {
     Player               _player;
@@ -47,9 +47,25 @@ private:
 
     bool updatePlayer(const char key);
 
-    char getNewPosChar();
+    char getNewPosChar(const Point pos);
 
-    bool outOfBounds();
+
+    /**
+     * @brief Checks if the player is trying to move to a position out of bounds
+     */
+    bool outOfBounds(Point pos);
+
+    void updateAllRobots();
+
+    Point findBestMove(Robot& currRobot);
+
+    void updateScoreboard();
+
+    void getPlayerName(Player &player);
+
+    void getScoreboard(const std::string &fullPath, ScoreBoard scoreboard, const Player &player);
+
+    void parseLines(std::ifstream &leaderBoard, ScoreBoard &scoreBoard, const Player &player);
 };
 
 

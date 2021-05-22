@@ -108,4 +108,8 @@ void sleepFor(unsigned int sec);
 double pointDist(Point p1, Point p2);
 
 
+double pointDist(Point p1, Point p2);
+
+size_t getLastAlphaIdx(std::string str);
+
 //#endif //FEUP_PROG_PROJ1_GLOBALDEFS_H

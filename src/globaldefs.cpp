@@ -1,5 +1,6 @@
 #include "globaldefs.h"
 #include <optional>
+#include <cmath>
 
 
 void clearBuffer() {
@@ -48,4 +49,20 @@ void warnUser(const std::string &warningType) {
 
 void sleepFor(unsigned int sec) {
     std::this_thread::sleep_for(std::chrono::seconds(sec));
+}
+
+
+double pointDist(Point p1, Point p2) {
+    return sqrt(std::pow(p2.y - p1.y, 2) + std::pow(p2.x - p1.x, 2));
+}
+
+size_t getLastAlphaIdx(std::string str) {
+    for (size_t i = str.length() - 1; i > 0; i--) {
+        if (!isspace(str.at(i))) { return i; }
+    }
+    /*
+     * If the first char of the string is ' ' the string is fully empty and -1 is returned
+     * otherwise, it means that the string has one char different from 0 and, in that case returns 0 (first index)
+     */
+    return str.at(0) == ' ' ? -1 : 0;
 }

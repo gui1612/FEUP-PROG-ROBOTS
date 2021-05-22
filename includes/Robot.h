@@ -15,7 +15,9 @@ class Robot : public Entity {
     unsigned int _state;
 
 public:
-    enum State{ ALIVE, STUCK, DEAD };
+    // Stuck - 'R/r' '+'
+    // Dead  - '*'
+    enum State{ ALIVE = 0, STUCK, DEAD };
 
     /**
      * @brief
@@ -24,7 +26,7 @@ public:
      * @param coordinates position of the robot in the maze
      * @param robotNum number of Robots in the game
      */
-    Robot(char status, Point coordinates, ID id);
+    Robot(char status, Point coordinates, ID id, unsigned int state);
 
 
     /* 'Getter functions' */

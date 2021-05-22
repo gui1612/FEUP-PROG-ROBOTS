@@ -1,9 +1,10 @@
 #include "Robot.h"
 
-Robot::Robot(char status, Point coordinates, ID id)
+Robot::Robot(char status, Point coordinates, ID id, unsigned int state)
          : Entity(status, coordinates)
     {
         _id = id;
+        _state = state;
     }
 
 void Robot::setState(unsigned int state) {
