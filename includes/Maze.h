@@ -1,5 +1,3 @@
-//#ifndef FEUP_PROG_PROJ1_MAZE_H
-//#define FEUP_PROG_PROJ1_MAZE_H
 #pragma once
 
 // Header includes
@@ -52,6 +50,3 @@ public:
     void clear();                                   /// Clears a Maze object
 
 };
-
-
-//#endif //FEUP_PROG_PROJ1_MAZE_H

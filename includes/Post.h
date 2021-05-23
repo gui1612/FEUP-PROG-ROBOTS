@@ -1,5 +1,3 @@
-//#ifndef FEUP_PROG_PROJ1_POST_H
-//#define FEUP_PROG_PROJ1_POST_H
 #pragma once
 
 #include "globaldefs.h"
@@ -41,5 +39,3 @@ class Post {
 
         void deactivatePost();
 };
-
-//#endif //FEUP_PROG_PROJ1_POST_H

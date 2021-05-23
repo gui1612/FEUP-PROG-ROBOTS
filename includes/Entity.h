@@ -1,8 +1,9 @@
-//#ifndef FEUP_PROG_PROJ1_ENTITY_H
-//#define FEUP_PROG_PROJ1_ENTITY_H
 #pragma once
 
+// File includes
 #include "globaldefs.h"
+
+// Lib includes
 #include <cctype>
 
 class Entity {
@@ -35,10 +36,12 @@ public:
     /** @brief Moves the Entity to a new Point */
     void moveTo(Point coordinates)                  { _coordinates = coordinates;              }
 
-    /** @brief Kills the Entity
-     * @details In order to kill the Entity we simply change
-     * */
-    void kill()                                     { setStatus(static_cast<char>(std::tolower(_status))); }
+    /**
+     * @brief Kills the Entity
+     * @details In order to kill the Entity we simply change the representation ( _status )
+     * from upper to lowercase
+     */
+    void kill();
 
 protected:
     /**
@@ -52,8 +55,6 @@ protected:
      */
     char  _status;
 
-    Point _coordinates;       /** @brief Coordinates of the player in the `Maze` */
+    /** @brief Coordinates of the player in the `Maze` */
+    Point _coordinates;
 };
-
-
-//#endif //FEUP_PROG_PROJ1_ENTITY_H

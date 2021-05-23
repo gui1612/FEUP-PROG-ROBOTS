@@ -1,5 +1,3 @@
-//#ifndef FEUP_PROG_PROJ1_MENU_H
-//#define FEUP_PROG_PROJ1_MENU_H
 #pragma once
 
 
@@ -18,7 +16,5 @@ void displayLeaderboard();
 
 
 std::optional<std::string> getMazeName(short levelChoice);
-
-// #endif //FEUP_PROG_PROJ1_MENU_H
 
 

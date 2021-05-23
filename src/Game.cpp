@@ -162,7 +162,7 @@ void Game::drawMaze() {
                 std::cout << symbol << '\n';
                 pos.y++; pos.x = 0;
             } else {
-                std::cout << symbol << std::flush;             // Drawing player
+                std::cout << symbol << " " << std::flush;             // Drawing Robot
                 pos.x++;
             }
             fillWithSpace = false;
@@ -179,7 +179,7 @@ void Game::drawMaze() {
                 std::cout << symbol << '\n';
                 pos.y++; pos.x = 0;
             } else {
-                std::cout << symbol << std::flush;             // Drawing player
+                std::cout << symbol << " " << std::flush;             // Drawing Post
                 pos.x++;
             }
             fillWithSpace = false;
@@ -190,14 +190,14 @@ void Game::drawMaze() {
                 std::cout << _player.getStatus() << '\n';                   // Drawing player
                 pos.y++; pos.x = 0;                                         // Moving to next row
             } else {
-                std::cout << _player.getStatus() << std::flush;             // Drawing player
+                std::cout << _player.getStatus() << " " << std::flush;      // Drawing Player
                 pos.x++;                                                    // Moving to next column
             }
             fillWithSpace = false;
         }
 
         if (fillWithSpace) {                                                // Checking if there weren't any robots/posts/player in pos
-            std::cout << " " << std::flush;                                 // Drawing a space
+            std::cout << "  " << std::flush;                                 // Drawing a space
             pos.x++;                                                        // Moving to next column
         }
     }

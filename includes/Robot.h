@@ -1,5 +1,3 @@
-//#ifndef FEUP_PROG_PROJ1_ROBOT_H
-//#define FEUP_PROG_PROJ1_ROBOT_H
 #pragma once
 
 #include "globaldefs.h"
@@ -15,8 +13,7 @@ class Robot : public Entity {
     unsigned int _state;
 
 public:
-    // Stuck - 'R/r' '+'
-    // Dead  - '*'
+    // Possible states for a Robot
     enum State{ ALIVE = 0, STUCK, DEAD };
 
     /**
@@ -44,6 +41,3 @@ public:
      */
     friend inline bool operator==(const Robot r1, const Robot r2) { return r1.getID() == r2.getID(); };
 };
-
-
-//#endif //FEUP_PROG_PROJ1_ROBOT_H

@@ -1,5 +1,3 @@
-//#ifndef FEUP_PROG_PROJ1_PLAYER_H
-//#define FEUP_PROG_PROJ1_PLAYER_H
 #pragma once
 
 #include "globaldefs.h"
@@ -51,6 +49,3 @@ public:
     void setName(std::string name)  { _name = name;     }
     void setWin()                   { _win = true;      }
 };
-
-
-//#endif //FEUP_PROG_PROJ1_PLAYER_H
