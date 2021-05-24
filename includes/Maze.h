@@ -1,12 +1,11 @@
 #pragma once
 
-// Header includes
+// File includes
 #include "Post.h"
 
-// Includes
+// Lib includes
 #include <vector>
 #include <string>
-
 
 // Type aliases
 using PostVec = std::vector<Post>;
@@ -22,8 +21,10 @@ class Maze {
     /** @brief A vector of the Points containing the x and y coordinates of the game exits */
     PostVec _ExitList;
 
-    unsigned int _rows, _columns;    /** @brief The dimensions of the maze (`rows`x`columns`) */
+    /** @brief The dimensions of the maze (`rows`x`columns`) */
+    unsigned int _rows, _columns;
 
+    /** @brief The name of the maze currently being played (in format 'XX') */
     std::string _name;
 
 public:
@@ -46,7 +47,15 @@ public:
     void setName(std::string name)          { _name = name;             };
 
     /* Member functions */
-    void addPost(Post& post);                       /// Changes the attribute `Posts` if the vector passes some sanity checks
-    void clear();                                   /// Clears a Maze object
 
+    /**
+     * @brief Adds a Post instance to the Maze
+     * @note When the post is added, it is automatically
+     * checked if it is eletrified ('*'), an exit ('O')
+     * or a regular post ('+')
+     */
+    void addPost(Post& post);
+
+    /** @brief Clears a Maze instance */
+    void clear();
 };

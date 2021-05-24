@@ -2,17 +2,18 @@
 #include "Post.h"
 
 void Maze::addPost(Post &post) {
-    _AllList.push_back(post);           // Adding the post to the list of all posts
+    _AllList.push_back(post);               // Adding the post to a list which contains all posts
 
-    if (post.getSymbol() == 'O') {
+    if (post.getSymbol() == 'O') {          // Exit
         _ExitList.push_back(post);
-    } else if (post.getSymbol() == '*') {
+    } else if (post.getSymbol() == '*' || post.getSymbol() == '+') {   // Eletrified or non-eletrified Post
         _PostLists.push_back(post);
     }
 }
 
 
 void Maze::clear() {
+    /* Resetting some attributes of Maze */
     _PostLists.clear();
     _ExitList.clear();
     _name = "";

@@ -1,7 +1,9 @@
 #pragma once
 
+// File includes
 #include "globaldefs.h"
 
+// Lib includes
 #include <iostream>
 #include <limits>
 #include <thread>
@@ -106,6 +108,11 @@ void sleepFor(unsigned int sec);
 double pointDist(Point p1, Point p2);
 
 
-double pointDist(Point p1, Point p2);
-
+/**
+ * @brief Gets the index of the last character that is not a space ()
+ *
+ * @param str the string to check
+ *
+ * @return returns the index of the last "non-space character"
+ */
 size_t getLastAlphaIdx(std::string str);

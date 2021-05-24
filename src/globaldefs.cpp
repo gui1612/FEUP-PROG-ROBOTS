@@ -17,7 +17,7 @@ void clearScreen() {
 void waitForConfirmation() {
     char emptyInput = (char) std::cin.get();     // Waits until the user presses enter
     if (emptyInput != '\n' && !std::cin.eof())
-        clearBuffer();                      // Clears the buffer if the input was not `EOF`
+        clearBuffer();                           // Clears the buffer if the input was not `EOF`
 }
 
 

@@ -1,10 +1,12 @@
 #pragma once
 
+// File includes
 #include "globaldefs.h"
 #include "Robot.h"
 #include "Player.h"
 #include "Maze.h"
 
+// Lib includes
 #include <vector>
 #include <string>
 #include <optional>
@@ -24,6 +26,7 @@ public:
     void play();
 
 private:
+
 
     /**
      * @brief Checks if the Move is a valid one
@@ -54,6 +57,14 @@ private:
      */
     bool updatePlayer(const char key);
 
+    /**
+    * @brief Returns the charater present at position `pos`
+    *
+    * @param pos The position to be checked
+    * @return The char present at `pos`
+    */
+    char getNewPosChar(const Point pos);
+
 
     /**
      * @brief Returns the charater present at position `pos`
@@ -61,7 +72,7 @@ private:
      * @param pos The position to be checked
      * @return The char present at `pos`
      */
-    char getNewPosChar(const Point pos);
+    char checkColision(const Point pos, const Point lastPos);
 
 
     /**
@@ -121,4 +132,6 @@ private:
      * @note If the current player username exists, always checks sticks to the new score (even if it's lower) for integrity purposes
      */
     void parseLines(std::ifstream &leaderBoard, ScoreBoard &scoreBoard, const Player &player);
+
+
 };

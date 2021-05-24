@@ -83,7 +83,8 @@ void Game::play() {
 
     const int RAND_IDX = rand() % 5;
 
-    auto start = std::chrono::high_resolution_clock::now();                      // Game timer starts
+
+    auto start = std::chrono::high_resolution_clock::now();         // Game timer starts
     do {
         char key;                                                   // Initialize the player's input variable
 
@@ -119,22 +120,24 @@ void Game::play() {
         }
     } while (!std::cin.eof() && _player.isAlive() && !_player.win());
 
-    auto end = std::chrono::high_resolution_clock::now();                                  // Game timer ends
+    auto end = std::chrono::high_resolution_clock::now();                          // Game timer ends
     drawMaze();
 
     std::chrono::duration<int> gameTime = std::chrono::duration_cast<std::chrono::duration<int>>(end - start);       // Calculates Game time
 
     if (_player.win()) {
-        std::cout << win.at(RAND_IDX) << std::endl                                      // Prints a winning message
+        std::cout << win.at(RAND_IDX) << std::endl                                 // Prints a winning message
              << "Your time: " << gameTime.count() << "s" << std::endl;
         _player.setScore(gameTime.count());
-        updateScoreboard();                                    // Updates the scoreboard for the current maze
+        updateScoreboard();                                                        // Updates the scoreboard for the current maze
     } else {
         std::cout << loss.at(RAND_IDX) << std::endl
              << "Your time: " << gameTime.count() << "s" << std::endl;             // Displays the player game time
         waitForConfirmation();
     }
 }
+
+
 
 bool Game::validMove(char key) {
     std::vector<char> movements = {'q', 'w', 'e', 'a', 's', 'd', 'z', 'x', 'c'};
@@ -155,15 +158,14 @@ void Game::drawMaze() {
             return x.getCoordinates() == pos;
         });
 
-        if ( robotIt != _robot.end()) {
-            char symbol = robotIt->getStatus();
-            // *it is the Robot found
-            if ((pos.x + 1) == _maze.getColumns()) {
-                std::cout << symbol << '\n';
-                pos.y++; pos.x = 0;
+        if (robotIt != _robot.end()) {                                      // The Robot is in pos
+            char symbol = robotIt->getStatus();                             // Character of the Robot
+            if ((pos.x + 1) == _maze.getColumns()) {                        // Checking it isn't the last character of the row
+                std::cout << symbol << '\n';                                // Drawing Robot
+                pos.y++; pos.x = 0;                                         // Moving to next row
             } else {
-                std::cout << symbol << " " << std::flush;             // Drawing Robot
-                pos.x++;
+                std::cout << symbol << " " << std::flush;                   // Drawing Robot
+                pos.x++;                                                    // Moving to next column
             }
             fillWithSpace = false;
         }
@@ -172,15 +174,14 @@ void Game::drawMaze() {
             return x.getCoordinates() == pos;
         });
 
-        if ( postIt != allPostList.end()) {
-            char symbol = postIt->getSymbol();
-            // *it is the Robot found
-            if ((pos.x + 1) == _maze.getColumns()) {
-                std::cout << symbol << '\n';
-                pos.y++; pos.x = 0;
+        if (postIt != allPostList.end()) {                                  // The Post is in pos
+            char symbol = postIt->getSymbol();                              // Character of the Post
+            if ((pos.x + 1) == _maze.getColumns()) {                        // Checking it isn't the last character of the row
+                std::cout << symbol << '\n';                                // Drawing Post
+                pos.y++; pos.x = 0;                                         // Moving to next row
             } else {
-                std::cout << symbol << " " << std::flush;             // Drawing Post
-                pos.x++;
+                std::cout << symbol << " " << std::flush;                   // Drawing Post
+                pos.x++;                                                    // Moving to next column
             }
             fillWithSpace = false;
         }
@@ -196,28 +197,32 @@ void Game::drawMaze() {
             fillWithSpace = false;
         }
 
-        if (fillWithSpace) {                                                // Checking if there weren't any robots/posts/player in pos
-            std::cout << "  " << std::flush;                                 // Drawing a space
-            pos.x++;                                                        // Moving to next column
+        if (fillWithSpace) {
+            if ((pos.x + 1) == _maze.getColumns()) {                        // Checking it isn't the last character of the row
+                std::cout << " " << '\n';                                   // Drawing a space
+                pos.y++; pos.x = 0;                                         // Moving to next row
+            } else {
+                std::cout << "  " << std::flush;                            // Drawing a space
+                pos.x++;                                                    // Moving to next column
+            }
         }
     }
     std::cout << std::endl;
-
 }
 
 
 bool Game::updatePlayer(const char key) {
     // Player position before the movement
     Point lastPos = _player.getCoordinates();
-    xval x = _player.getCoordinates().x;
-    xval y = _player.getCoordinates().y;
+    xval x = lastPos.x;
+    yval y = lastPos.y;
 
     switch (static_cast<char>(tolower(key))) {
         case('q'):  _player.moveTo({--x,--y}); break;              // Up left
         case('w'):  _player.moveTo({x,--y});   break;              // Up
         case('e'):  _player.moveTo({++x,--y}); break;              // Up right
         case('a'):  _player.moveTo({--x,y});   break;              // Left
-        case('s'):  break;                                                  // Stay
+        case('s'):                                      break;              // Stay
         case('d'):  _player.moveTo({++x,y});   break;              // Right
         case('z'):  _player.moveTo({--x,++y}); break;              // Down left
         case('x'):  _player.moveTo({x,++y});   break;              // Down
@@ -229,7 +234,7 @@ bool Game::updatePlayer(const char key) {
     char newPosChar = getNewPosChar(_player.getCoordinates());
 
     if (!outOfBounds(_player.getCoordinates())) {                         // Checks if the player is inside the maze bounds
-        if (newPosChar == ' ' || newPosChar == 'H') {                                             // Danger free player movement
+        if (newPosChar == ' ' || newPosChar == 'H') {                        // Danger free player movement
             return true;
         } else if (newPosChar == 'R' || newPosChar == '*') {                 // Kills the player if they move into a live robot or electric fence
             _player.kill();
@@ -259,7 +264,7 @@ bool Game::outOfBounds(Point pos) {
 char Game::getNewPosChar(const Point pos) {
 
     for (Post currPost : _maze.getAllList()) {                                // Iterating through all posts
-        if ( currPost.getCoordinates() ==  pos) {        // Checking if the post has the same coordinates of the player (collision)
+        if ( currPost.getCoordinates() == pos) {        // Checking if the post has the same coordinates of the player (collision)
             return currPost.getSymbol();
         }
     }
@@ -277,6 +282,8 @@ char Game::getNewPosChar(const Point pos) {
     return ' ';                                                               // The player didn't move into danger so they either stayed in place or moved to a free space
 }
 
+
+
 void Game::updateAllRobots() {
 
     for (int i = 0; i < _robot.size(); i++) {
@@ -287,13 +294,12 @@ void Game::updateAllRobots() {
 
         char charInPos = getNewPosChar(newPos);
 
-        // std::cout << "newPos x: " << newPos.x << " newPos y: " << newPos.y << " currPos x: " << _robot.at(i).getCoordinates().x << " currPos y: " << _robot.at(i).getCoordinates().y << " charInPos: " << charInPos << std::endl;
 
-        if (charInPos == 'R' || charInPos == 'r') {                 // Robot gets stuck
-            _robot.at(i).kill();                                       // First robot dies
+        if (charInPos == 'R' || charInPos == 'r') {                      // Robot gets stuck
+            _robot.at(i).kill();                                         // First robot dies
             _robot.at(i).setStatus('r');
             _robot.at(i).setState(Robot::STUCK);
-            _robot.at(i).moveTo(newPos);                               // Coordinates update
+            _robot.at(i).moveTo(newPos);                                 // Coordinates update
             for (int j = 0; j < _robot.size(); j++) {
                 if (_robot.at(i) == _robot.at(j)) { continue; };
 
@@ -304,7 +310,7 @@ void Game::updateAllRobots() {
                 }
             }
 
-        } else if (charInPos == '*') {                               // Robot moves to electric fence
+        } else if (charInPos == '*') {                                  // Robot moves to electric fence
             _robot.at(i).kill();                                        // Robot dies
             _robot.at(i).setStatus('r');
             _robot.at(i).setState(Robot::DEAD);
@@ -312,12 +318,12 @@ void Game::updateAllRobots() {
             _robot.at(i).kill();                                        // Robot dies
             _robot.at(i).setStatus('r');
             _robot.at(i).setState(Robot::STUCK);
-        } else if (charInPos == 'H') {                              // Player gets caught by robot
-            _player.kill();                                         // Player dies
+        } else if (charInPos == 'H') {                                 // Player gets caught by robot
+            _player.kill();                                             // Player dies
             _player.setStatus('h');
             break;
-        } else {                                                    // Regular robot move
-            _robot.at(i).moveTo(newPos);                               // Updates robot position
+        } else {                                                        // Regular robot move
+            _robot.at(i).moveTo(newPos);                                // Updates robot position
         }
     }
 }
@@ -346,6 +352,7 @@ Point Game::findBestMove(Robot& currRobot) {
     return bestMove;
 }
 
+
 void Game::getPlayerName(Player &player){
     // Variable to leave the do-while loop (should be at 0 to leave)
     short leave = 1;
@@ -366,7 +373,7 @@ void Game::getPlayerName(Player &player){
             } else {
                 warnUser("name");
             }
-        } else if (!std::cin.eof()) {                            // Invalid type
+        } else if (!std::cin.eof()) {                        // Invalid type
             /**
              * Note: we need this condition for inputs like:
              * "ABCDEFGHJKLMNOPQRSTUV" where the name would exceed the 15
@@ -377,6 +384,7 @@ void Game::getPlayerName(Player &player){
         }
     } while (!std::cin.eof() && leave != 0);
 }
+
 
 void Game::updateScoreboard() {
     // Initializing a ScoreBoard (vector<Player>) to track the players in the leaderboard
@@ -397,6 +405,7 @@ void Game::updateScoreboard() {
         waitForConfirmation();
     }
 }
+
 
 void Game::getScoreboard(const std::string &fullPath, ScoreBoard scoreboard, const Player &player) {
     std::ifstream if_leaderBoard;                            // Initializing a stream for file input

@@ -1,8 +1,10 @@
 #pragma once
 
+// File Includes
 #include "globaldefs.h"
 #include "Entity.h"
 
+// Lib Includes
 #include <string>
 
 /** @brief Store a Player (Position, name, status and their coordinates) */
