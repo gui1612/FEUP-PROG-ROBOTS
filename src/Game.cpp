@@ -139,14 +139,14 @@ void Game::play() {
 
 
 
-bool Game::validMove(char key) {
+bool Game::validMove(char key) const {
     std::vector<char> movements = {'q', 'w', 'e', 'a', 's', 'd', 'z', 'x', 'c'};
     // Checks if `key` is in `movements`
     return std::find(movements.begin(), movements.end(), static_cast<char>(tolower(key))) != movements.end();
 }
 
 
-void Game::drawMaze() {
+void Game::drawMaze() const {
     Point pos{0, 0};
     PostVec allPostList = _maze.getAllList();
     unsigned int mazeArea = _maze.getMazeArea();
@@ -255,13 +255,13 @@ bool Game::updatePlayer(const char key) {
 }
 
 
-bool Game::outOfBounds(Point pos) {
+bool Game::outOfBounds(Point pos) const {
     const unsigned int HEIGHT = _maze.getRows(), WIDTH = _maze.getColumns(); // Creating height and width variables by looking at the maze instance
     return !(0 <= pos.y && pos.y < HEIGHT && 0 <= pos.x && pos.x < WIDTH);   // Returning true (if inbounds) and false (if out of bounds)
 }
 
 
-char Game::getNewPosChar(const Point pos) {
+char Game::getNewPosChar(const Point pos) const {
 
     for (Post currPost : _maze.getAllList()) {                                // Iterating through all posts
         if ( currPost.getCoordinates() == pos) {        // Checking if the post has the same coordinates of the player (collision)
@@ -288,11 +288,10 @@ void Game::updateAllRobots() {
 
     for (int i = 0; i < _robot.size(); i++) {
 
-        if (!_robot.at(i).isAlive()) {continue;};
+        if (!_robot.at(i).isAlive()) { continue; };                     // If the Robot is not alive he won't move
 
-        Point newPos = findBestMove(_robot.at(i));
-
-        char charInPos = getNewPosChar(newPos);
+        Point newPos = findBestMove(_robot.at(i));                   // Stores the ideal position to where the Robot should move
+        char charInPos = getNewPosChar(newPos);                         // Fetches the char in the position `newPos`
 
 
         if (charInPos == 'R' || charInPos == 'r') {                      // Robot gets stuck
@@ -329,7 +328,7 @@ void Game::updateAllRobots() {
 }
 
 
-Point Game::findBestMove(Robot& currRobot) {
+Point Game::findBestMove(Robot& currRobot) const {
     xval x = currRobot.getCoordinates().x;
     yval y = currRobot.getCoordinates().y;
 
@@ -353,11 +352,11 @@ Point Game::findBestMove(Robot& currRobot) {
 }
 
 
-void Game::getPlayerName(Player &player){
+void Game::getPlayerName(Player &player) const {
     // Variable to leave the do-while loop (should be at 0 to leave)
     short leave = 1;
     do{
-        std::string playerName;                                  // Initializes string to store the player username
+        std::string playerName;                             // Initializes string to store the player username
         int nameLen = 0;                                    // The size of the name
 
         std::cout << "What's your name?" << std::endl;
@@ -389,7 +388,7 @@ void Game::getPlayerName(Player &player){
 void Game::updateScoreboard() {
     // Initializing a ScoreBoard (vector<Player>) to track the players in the leaderboard
     ScoreBoard scoreboard;
-    const std::string PREFIX = "../input/";                                          // Prefix for relative path file location
+    const std::string PREFIX = "../input/";                                              // Prefix for relative path file location
     const std::string fullPath = PREFIX + "MAZE_" + _maze.getName() + "_WINNERS.txt";    // Full path and filename
 
     getPlayerName(_player);

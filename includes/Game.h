@@ -27,7 +27,6 @@ public:
 
 private:
 
-
     /**
      * @brief Checks if the Move is a valid one
      *
@@ -38,7 +37,7 @@ private:
      * It only checks if the generic movement would be possible in
      * a generic situation.
      */
-    bool validMove(char key);
+    bool validMove(char key) const;
 
 
     /**
@@ -46,7 +45,8 @@ private:
      *
      * @param maze `Maze` type object
      */
-    void drawMaze();
+    void drawMaze() const;
+
 
     /**
      * @brief Updates the status of the player (position and alive/dead), checking if there are any issues with the movement
@@ -57,28 +57,23 @@ private:
      */
     bool updatePlayer(const char key);
 
+
     /**
     * @brief Returns the charater present at position `pos`
     *
     * @param pos The position to be checked
     * @return The char present at `pos`
     */
-    char getNewPosChar(const Point pos);
-
-
-    /**
-     * @brief Returns the charater present at position `pos`
-     *
-     * @param pos The position to be checked
-     * @return The char present at `pos`
-     */
-    char checkColision(const Point pos, const Point lastPos);
+    char getNewPosChar(const Point pos) const;
 
 
     /**
      * @brief Checks if the player is trying to move to a position out of bounds
+     *
+     * @param pos Point of coordinates {x, y}
+     * @return `true` if the Point is inside the maze's bounds, otherwise `false`
      */
-    bool outOfBounds(Point pos);
+    bool outOfBounds(Point pos) const;
 
 
     /**
@@ -91,13 +86,13 @@ private:
     /**
      * @brief Calculates the best move for the Robot
      *
-     * @param robot robot instance
+     * @param robot Robot instance
      *
      * @return returns the Point to where the ideal move would be
      *
      * @note This algorithm calculates the best move based on distance only
      */
-    Point findBestMove(Robot& currRobot);
+    Point findBestMove(Robot& currRobot) const;
 
 
     /** @brief Function to ask for the username and update the scoreboard */
@@ -109,7 +104,7 @@ private:
      *
      * @param player `Player` instance
      */
-    void getPlayerName(Player &player);
+    void getPlayerName(Player &player) const;
 
 
     /**

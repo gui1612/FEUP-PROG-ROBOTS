@@ -29,22 +29,22 @@ class Maze {
 
 public:
     /* @brief Default constructor for a Maze */
-    Maze() :  _PostLists(), _ExitList(), _AllList() {};
+    Maze() :  _PostLists(), _ExitList(), _AllList(), _rows(0), _columns(0) {};
 
     /* 'Getter functions' */
-    PostVec getPostsList() const            { return _PostLists;        };
-    PostVec getExitsList() const            { return _ExitList;         };
-    PostVec getAllList() const              { return _AllList;          };
-    unsigned int getRows() const            { return _rows;             };
-    unsigned int getColumns() const         { return _columns;          };
-    unsigned int getMazeArea() const        { return _rows * _columns;  };
-    std::string getName() const             { return _name;             };
+    PostVec getPostsList() const            { return _PostLists;        }
+    PostVec getExitsList() const            { return _ExitList;         }
+    PostVec getAllList() const              { return _AllList;          }
+    unsigned int getRows() const            { return _rows;             }
+    unsigned int getColumns() const         { return _columns;          }
+    unsigned int getMazeArea() const        { return _rows * _columns;  }
+    std::string getName() const             { return _name;             }
 
 
     /* 'Setter functions' */
-    void setRows(unsigned int rows)         { _rows = rows;             };
-    void setCols(unsigned int cols)         { _columns = cols;          };
-    void setName(std::string name)          { _name = name;             };
+    void setRows(unsigned int rows)         { _rows = rows;             }
+    void setCols(unsigned int cols)         { _columns = cols;          }
+    void setName(std::string name)          { _name = name;             }
 
     /* Member functions */
 

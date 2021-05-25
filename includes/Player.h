@@ -7,7 +7,7 @@
 // Lib Includes
 #include <string>
 
-/** @brief Store a Player (Position, name, status and their coordinates) */
+
 class Player : public Entity {
     /** @brief Name of the Player */
     std::string _name;
@@ -18,6 +18,12 @@ class Player : public Entity {
     /** @brief Checks if the player has met the win condition */
     bool _win;
 public:
+
+    /**
+     * @brief Creates a default constructor for a Player object
+     */
+    Player();
+
     /**
      * @brief Creates a Player object
      * @param name name of the player
@@ -27,10 +33,6 @@ public:
      */
     Player(std::string name, int score, char status, Point coordinates);
 
-    /**
-     * @brief Creates a default constructor for a Player object
-     */
-    Player();
 
     /**
      * @brief Creates a Player object
@@ -40,10 +42,11 @@ public:
      */
     Player(char status, Point coordinates);
 
+
     /* 'Getter functions' */
     ID getScore() const             { return _score;    }
     std::string getName() const     { return _name;     }
-    bool win()                      { return _win;      }
+    bool win() const                { return _win;      }
 
 
     /* 'Setter functions' */

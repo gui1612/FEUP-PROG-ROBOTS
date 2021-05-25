@@ -1,8 +1,10 @@
 #pragma once
 
 
-// Includes
+// File Includes
 #include "globaldefs.h"
+
+// Lib Includes
 #include <iostream>
 #include <string>
 #include <optional>

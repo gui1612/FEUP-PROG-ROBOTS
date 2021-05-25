@@ -14,17 +14,17 @@ class Post {
          * @param 'true' if entity is alive, else 'false'
          * @param coordinates position of the robot in the maze
          */
-        Post(Point coordinates, char symbol): _coordinates(coordinates), _symbol(symbol) {};
+        Post(Point coordinates, char symbol): _coordinates(coordinates), _symbol(symbol) {}
 
 
         /* 'Getter functions' */
-        Point getCoordinates() const           { return _coordinates;        };
-        char getSymbol() const                 { return _symbol;             };
+        Point getCoordinates() const           { return _coordinates;        }
+        char getSymbol() const                 { return _symbol;             }
 
 
         /* 'Setter functions' */
-        void setCoordinates(Point coordinates) { _coordinates = coordinates; };
-        void setSymbol(char symbol)            { _symbol =  symbol;          };
+        void setCoordinates(Point coordinates) { _coordinates = coordinates; }
+        void setSymbol(char symbol)            { _symbol =  symbol;          }
 
         /**
          * @brief Checks if a Post is eletrified

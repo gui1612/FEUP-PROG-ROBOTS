@@ -88,10 +88,10 @@ void menuChoice(short choice, short &confirm) {
             std::string const mazeNameOrNull = mazeName.value_or("Null");
             if (mazeNameOrNull != "Null") {
                 try {
-                    Game game(mazeNameOrNull);              // Tries to construct a Maze object
+                    Game game(mazeNameOrNull);              // Tries to start the game
                     game.play();                            // If no exception occurs the Game is played
-                } catch (const std::runtime_error &err) {   //
-                    std::cout << err.what() << std::endl;
+                } catch (const std::runtime_error &err) {   // Invalid Maze file
+                    std::cerr << err.what() << std::endl;
                 }
             }
             break;

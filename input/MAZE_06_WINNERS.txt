@@ -2,4 +2,5 @@ Player              - Time
 --------------------------
 a                   -    4
 l                   -    5
+Guizadas            -    6
 Guilherme           -   12

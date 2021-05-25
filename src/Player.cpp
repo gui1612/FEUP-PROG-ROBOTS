@@ -16,4 +16,4 @@ Player::Player(std::string name, int score, char status, Point coordinates)
     }
 
 
-Player::Player(): Entity() { _win = false; }
+Player::Player(): Entity() { _win = false; _score = 0; }

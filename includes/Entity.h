@@ -31,10 +31,10 @@ public:
     /* 'Setter functions' */
 
     /** @brief Sets the status (character representation) of the Entity */
-    void setStatus(char status)                     { _status = status;                        }
+    void setStatus(char status)                     { _status = status;           }
 
     /** @brief Moves the Entity to a new Point */
-    void moveTo(Point coordinates)                  { _coordinates = coordinates;              }
+    void moveTo(Point coordinates)                  { _coordinates = coordinates; }
 
     /**
      * @brief Kills the Entity

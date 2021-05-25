@@ -28,11 +28,11 @@ public:
 
 
     /* 'Getter functions' */
-    ID getID() const { return _id; };
-    unsigned int getState() const { return _state; };
+    ID getID() const                { return _id; }
+    unsigned int getState() const   { return _state; }
 
     /* 'Setter functions' */
-    void setID(ID id) { _id = id; };
+    void setID(ID id)               { _id = id; }
     void setState(unsigned int state);
 
     /** @overload
@@ -40,5 +40,5 @@ public:
      * param r2 Robot instance
      * @return `true` if the robots are the same, otherwise `false`
      */
-    friend inline bool operator==(const Robot r1, const Robot r2) { return r1.getID() == r2.getID(); };
+    friend inline bool operator==(const Robot r1, const Robot r2) { return r1.getID() == r2.getID(); }
 };

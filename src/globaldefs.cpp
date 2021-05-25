@@ -1,4 +1,8 @@
+// File Includes
 #include "globaldefs.h"
+
+
+// Lib Includes
 #include <optional>
 #include <cmath>
 
@@ -22,24 +26,23 @@ void waitForConfirmation() {
 
 
 void warnUser(const std::string &warningType) {
-    clearScreen();                              // Clears the screen before the warning is displayed
     if (warningType == "menu") {                // Warning layout for menu
-        std::cout << "That is not a valid input (Options: 0, 1, 2)\n"
+        std::cerr << "That is not a valid input (Options: 0, 1, 2)\n"
              << "Press ENTER to return to the main menu..." << std::endl;
     } else if (warningType == "fileIO") {       // Warning layout for file input/output
-        std::cout << "That is not a valid input (Options: 1, 2, ..., 99)" << std::endl;
+        std::cerr << "That is not a valid input (Options: 1, 2, ..., 99)" << std::endl;
     } else if (warningType == "game") {         // Warning layout for file input/output
-        std::cout << "That is not a valid input (Options: Q, W, E, A, S, D, Z, X, C)" << std::endl;
+        std::cerr << "That is not a valid input (Options: Q, W, E, A, S, D, Z, X, C)" << std::endl;
     } else if (warningType == "game-move") {    // Warning layout for game movement
-        std::cout << "Invalid move: There's something in the way!" << std::endl;
+        std::cerr << "Invalid move: There's something in the way!" << std::endl;
     } else if (warningType == "name") {         // Warning layout for the player name
-        std::cout << "Invalid input: maximum name length of 15!" << std::endl;
+        std::cerr << "Invalid input: maximum name length of 15!" << std::endl;
     } else if (warningType == "leaderboard") {  // Warning layout for the leaderboard
-        std::cout << "Invalid input: That leaderboard doesn't exist yet!" << std::endl;
+        std::cerr << "Invalid input: That leaderboard doesn't exist yet!" << std::endl;
     } else if (warningType == "mazefile") {     // Warning layout for the mazefile
-        std::cout << "Invalid mazefile: The file format is not correct!" << std::endl;
+        std::cerr << "Invalid mazefile: The file format is not correct!" << std::endl;
     } else {                                    // Fall case
-        std::cout << "That is not a valid input\n"
+        std::cerr << "That is not a valid input\n"
              << "Press ENTER to return to the main menu..." << std::endl;
     }
     waitForConfirmation();                  // Waits for the user to press something
@@ -55,6 +58,7 @@ void sleepFor(unsigned int sec) {
 double pointDist(Point p1, Point p2) {
     return sqrt(std::pow(p2.y - p1.y, 2) + std::pow(p2.x - p1.x, 2));
 }
+
 
 size_t getLastAlphaIdx(std::string str) {
     for (size_t i = str.length() - 1; i > 0; i--) {
