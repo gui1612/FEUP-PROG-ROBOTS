@@ -1,4 +1,4 @@
-  --------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------
   |                                                 Instructions                                                     |
   |                                                                                                                  |
   |   > MOVEMENT                                                                                                     |
@@ -16,8 +16,12 @@
   |                                                                 |                                                |
   |    H/h -> Player (alive/dead)                                   |    High voltage fences/posts                   |
   |    R/r -> Robot (alive/dead)                                    |                                                |
-  |    r   -> Several Robots collision                              |                                                |
-  |    *   -> Fence/Post                                            |                                                |
+  |    r   -> Several Robots collision                              |    If a robot collides with an electrified     |
+  |    +   -> Fence/Post Non-Electrified                            |    fence it becomes non-electrified            |
+  |    *   -> Fence/Post Electrified                                |    and the robot dies in place                 |
+  |    O   -> Exit                                                  |                                                |
+  |                                                                 |                                                |
+  |                                                                                                                  |
   |                                                                                                                  |
   |   > PLAYER (H/h)                                                |   > ROBOTS (R/r)                               |
   |                                                                 |                                                |
@@ -33,7 +37,7 @@
   |                                                                                                                  |
   |   > WIN CONDITION                                               |   > GAME OVER                                  |
   |                                                                 |                                                |
-  |     All robots are destroyed                                    |    Player touches maze or robot(s)             |
+  |     Walked through the exit                                     |    Player touches maze or robot(s)             |
   |                                                                                                                  |
   |                                                                                                                  |
   |                                                                                                                  |

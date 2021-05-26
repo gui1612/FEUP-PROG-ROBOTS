@@ -1,7 +1,7 @@
 #pragma once
 
 // File includes
-#include "globaldefs.h"
+#include "Utils.h"
 #include "Robot.h"
 #include "Player.h"
 #include "Maze.h"
@@ -20,7 +20,7 @@ class Game {
 public:
 
     /** @brief Game constructor */
-    Game(const std::string &filename);
+    explicit Game(const std::string &filename);
 
     /** @brief Function that starts the game loop */
     void play();
@@ -55,7 +55,7 @@ private:
      *
      * @return returns true if the player's movements align with the game's rules and false otherwise
      */
-    bool updatePlayer(const char key);
+    bool updatePlayer(const char &key);
 
 
     /**
@@ -64,7 +64,7 @@ private:
     * @param pos The position to be checked
     * @return The char present at `pos`
     */
-    char getNewPosChar(const Point pos) const;
+    char getNewPosChar(const Point &pos) const;
 
 
     /**
@@ -97,14 +97,6 @@ private:
 
     /** @brief Function to ask for the username and update the scoreboard */
     void updateScoreboard();
-
-
-    /**
-     * @brief Gets the player name (length <= 15)
-     *
-     * @param player `Player` instance
-     */
-    void getPlayerName(Player &player) const;
 
 
     /**

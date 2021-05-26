@@ -1,13 +1,14 @@
 #pragma once
 
 // File includes
-#include "globaldefs.h"
+#include "Utils.h"
 
 // Lib includes
 #include <iostream>
 #include <limits>
 #include <thread>
 #include <chrono>
+#include <vector>
 
 // Type aliases
 using xval = int;
@@ -116,3 +117,22 @@ double pointDist(Point p1, Point p2);
  * @return returns the index of the last "non-space character"
  */
 size_t getLastAlphaIdx(std::string str);
+
+
+ /**
+  * @brief Checks if `filename` exists under `path` directory
+  * @param filename The name of the file
+  * @param path The relative path of the file location
+  * @return `true` if the file exists, otherwise `false`
+  */
+bool fileExists(const std::string &filename, const std::string &path = "");
+
+
+/**
+ * @brief Calculates the existing mazes and passes them in `m̀azeVec`
+ * @param mazeVec Vector containing the names of the existing mazes
+ * @return Passes a vector containing the existing mazenames
+ * @note This function doesn't check the integrity of the mazes themselves
+ * For more on that check `Game`
+ */
+void getExistingMazes(std::vector<std::string> &mazeVec);

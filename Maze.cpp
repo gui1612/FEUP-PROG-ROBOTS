@@ -4,9 +4,9 @@
 void Maze::addPost(Post &post) {
     _AllList.push_back(post);               // Adding the post to a list which contains all posts
 
-    if (post.getSymbol() == 'O') {          // Exit
+    if (post.isExit()) {                                               // Exit
         _ExitList.push_back(post);
-    } else if (post.getSymbol() == '*' || post.getSymbol() == '+') {   // Eletrified or non-eletrified Post
+    } else if(post.isElectrified() || post.isNotEletrified()) {        // Eletrified or non-eletrified Post
         _PostLists.push_back(post);
     }
 }

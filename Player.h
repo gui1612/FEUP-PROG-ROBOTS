@@ -1,7 +1,7 @@
 #pragma once
 
 // File Includes
-#include "globaldefs.h"
+#include "Utils.h"
 #include "Entity.h"
 
 // Lib Includes
@@ -53,4 +53,13 @@ public:
     void setScore(int score)        { _score = score;   }
     void setName(std::string name)  { _name = name;     }
     void setWin()                   { _win = true;      }
+
+
+
+    /**
+     * @brief Gets the player name (length <= 15)
+     *
+     * @param player `Player` instance
+     */
+    void getPlayerName();
 };

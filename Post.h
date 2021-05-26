@@ -1,14 +1,16 @@
 #pragma once
 
 // File Includes
-#include "globaldefs.h"
+#include "Utils.h"
 
 class Post {
     Point _coordinates;
+
     /** @brief Type is 'O' if the post is a leave or '+' if it is a non-electrified post or '*' if it is and electrified post */
     char _symbol;
 
     public:
+
         /**
          * @brief
          * @param 'true' if entity is alive, else 'false'
@@ -23,8 +25,8 @@ class Post {
 
 
         /* 'Setter functions' */
-        void setCoordinates(Point coordinates) { _coordinates = coordinates; }
         void setSymbol(char symbol)            { _symbol =  symbol;          }
+
 
         /**
          * @brief Checks if a Post is eletrified
@@ -32,11 +34,21 @@ class Post {
          */
         bool isElectrified() const;
 
+
+        /**
+         * @brief Checks if a Post is eletrified
+         * @return `true` if the post is eletrified, otherwise `false`
+         */
+        bool isNotEletrified() const;
+
+
         /**
          * @brief Checks if the post is an Exit
          * @return `true` if the post is an Exit, otherwise `false`
          */
         bool isExit() const;
 
+
+        /** @brief Deactivates the post (passes from eletrified to non-eletrified) */
         void deactivatePost();
 };

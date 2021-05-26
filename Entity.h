@@ -1,7 +1,7 @@
 #pragma once
 
 // File includes
-#include "globaldefs.h"
+#include "Utils.h"
 
 // Lib includes
 #include <cctype>

@@ -1,7 +1,7 @@
 #pragma once
 
 // File includes
-#include "globaldefs.h"
+#include "Utils.h"
 #include "Entity.h"
 
 /** @brief Store a Robot (Position, ID, status and their coordinates) */
@@ -28,11 +28,11 @@ public:
 
 
     /* 'Getter functions' */
-    ID getID() const                { return _id; }
-    unsigned int getState() const   { return _state; }
+    ID getID() const                    { return _id; }
+    unsigned int getState() const       { return _state; }
 
     /* 'Setter functions' */
-    void setID(ID id)               { _id = id; }
+    void setID(ID id)                   { _id = id; }
     void setState(unsigned int state);
 
     /** @overload

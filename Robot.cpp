@@ -10,7 +10,7 @@ Robot::Robot(char status, Point coordinates, ID id, unsigned int state)
 void Robot::setState(unsigned int state) {
     switch (state) {
         case (Robot::ALIVE):
-            _state = ALIVE;
+            setState(ALIVE);
             break;
         case (Robot::STUCK):
             _state = STUCK;

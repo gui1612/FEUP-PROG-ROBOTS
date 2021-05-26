@@ -1,11 +1,12 @@
 #include "Menu.h"
 #include "Game.h"
 
-#include<fstream>
-#include<sstream>
+#include <fstream>
+#include <sstream>
+#include <iomanip>
+
+
 // Menu
-
-
 void menu() {
     short confirm = 1;
     // Menu loop will ends when the user sends "EOF" or when they confirm to Exit (option 0)
@@ -59,13 +60,13 @@ void menu() {
 
 void menuChoice(short choice, short &confirm) {
     switch (choice) {
-        case 0: {                                        // Exit
+        case 0: {                                       // Exit
             clearScreen();
 
             std::cout << "Are you sure you want to exit (0 to confirm)?" << std::endl;
             bool validInput = getInput<short>(confirm);
 
-            if (std::cin.eof()) { break; }                    // EOF flag
+            if (std::cin.eof()) { break; }               // EOF flag
 
             if (!validInput) {
                 confirm = 1;                             // Resets `confirm` (user doesn't want to exit)
@@ -77,9 +78,9 @@ void menuChoice(short choice, short &confirm) {
         }
         case 1: {                                        // Rules
             clearScreen();
-            displayRules();
+            readFile("RULES.TXT");
             waitForConfirmation();
-            if (!std::cin.eof()) { clearScreen();}
+            if (!std::cin.eof()) { clearScreen(); }
             break;
         }
         case 2: {                                        // Play
@@ -89,32 +90,45 @@ void menuChoice(short choice, short &confirm) {
             if (mazeNameOrNull != "Null") {
                 try {
                     Game game(mazeNameOrNull);              // Tries to start the game
+                    clearScreen();
                     game.play();                            // If no exception occurs the Game is played
                 } catch (const std::runtime_error &err) {   // Invalid Maze file
                     std::cerr << err.what() << std::endl;
+                    sleepFor(1);
                 }
             }
             break;
         }
-        case 3: {                                          // Leaderboard
+        case 3:                                            // Leaderboard
             displayLeaderboard();
             break;
-        }
-        default: {                                       // The input was of type `int`, but not a valid option
+        default:                                           // The input was of type `int`, but not a valid option
             warnUser("menu");
-        }
     }
 }
 
-void displayRules() {
-    std::ifstream fRules;
-    fRules.open("../input/RULES.TXT");
-    std::string str;
+void readFile(const std::string &filename) {
+    std::ifstream infile;
 
-    if(fRules.is_open()) {
-        std::cout << fRules.rdbuf() << std::endl; // reading data
+    infile.open(filename);                             // Opening the file
+    bool fileExists = infile.good();
+
+    if (fileExists) {
+        std::cout << infile.rdbuf() << std::endl;       // Displaying the data of the file
     }
-    fRules.close();
+    infile.close();
+}
+
+
+void displayAvailableMazes() {
+    std::vector<std::string> availableMazes;                                        // Creating a stub for
+    getExistingMazes(availableMazes);                                            // Fills the vector of Mazes with the existing mazes
+    std::cout << "Valid options:" << std::endl;
+    std::cout << std::setfill('-') << std::setw(22) << "-" << std::endl;       // Creates
+    for (const std::string &mazeName : availableMazes) {
+        std::cout << "| -> " << mazeName << " (" << mazeName.substr(5, 2) << ") |" << std::endl;
+    }
+    std::cout << std::setw(22) << "-" << std::endl;
 }
 
 
@@ -127,6 +141,7 @@ std::optional<std::string> mazePick() {
         std::ifstream mazeFile;
 
         std::cout << "Choose a level to play (0 to return to main menu)! " << std::endl;
+        displayAvailableMazes();
         bool validInput = getInput<short>(levelPick);
 
         if (validInput) {                               // Input of valid type
@@ -141,15 +156,13 @@ std::optional<std::string> mazePick() {
                 std::string fullFilePath;
                 if (validMaze(levelPick, fullFilePath, mazeFile)) {
                     mazeFile.close();
-                    leaveConfirm = 0;
                     return fullFilePath;
                 } else {
                     mazeFile.close();
                     warnUser("fileIO");
                 }
             }
-        } else if (!std::cin.eof())                     // Input of invalid type (not EOF)
-            warnUser("fileIO");
+        } else if (!std::cin.eof()) { warnUser("fileIO"); }                    // Input of invalid type (not EOF)
     } while (leaveConfirm != 0 && !std::cin.eof());
 
     return std::nullopt;
@@ -157,8 +170,7 @@ std::optional<std::string> mazePick() {
 
 
 bool validMaze(const short &filename, std::string &fullPath, std::ifstream &mazeFile) {
-    const std::string PREFIX = "../input/";               // Prefix containing the file where the maze files are at
-
+    const std::string PREFIX;                      // Prefix containing the file where the maze files are at
 
     /*
     * `fileNameOrNullopt` will have a string if it is valid or `std::nullopt` if invalid
@@ -182,7 +194,7 @@ bool validMaze(const short &filename, std::string &fullPath, std::ifstream &maze
 
 void displayLeaderboard() {
     const unsigned int SLEEP_TIME = 2;
-    const std::string PREFIX = "../input/";                   // Prefix containing the file where the maze files are at
+    const std::string PREFIX;                          // Prefix containing the file where the maze files are at
     short leaderBoardNum;
     short leaveConfirm = 1;
 
@@ -196,23 +208,22 @@ void displayLeaderboard() {
             clearBuffer();
             // If the number has one digit fills with a '0' on the left
             std::string num = leaderBoardNum < 10 ? "0" + std::to_string(leaderBoardNum) : std::to_string(leaderBoardNum);
-            std::string fullFilepath = PREFIX + "MAZE_" + num + "_WINNERS.txt";  // Gets the relative file path and the filename
-            leaderboardFile.open(fullFilepath);                             // Opening the file
+            std::string fullFilepath = PREFIX + "MAZE_" + num + "_WINNERS.txt";   // Gets the relative file path and the filename
 
-            if (leaderboardFile.is_open()) {        // File exists
-                std::cout << leaderboardFile.rdbuf() << std::endl;                    // Displays the scoreboard
+            bool fileIsPresent = fileExists(fullFilepath);
+            if (fileIsPresent) {                                                  // File exists
+                std::cout << "Maze: " << num << std::endl;
+                readFile(fullFilepath);
                 std::cout << "Press Enter to continue ...";
                 waitForConfirmation();
                 clearScreen();
-                leaderboardFile.close();            // Closes the stream for file input
-            } else {                                // File does not exist
+            } else {                                                               // File does not exist
                 warnUser("leaderboard");
             }
         } else if (leaderBoardNum == 0) {           // User wants to leave to the main menu
             leaveConfirm = 0;
             std::cout << "Returning to the main menu ..." << std::flush;
             sleepFor(SLEEP_TIME);                   // Animation to improve UX: waits 2 seconds
-
         } else if (!std::cin.eof()) {
             warnUser("fileIO");
         }
@@ -222,9 +233,9 @@ void displayLeaderboard() {
 }
 
 std::optional<std::string> getMazeName(short levelChoice) {
-    if (levelChoice < 1 || levelChoice > 99) {           // Invalid name for a maze file (there are only 99 mazes max)
+    if (levelChoice < 1 || levelChoice > 99) {        // Invalid name for a maze file (there are only 99 mazes max)
         return std::nullopt;
-    } else {                                             // Valid name for a maze
+    } else {                                          // Valid name for a maze
         // Checks if the user input number has one or two digits, turns it into a string, and, if it has one digit fills with a "0" at the left
         std::string firstPart = (levelChoice < 10) ? "0" + std::to_string(levelChoice) : std::to_string(levelChoice);
         std::string fileName = "MAZE_" + firstPart + ".TXT";  // Passes the end format of the maze file to `fileName`

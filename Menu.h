@@ -2,7 +2,7 @@
 
 
 // File Includes
-#include "globaldefs.h"
+#include "Utils.h"
 
 // Lib Includes
 #include <iostream>
@@ -10,10 +10,7 @@
 #include <optional>
 
 
-/**
- * @brief Base menu caller function
- *
- */
+/** @brief Base menu caller function */
 void menu();
 
 
@@ -27,17 +24,9 @@ void menuChoice(short choice, short &confirm);
 
 
 /**
- * @brief Displays the rules
- *
- */
-void displayRules();
-
-
-/**
  * @brief Reads the user input for the selected maze and, if the input is valid, returns the correspondent filepath
  *
  * @return returns a string with the filepath to open/process the selected maze
- *
  */
 std::optional<std::string> mazePick();
 
@@ -57,10 +46,7 @@ std::optional<std::string> mazePick();
 bool validMaze(const short &filename, std::string &fullPath, std::ifstream &mazeFile);
 
 
-/**
- * @brief Asks the user for input and displays a leaderboard if it exists
- *
- */
+/** @brief Asks the user for input and displays a leaderboard if it exists */
 void displayLeaderboard();
 
 
@@ -73,3 +59,18 @@ void displayLeaderboard();
 std::optional<std::string> getMazeName(short levelChoice);
 
 
+/**
+ * @brief Creates a decorative display showing all available mazes, regardless of validity
+ */
+void displayAvailableMazes();
+
+
+/**
+ * @brief Reads a file
+ *
+ * @param filename The name of the file to be read
+ * @return Returns true if the file opening was successful, false otherwise
+ *
+ * @notes Relative pathing is not supported
+ */
+void readFile(const std::string &filename);

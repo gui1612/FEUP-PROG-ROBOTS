@@ -1,10 +1,11 @@
 // File Includes
-#include "globaldefs.h"
+#include "Utils.h"
 
 
 // Lib Includes
 #include <optional>
 #include <cmath>
+#include <fstream>
 
 
 void clearBuffer() {
@@ -27,10 +28,10 @@ void waitForConfirmation() {
 
 void warnUser(const std::string &warningType) {
     if (warningType == "menu") {                // Warning layout for menu
-        std::cerr << "That is not a valid input (Options: 0, 1, 2)\n"
+        std::cerr << "That is not a valid input (Options: 0, 1, 2, 3)\n"
              << "Press ENTER to return to the main menu..." << std::endl;
     } else if (warningType == "fileIO") {       // Warning layout for file input/output
-        std::cerr << "That is not a valid input (Options: 1, 2, ..., 99)" << std::endl;
+        std::cerr << "That is not a valid input!" << std::endl;
     } else if (warningType == "game") {         // Warning layout for file input/output
         std::cerr << "That is not a valid input (Options: Q, W, E, A, S, D, Z, X, C)" << std::endl;
     } else if (warningType == "game-move") {    // Warning layout for game movement
@@ -69,4 +70,20 @@ size_t getLastAlphaIdx(std::string str) {
      * otherwise, it means that the string has one char different from 0 and, in that case returns 0 (first index)
      */
     return str.at(0) == ' ' ? -1 : 0;
+}
+
+
+bool fileExists(const std::string &filename, const std::string &path) {
+    std::ifstream infile((path + filename).c_str());
+    infile.close();
+    return infile.good();
+}
+
+
+void getExistingMazes(std::vector<std::string> &mazeVec) {
+    for (int i = 0; i < 100; i++) {
+        std::string number = (i < 10) ? "0" + std::to_string(i) : std::to_string(i);
+        std::string fileName = "MAZE_" + number + ".TXT";
+        if (fileExists(fileName)) { mazeVec.push_back(fileName); }
+    }
 }
