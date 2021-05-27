@@ -97,9 +97,7 @@ void menuChoice(short choice, short &confirm) {
                     game.play();                            // If no exception occurs the Game is played
                 } catch (const std::runtime_error &err) {   // Invalid Maze file
                     std::cerr << err.what() << std::endl;
-                    // sleepFor(1);
                     waitForConfirmation();
-                    clearBuffer();
                 }
             }
             break;
@@ -220,7 +218,7 @@ void displayLeaderboard() {
 
             bool fileIsPresent = fileExists(fullFilepath);
             if (fileIsPresent) {                                                  // File exists
-                std::cout << "Maze: " << num << std::endl;
+                std::cout << std::setfill(' ') << std::setw(15) << "MAZE: " << num << std::endl;
                 readFile(fullFilepath);
                 std::cout << "Press Enter to continue ...";
                 waitForConfirmation();

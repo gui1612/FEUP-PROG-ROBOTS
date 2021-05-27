@@ -25,10 +25,10 @@ void Robot::setState(unsigned int state) {
 
 void Robot::kill() {
     setStatus(ROBOT_DEAD_CHAR);
-    setState(Robot::DEAD);
+    //setState(Robot::DEAD);
 }
 
 
 bool Robot::isAlive() const {
-    return getState() == ROBOT_ALIVE_CHAR;
+    return getStatus() == ROBOT_ALIVE_CHAR;
 }

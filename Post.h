@@ -39,7 +39,7 @@ class Post {
          * @brief Checks if a Post is eletrified
          * @return `true` if the post is eletrified, otherwise `false`
          */
-        bool isNotEletrified() const;
+        bool isNotElectrified() const;
 
 
         /**

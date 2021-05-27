@@ -12,7 +12,7 @@ bool Post::isExit() const {
 }
 
 
-bool Post::isNotEletrified() const {
+bool Post::isNotElectrified() const {
     return _symbol == NON_ELECTRIC_POST_CHAR;
 }
 

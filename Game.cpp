@@ -290,45 +290,79 @@ char Game::getNewPosChar(const Point &pos) const {
 
 
 void Game::updateAllRobots() {
+    PostVec allPostList = _maze.getAllList();
 
     for (int i = 0; i < _robot.size(); i++) {
 
         if (!_robot.at(i).isAlive()) continue;                          // If the Robot is not alive he won't move
 
         Point newPos = findBestMove(_robot.at(i));                      // Stores the ideal position to where the Robot should move
-        char charInPos = getNewPosChar(newPos);                         // Fetches the char in the position `newPos`
 
-        if (charInPos ==  ROBOT_ALIVE_CHAR || charInPos == ROBOT_DEAD_CHAR) {                     // Robot gets stuck
-            _robot.at(i).kill();                                        // First robot dies
-            _robot.at(i).moveTo(newPos);                                // Coordinates update
-            for (int j = 0; j < _robot.size(); j++) {
-                if (_robot.at(i) == _robot.at(j)) continue;
+        auto robotIt = std::find_if(_robot.begin(), _robot.end(), [&](const Robot& x) {
+            return x.getCoordinates() == newPos;
+            });
 
-                if (_robot.at(j).getCoordinates() == newPos) {          // If there's a robot collision, kills the other robot
-                    _robot.at(j).kill();                                // Second robot dies
-                    _robot.at(i).setState(Robot::STUCK);
-                    _robot.at(j).setStatus(ROBOT_DEAD_CHAR);
-                }
-            }
-
-        } else if (charInPos == ELECTRIC_POST_CHAR) {                                  // Robot moves to electric fence
-            _robot.at(i).kill();                                        // Robot dies
-            _robot.at(i).setStatus(ROBOT_DEAD_CHAR);
-            _robot.at(i).setState(Robot::DEAD);
-        }else if (charInPos == NON_ELECTRIC_POST_CHAR) {
-            _robot.at(i).kill();                                        // Robot dies
-            _robot.at(i).setStatus(ROBOT_DEAD_CHAR);
+        if (robotIt != _robot.end()) {
+            _robot.at(i).kill();
             _robot.at(i).setState(Robot::STUCK);
-        } else if (charInPos == PLAYER_DEAD_CHAR) {                      // Player gets caught by robot
-            _player.kill();                                             // Player dies
-            _player.setStatus(PLAYER_ALIVE_CHAR);
-            break;
-        } else {                                                        // Regular robot move
-            _robot.at(i).moveTo(newPos);                                // Updates robot position
+            _robot.at(i).moveTo(newPos);
+            robotIt->kill();
+            robotIt->setState(Robot::STUCK);
+            continue;            
         }
+
+        auto postIt = std::find_if(allPostList.begin(), allPostList.end(), [&](const Post& x) {
+            return x.getCoordinates() == newPos;
+            });
+
+        if (postIt != allPostList.end()) {
+            if (postIt->isElectrified()) {
+                _robot.at(i).kill();
+                _robot.at(i).setState(Robot::DEAD);
+                continue;
+            } else {
+                _robot.at(i).kill();
+                _robot.at(i).setState(Robot::STUCK);
+                continue;
+            }
+        }
+
+        if (_player.getCoordinates() == newPos) {
+            _player.kill();
+            continue;
+        }
+
+        _robot.at(i).moveTo(newPos);
+
+
+        // THIS CODE DOESN'T CONTEMPLATE THE OOP PARADIGM SO IT IS NO GOOD
+        /*       char charInPos = getNewPosChar(newPos);                         // Fetches the char in the position `newPos`
+
+               if (charInPos ==  ROBOT_ALIVE_CHAR || charInPos == ROBOT_DEAD_CHAR) {                     // Robot gets stuck
+                   _robot.at(i).kill();                                        // First robot dies
+                   _robot.at(i).moveTo(newPos);                                // Coordinates update
+                   for (int j = 0; j < _robot.size(); j++) {
+                       if (_robot.at(i) == _robot.at(j)) continue;
+
+                       if (_robot.at(j).getCoordinates() == newPos) {          // If there's a robot collision, kills the other robot
+                           _robot.at(j).kill();                                // Second robot dies
+                       }
+                   }
+               } else if (charInPos == ELECTRIC_POST_CHAR) {                                  // Robot moves to electric fence
+                   _robot.at(i).kill();                                        // Robot dies
+               } else if (charInPos == NON_ELECTRIC_POST_CHAR) {
+                   _robot.at(i).kill();                                        // Robot dies
+               } else if (charInPos == PLAYER_ALIVE_CHAR) {                      // Player gets caught by robot
+                   _player.kill();                                             // Player dies
+                   break;
+               } else {                                                        // Regular robot move
+                   _robot.at(i).moveTo(newPos);                                // Updates robot position
+               }
+           }
+           */
+
     }
 }
-
 
 Point Game::findBestMove(Robot& currRobot) const {
     xval x = currRobot.getCoordinates().x;

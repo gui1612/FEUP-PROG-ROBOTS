@@ -6,7 +6,7 @@ void Maze::addPost(Post &post) {
 
     if (post.isExit()) {                                               // Exit
         _ExitList.push_back(post);
-    } else if(post.isElectrified() || post.isNotEletrified()) {        // Eletrified or non-eletrified Post
+    } else if(post.isElectrified() || post.isNotElectrified()) {        // Eletrified or non-eletrified Post
         _PostLists.push_back(post);
     }
 }
