@@ -10,6 +10,7 @@
 #include <chrono>
 #include <vector>
 
+
 // Type aliases
 using xval = int;
 using yval = int;
@@ -126,13 +127,3 @@ size_t getLastAlphaIdx(std::string str);
   * @return `true` if the file exists, otherwise `false`
   */
 bool fileExists(const std::string &filename, const std::string &path = "");
-
-
-/**
- * @brief Calculates the existing mazes and passes them in `m̀azeVec`
- * @param mazeVec Vector containing the names of the existing mazes
- * @return Passes a vector containing the existing mazenames
- * @note This function doesn't check the integrity of the mazes themselves
- * For more on that check `Game`
- */
-void getExistingMazes(std::vector<std::string> &mazeVec);

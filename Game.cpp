@@ -1,6 +1,7 @@
 // File includes
 #include "Game.h"
 #include "Utils.h"
+#include "constants.h"
 
 // Lib includes
 #include <algorithm>
@@ -9,6 +10,8 @@
 #include <stdexcept>
 #include <cmath>
 #include <iomanip>
+
+
 
 Game::Game(const std::string &filename) {
 
@@ -40,19 +43,19 @@ Game::Game(const std::string &filename) {
         if (x != cols) {                                            // Checks if the x coordinate is within the bounds of the maze
             counter++;                                              // Keeps track of the amount of characters of the maze
             switch(chr) {
-                case 'h': case 'H': {
+                case PLAYER_DEAD_CHAR: case PLAYER_ALIVE_CHAR: {
                     Player player(chr, {x, y});
                     _player = player;
                     x++; break; }
-                case 'R': {
+                case ROBOT_ALIVE_CHAR: {
                     Robot robot(chr, {x, y}, id, Robot::ALIVE);
                     _robot.push_back(robot);
                     id++; x++; break; }
-                case 'r': {
+                case ROBOT_DEAD_CHAR: {
                     Robot robot(chr, {x, y}, id, Robot::DEAD);
                     _robot.push_back(robot);
                     id++; break; }
-                case '*': case '+': case 'O': {
+                case ELECTRIC_POST_CHAR: case NON_ELECTRIC_POST_CHAR: case EXIT_POST_CHAR: {
                     Post post({x, y}, chr);
                     _maze.addPost(post);
                     x++; break; }
@@ -95,11 +98,11 @@ void Game::play() {
         drawMaze();
         std::cout << "Where do you wish to move to?" << std::endl;
 
-        bool validInput = getInput<char>(key);                   // Checks if the input is valid for the type "char"
+        bool validInput = getInput<char>(key);                      // Checks if the input is valid for the type "char"
         clearScreen();
 
-        if (validInput){                            // Valid input
-            if (validMove(key)) {                   // Valid move
+        if (validInput){                                            // Valid input
+            if (validMove(key)) {                                   // Valid move
                 // GAME ROUND
 
                 clearBuffer();
@@ -134,7 +137,7 @@ void Game::play() {
              << "Your time: " << gameTime.count() << "s" << std::endl;
         _player.setScore(gameTime.count());
         updateScoreboard();                                                        // Updates the scoreboard for the current maze
-    } else {
+    } else if (!std::cin.eof()) {
         std::cout << loss.at(RAND_IDX) << std::endl
              << "Your time: " << gameTime.count() << "s" << std::endl;             // Displays the player game time
         waitForConfirmation();
@@ -226,7 +229,7 @@ bool Game::updatePlayer(const char &key) {
         case('w'):  _player.moveTo({x,--y});   break;              // Up
         case('e'):  _player.moveTo({++x,--y}); break;              // Up right
         case('a'):  _player.moveTo({--x,y});   break;              // Left
-        case('s'):                                       break;              // Stay
+        case('s'):                             break;              // Stay
         case('d'):  _player.moveTo({++x,y});   break;              // Right
         case('z'):  _player.moveTo({--x,++y}); break;              // Down left
         case('x'):  _player.moveTo({x,++y});   break;              // Down
@@ -237,15 +240,14 @@ bool Game::updatePlayer(const char &key) {
 
     char newPosChar = getNewPosChar(_player.getCoordinates());
 
-    if (!outOfBounds(_player.getCoordinates())) {                         // Checks if the player is inside the maze bounds
-        if (newPosChar == ' ' || newPosChar == 'H') {                        // Danger free player movement
+    if (!outOfBounds(_player.getCoordinates())) {                                          // Checks if the player is inside the maze bounds
+        if (newPosChar == ' ' || newPosChar == PLAYER_ALIVE_CHAR) {                        // Danger free player movement
             return true;
-        } else if (newPosChar == 'R' || newPosChar == '*') {                 // Kills the player if they move into a live robot or electric fence
+        } else if (newPosChar == ROBOT_ALIVE_CHAR || newPosChar == ELECTRIC_POST_CHAR) {   // Kills the player if they move into a live robot or electric fence
             _player.kill();
-            _player.setStatus('h');
             _player.moveTo(lastPos);
             return true;
-        } else if ( newPosChar == 'O' ) {                                    // Player found the exit, therefore they win
+        } else if ( newPosChar == EXIT_POST_CHAR ) {                         // Player found the exit, therefore they win
             _player.setWin();
             return true;
         } else {                                                             // Invalid player move
@@ -267,23 +269,23 @@ bool Game::outOfBounds(Point pos) const {
 
 char Game::getNewPosChar(const Point &pos) const {
 
-    for (const Post &currPost : _maze.getAllList()) {                   // Iterating through all posts
-        if ( currPost.getCoordinates() == pos) {                        // Checking if the post has the same coordinates of the player (collision)
+    for (const Post &currPost : _maze.getAllList()) {    // Iterating through all posts
+        if ( currPost.getCoordinates() == pos) {         // Checking if the post has the same coordinates of the player (collision)
             return currPost.getSymbol();
         }
     }
 
     for (const Robot &currRobot : _robot) {              // Iterating through all robots
-        if ( currRobot.getCoordinates() == pos) {        // Checking if the robot has the same coordinates of the player (collision)
+        if (currRobot.getCoordinates() == pos) {         // Checking if the robot has the same coordinates of the player (collision)
             return currRobot.getStatus();
         }
     }
 
-    if (_player.getCoordinates() == pos){
+    if (_player.getCoordinates() == pos) {
         return _player.getStatus();
     }
 
-    return ' ';                                                               // The player didn't move into danger so they either stayed in place or moved to a free space
+    return ' ';                                                        // The player didn't move into danger so they either stayed in place or moved to a free space
 }
 
 
@@ -293,35 +295,33 @@ void Game::updateAllRobots() {
 
         if (!_robot.at(i).isAlive()) continue;                          // If the Robot is not alive he won't move
 
-        Point newPos = findBestMove(_robot.at(i));                   // Stores the ideal position to where the Robot should move
+        Point newPos = findBestMove(_robot.at(i));                      // Stores the ideal position to where the Robot should move
         char charInPos = getNewPosChar(newPos);                         // Fetches the char in the position `newPos`
 
-        if (charInPos == 'R' || charInPos == 'r') {                      // Robot gets stuck
-            _robot.at(i).kill();                                         // First robot dies
-            _robot.at(i).setStatus('r');
-            _robot.at(i).setState(Robot::STUCK);
-            _robot.at(i).moveTo(newPos);                                 // Coordinates update
+        if (charInPos ==  ROBOT_ALIVE_CHAR || charInPos == ROBOT_DEAD_CHAR) {                     // Robot gets stuck
+            _robot.at(i).kill();                                        // First robot dies
+            _robot.at(i).moveTo(newPos);                                // Coordinates update
             for (int j = 0; j < _robot.size(); j++) {
                 if (_robot.at(i) == _robot.at(j)) continue;
 
-                if (_robot.at(j).getCoordinates() == newPos) {           // If there's a robot collision, kills the other robot
-                    _robot.at(j).kill();                                 // Second robot dies
+                if (_robot.at(j).getCoordinates() == newPos) {          // If there's a robot collision, kills the other robot
+                    _robot.at(j).kill();                                // Second robot dies
                     _robot.at(i).setState(Robot::STUCK);
-                    _robot.at(j).setStatus('r');
+                    _robot.at(j).setStatus(ROBOT_DEAD_CHAR);
                 }
             }
 
-        } else if (charInPos == '*') {                                  // Robot moves to electric fence
+        } else if (charInPos == ELECTRIC_POST_CHAR) {                                  // Robot moves to electric fence
             _robot.at(i).kill();                                        // Robot dies
-            _robot.at(i).setStatus('r');
+            _robot.at(i).setStatus(ROBOT_DEAD_CHAR);
             _robot.at(i).setState(Robot::DEAD);
-        }else if (charInPos == '+') {
+        }else if (charInPos == NON_ELECTRIC_POST_CHAR) {
             _robot.at(i).kill();                                        // Robot dies
-            _robot.at(i).setStatus('r');
+            _robot.at(i).setStatus(ROBOT_DEAD_CHAR);
             _robot.at(i).setState(Robot::STUCK);
-        } else if (charInPos == 'H') {                                 // Player gets caught by robot
+        } else if (charInPos == PLAYER_DEAD_CHAR) {                      // Player gets caught by robot
             _player.kill();                                             // Player dies
-            _player.setStatus('h');
+            _player.setStatus(PLAYER_ALIVE_CHAR);
             break;
         } else {                                                        // Regular robot move
             _robot.at(i).moveTo(newPos);                                // Updates robot position
@@ -340,11 +340,11 @@ Point Game::findBestMove(Robot& currRobot) const {
                                   {x-1, y+1}, {x, y+1}, {x+1, y+1}};
 
     double minDist = std::numeric_limits<double>::max();
-    Point bestMove = {0, 0};                                                   // Variable to store the optimal position to move
+    Point bestMove = {0, 0};                                             // Variable to store the optimal position to move
     for  (Point move : moveVec) {
-        if (!outOfBounds(move)) {                                                     // The position is inside the maze bounds
-            double dist = pointDist(move, _player.getCoordinates());              // Distance between that move option and the player
-            if (dist < minDist) {                                                     // If that move is the best until the moment
+        if (!outOfBounds(move)) {                                        // The position is inside the maze bounds
+            double dist = pointDist(move, _player.getCoordinates());     // Distance between that move option and the player
+            if (dist < minDist) {                                        // If that move is the best until the moment
                 minDist = dist;
                 bestMove = move;
             }
@@ -376,7 +376,7 @@ void Game::updateScoreboard() {
 
 
 void Game::getScoreboard(const std::string &fullPath, ScoreBoard scoreboard, const Player &player) {
-    std::ifstream if_leaderBoard;                            // Initializing a stream for file input
+    std::ifstream if_leaderBoard;                       // Initializing a stream for file input
 
     if_leaderBoard.open(fullPath.c_str());              // Opening the file
 
@@ -388,10 +388,10 @@ void Game::getScoreboard(const std::string &fullPath, ScoreBoard scoreboard, con
         getline(if_leaderBoard, line1);
         getline(if_leaderBoard, line2);
 
-        parseLines(if_leaderBoard, scoreboard, player); // Parsing the previous scoreboard to `scoreboard`
+        parseLines(if_leaderBoard, scoreboard, player);        // Parsing the previous scoreboard to `scoreboard`
         if_leaderBoard.close();                                // Closing the stream for file input
 
-        std::ofstream of_leaderBoard;                               // Opening a stream for file output
+        std::ofstream of_leaderBoard;                          // Opening a stream for file output
         of_leaderBoard.open(fullPath.c_str());                 // Opening the file to write into
 
         // Writing the table header
@@ -435,14 +435,14 @@ void Game::parseLines(std::ifstream &leaderBoard, ScoreBoard &scoreBoard, const 
     // This loop will happen  until the end of the file
     while (!leaderBoard.eof()) {
         std::string line;
-        getline(leaderBoard, line);                             // Stores the current line of the iteration on `line`
+        getline(leaderBoard, line);                                 // Stores the current line of the iteration on `line`
 
         size_t lastDashPos = line.rfind('-');                       // Gets the index of the last '-' occurrence
-        std::string strScore = line.substr(lastDashPos + 2);           // Parses the `score` from the line
-        int score = stoi(strScore);                                    // Converts score into an integer
+        std::string strScore = line.substr(lastDashPos + 2);        // Parses the `score` from the line
+        int score = stoi(strScore);                                 // Converts score into an integer
 
-        std::string firstPart = line.substr(0, lastDashPos);           // Parses the string of the line until '-'
-        size_t lastAlphaPos = getLastAlphaIdx(firstPart);          // Gets the index of the first char that is not ' '
+        std::string firstPart = line.substr(0, lastDashPos);        // Parses the string of the line until '-'
+        size_t lastAlphaPos = getLastAlphaIdx(firstPart);           // Gets the index of the first char that is not ' '
 
         std::string name = firstPart.substr(0, lastAlphaPos + 1);   // Parses the `name` from the string
 
@@ -452,9 +452,9 @@ void Game::parseLines(std::ifstream &leaderBoard, ScoreBoard &scoreBoard, const 
         player2.setScore(score);
 
         // Updating the scoreboard taking into account the best score registered for the current player
-        if (name == player.getName() && score > player.getScore()) {                    // The player already exists and was faster
+        if (name == player.getName() && score > player.getScore()) {          // The player already exists and was faster
             continue;                                                         // The previous value (player2) is now slower so it isn't put on the scoreboard
-        } else if (name != player.getName()){                                      // It is a different player
+        } else if (name != player.getName()){                                 // It is a different player
             scoreBoard.push_back(player2);
         } else {                                                              // The player already exists and was slower
             scoreBoard.erase(scoreBoard.begin());                             // Remove the player's score of the current run from the vector

@@ -1,4 +1,5 @@
 #include "Robot.h"
+#include "constants.h"
 
 Robot::Robot(char status, Point coordinates, ID id, unsigned int state)
          : Entity(status, coordinates)
@@ -19,4 +20,15 @@ void Robot::setState(unsigned int state) {
             _state = DEAD;
             break;
     }
+}
+
+
+void Robot::kill() {
+    setStatus(ROBOT_DEAD_CHAR);
+    setState(Robot::DEAD);
+}
+
+
+bool Robot::isAlive() const {
+    return getState() == ROBOT_ALIVE_CHAR;
 }

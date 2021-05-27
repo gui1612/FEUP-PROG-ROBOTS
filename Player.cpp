@@ -1,5 +1,6 @@
 // File Includes
 #include "Player.h"
+#include "constants.h"
 
 
 Player::Player(char status, Point coordinates)
@@ -20,6 +21,17 @@ Player::Player(std::string name, int score, char status, Point coordinates)
 
 
 Player::Player(): Entity() { _win = false; _score = 0; }
+
+
+void Player::kill() {
+    setStatus(PLAYER_DEAD_CHAR);
+}
+
+
+bool Player::isAlive() const {
+    return getStatus() == PLAYER_ALIVE_CHAR;
+}
+
 
 
 void Player::getPlayerName() {

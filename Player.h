@@ -48,11 +48,20 @@ public:
     std::string getName() const     { return _name;     }
     bool win() const                { return _win;      }
 
+    /**
+     * @brief Boolean function used to check if the player is alive (true)
+     * 
+     * @notes Override of method declared in Entity
+     */
+    bool isAlive() const;
 
     /* 'Setter functions' */
     void setScore(int score)        { _score = score;   }
     void setName(std::string name)  { _name = name;     }
     void setWin()                   { _win = true;      }
+
+    /** @brief Kills the Entity */
+    void kill();
 
 
 

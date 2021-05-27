@@ -1,6 +1,8 @@
+// File Includes
 #include "Menu.h"
 #include "Game.h"
 
+// Lib Includes
 #include <fstream>
 #include <sstream>
 #include <iomanip>
@@ -59,6 +61,7 @@ void menu() {
 }
 
 void menuChoice(short choice, short &confirm) {
+
     switch (choice) {
         case 0: {                                       // Exit
             clearScreen();
@@ -94,7 +97,9 @@ void menuChoice(short choice, short &confirm) {
                     game.play();                            // If no exception occurs the Game is played
                 } catch (const std::runtime_error &err) {   // Invalid Maze file
                     std::cerr << err.what() << std::endl;
-                    sleepFor(1);
+                    // sleepFor(1);
+                    waitForConfirmation();
+                    clearBuffer();
                 }
             }
             break;
@@ -106,6 +111,7 @@ void menuChoice(short choice, short &confirm) {
             warnUser("menu");
     }
 }
+
 
 void readFile(const std::string &filename) {
     std::ifstream infile;
@@ -121,13 +127,13 @@ void readFile(const std::string &filename) {
 
 
 void displayAvailableMazes() {
-    std::vector<std::string> availableMazes;                                        // Creating a stub for
-    getExistingMazes(availableMazes);                                            // Fills the vector of Mazes with the existing mazes
+    std::vector<std::string> availableMazes;
+    getExistingMazes(availableMazes);   
     std::cout << "Valid options:" << std::endl;
-    std::cout << std::setfill('-') << std::setw(22) << "-" << std::endl;       // Creates
+    std::cout << std::setfill('-') << std::setw(22) << "-" << std::endl;
     for (const std::string &mazeName : availableMazes) {
         std::cout << "| -> " << mazeName << " (" << mazeName.substr(5, 2) << ") |" << std::endl;
-    }
+     }
     std::cout << std::setw(22) << "-" << std::endl;
 }
 
@@ -135,6 +141,8 @@ void displayAvailableMazes() {
 std::optional<std::string> mazePick() {
     short leaveConfirm = 1;
     // File Input loop that ends when the user sends "EOF" or when a valid maze is picked
+
+
     do {
         const unsigned int SLEEP_TIME = 2;
         short levelPick;
@@ -240,5 +248,14 @@ std::optional<std::string> getMazeName(short levelChoice) {
         std::string firstPart = (levelChoice < 10) ? "0" + std::to_string(levelChoice) : std::to_string(levelChoice);
         std::string fileName = "MAZE_" + firstPart + ".TXT";  // Passes the end format of the maze file to `fileName`
         return fileName;
+    }
+}
+
+
+void getExistingMazes(std::vector<std::string> &mazeVec) {
+    for (int i = 0; i < 100; i++) {
+        std::string number = (i < 10) ? "0" + std::to_string(i) : std::to_string(i);
+        std::string fileName = "MAZE_" + number + ".TXT";
+        if (fileExists(fileName)) { mazeVec.push_back(fileName); }
     }
 }

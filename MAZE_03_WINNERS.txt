@@ -1,4 +1,6 @@
 Player              - Time
 --------------------------
+ll                  -    8
 aa                  -    8
-ll                  -   26
+Guizaaaaaaaa        -   11
+ppppppp             -   14

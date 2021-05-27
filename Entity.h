@@ -23,23 +23,24 @@ public:
     Entity(): _status(), _coordinates() {};
 
     /* 'Getter functions' */
-    Point getCoordinates() const                    { return _coordinates;          }
-    char getStatus() const                          { return _status;               }
-    bool isAlive() const                            { return std::isupper(_status); }
+    Point getCoordinates() const                            { return _coordinates;          }
+    char getStatus() const                                  { return _status;               }
+    virtual bool isAlive() const                            { return std::isupper(_status); }       // Stubb to be specified in derived classes
 
 
     /* 'Setter functions' */
 
     /** @brief Sets the status (character representation) of the Entity */
-    void setStatus(char status)                     { _status = status;           }
+    void setStatus(char status)                     { _status = status;              }
 
     /** @brief Moves the Entity to a new Point */
-    void moveTo(Point coordinates)                  { _coordinates = coordinates; }
+    void moveTo(Point coordinates)                  { _coordinates = coordinates;     }
 
     /**
      * @brief Kills the Entity
      * @details In order to kill the Entity we simply change the representation ( _status )
      * from upper to lowercase
+     @note Despite the fact that this should work most times, further specific redifinition is made in Robots and Player (derived classes)
      */
     void kill();
 

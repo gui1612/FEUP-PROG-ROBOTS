@@ -6,6 +6,7 @@
 #include <optional>
 #include <cmath>
 #include <fstream>
+#include <string>
 
 
 void clearBuffer() {
@@ -77,13 +78,4 @@ bool fileExists(const std::string &filename, const std::string &path) {
     std::ifstream infile((path + filename).c_str());
     infile.close();
     return infile.good();
-}
-
-
-void getExistingMazes(std::vector<std::string> &mazeVec) {
-    for (int i = 0; i < 100; i++) {
-        std::string number = (i < 10) ? "0" + std::to_string(i) : std::to_string(i);
-        std::string fileName = "MAZE_" + number + ".TXT";
-        if (fileExists(fileName)) { mazeVec.push_back(fileName); }
-    }
 }

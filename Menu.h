@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 
 // File Includes
@@ -46,7 +46,9 @@ std::optional<std::string> mazePick();
 bool validMaze(const short &filename, std::string &fullPath, std::ifstream &mazeFile);
 
 
-/** @brief Asks the user for input and displays a leaderboard if it exists */
+/** 
+ * @brief Asks the user for input and displays a leaderboard if it exists 
+ */
 void displayLeaderboard();
 
 
@@ -61,6 +63,8 @@ std::optional<std::string> getMazeName(short levelChoice);
 
 /**
  * @brief Creates a decorative display showing all available mazes, regardless of validity
+ * 
+ * @param availableMazes Vector of the available maze names
  */
 void displayAvailableMazes();
 
@@ -74,3 +78,15 @@ void displayAvailableMazes();
  * @notes Relative pathing is not supported
  */
 void readFile(const std::string &filename);
+
+
+/**
+ * @brief Calculates the existing mazes and passes them in `mazeVec`
+
+ * @param mazeVec Vector containing the names of the existing mazes
+ * @return Passes a vector containing the existing mazenames
+
+ * @note This function doesn't check the integrity of the mazes themselves
+ * For more on that check `Game`
+ */
+void getExistingMazes(std::vector<std::string> &mazeVec);
