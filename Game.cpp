@@ -223,6 +223,7 @@ bool Game::updatePlayer(const char &key) {
     Point lastPos = _player.getCoordinates();
     xval x = lastPos.x;
     yval y = lastPos.y;
+    PostVec allPostList = _maze.getAllList();
 
     switch (static_cast<char>(tolower(key))) {
         case('q'):  _player.moveTo({--x,--y}); break;              // Up left
@@ -238,6 +239,50 @@ bool Game::updatePlayer(const char &key) {
 
     // New position
 
+    if (!outOfBounds(_player.getCoordinates())) {                   // Checks if the player is inside the maze bounds
+
+        auto robotIt = std::find_if(_robot.begin(), _robot.end(), [&](const Robot& x) {
+            return x.getCoordinates() == _player.getCoordinates();
+            });
+
+        if (robotIt != _robot.end()) {
+            if (robotIt->isAlive()) {                               // Player moved into an alive Robot
+                _player.kill();
+                _player.moveTo(lastPos);
+                return true;
+            } else {                                                // Player moved into a dead Robot (invalid move)
+                _player.moveTo(lastPos);
+                return false;
+            }
+        }
+
+        auto postIt = std::find_if(allPostList.begin(), allPostList.end(), [&](const Post& x) {
+            return x.getCoordinates() == _player.getCoordinates();
+            });
+
+        if (postIt != allPostList.end()) {
+            if (postIt->isElectrified()) {                          // Player moved into an electrified Post
+                _player.kill();
+                _player.moveTo(lastPos);
+                return true;
+            } else if (postIt->isExit()) {                          // Player found the Exit
+                _player.setWin();
+                return true;
+            } else {                                                // Player moved a non-electrified Post (invalid move)
+                _player.moveTo(lastPos);
+                return false;
+            }
+        }
+
+        return true;                                                // Danger free player movement
+
+    } else {
+        _player.moveTo(lastPos);
+        return false;
+    }
+
+    // THIS CODE DOESN'T CONTEMPLATE THE OOP PARADIGM SO IT IS NO GOOD
+    /*
     char newPosChar = getNewPosChar(_player.getCoordinates());
 
     if (!outOfBounds(_player.getCoordinates())) {                                          // Checks if the player is inside the maze bounds
@@ -258,6 +303,7 @@ bool Game::updatePlayer(const char &key) {
         _player.moveTo(lastPos);
         return false;
     }
+    */
 }
 
 
@@ -285,7 +331,7 @@ char Game::getNewPosChar(const Point &pos) const {
         return _player.getStatus();
     }
 
-    return ' ';                                                        // The player didn't move into danger so they either stayed in place or moved to a free space
+    return ' ';                                          // The player didn't move into danger so they either stayed in place or moved to a free space
 }
 
 
