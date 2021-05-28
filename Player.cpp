@@ -46,6 +46,7 @@ void Player::getPlayerName() {
         if (validInput) {                                   // Valid type
             clearBuffer();
 
+            // TODO: Fix this
             int nameLen = getUTF8Length(playerName);
            // int nameLen = playerName.length();              // The size of the name
 
