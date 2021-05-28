@@ -8,6 +8,7 @@
 #include <cmath>
 #include <fstream>
 #include <string>
+#include <limits>
 
 
 void clearBuffer() {
@@ -82,8 +83,9 @@ size_t getLastAlphaIdx(const std::string &str) {
 
 bool fileExists(const std::string &filename, const std::string &path) {
     std::ifstream infile((path + filename).c_str());
-    infile.close();
-    return infile.good();
+    bool fileExists = infile.good();
+    if (fileExists) { infile.close(); }
+    return fileExists;
 }
 
 
@@ -95,4 +97,21 @@ int getUTF8Length(const std::string& playerName) {
         stringLength++;
     }
     return stringLength;
+}
+
+
+int getLinesNumber(const std::string &fileName) {
+    int count = 0;                                                 // Stores the count of lines
+    std::string line;                                              // Stub variable to store lines
+    std::ifstream file(fileName);                                  // Opening input file stream
+    if (file.is_open()) {                                          // File exists
+        while(!file.eof()) {
+            getline(file, line);
+            count++;
+        }
+        file.close();                                               // closing the file
+        return count;
+    } else {                                                        // Error code for situations where the file doesn't exist
+        return -1;
+    }
 }

@@ -25,7 +25,7 @@ public:
     /* 'Getter functions' */
     Point getCoordinates() const                            { return _coordinates;          }
     char getStatus() const                                  { return _status;               }
-    virtual bool isAlive() const                            { return std::isupper(_status); }       // Stubb to be specified in derived classes
+    virtual bool isAlive() const                            { return std::isupper(_status); }       // Stub to be specified in derived classes
 
 
     /* 'Setter functions' */
@@ -40,9 +40,9 @@ public:
      * @brief Kills the Entity
      * @details In order to kill the Entity we simply change the representation ( _status )
      * from upper to lowercase
-     @note Despite the fact that this should work most times, further specific redifinition is made in Robots and Player (derived classes)
+     @note Despite the fact that this should work most times, further specific redefinition is made in Robots and Player (derived classes)
      */
-    void kill();
+    virtual void kill();
 
 protected:
     /**

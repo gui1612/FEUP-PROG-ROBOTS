@@ -1,5 +1,2 @@
 Player              - Time
 --------------------------
-s                   -    5
-GuizadasNew         -    6
-ll                  -   15

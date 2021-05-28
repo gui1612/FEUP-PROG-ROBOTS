@@ -37,7 +37,7 @@ private:
      * It only checks if the generic movement would be possible in
      * a generic situation.
      */
-    bool validMove(const char key) const;
+    bool validMove(char key) const;
 
 
     /**
@@ -55,16 +55,16 @@ private:
      *
      * @return returns true if the player's movements align with the game's rules and false otherwise
      */
-    bool updatePlayer(const char key);
+    bool updatePlayer(char key);
 
 
     /**
-    * @brief Returns the charater present at position `pos`
+    * @brief Returns the character present at position `pos`
     *
     * @param pos The position to be checked
     * @return The char present at `pos`
     */
-    char getNewPosChar(const Point &pos) const;
+    //char getNewPosChar(const Point &pos) const;
 
 
     /**

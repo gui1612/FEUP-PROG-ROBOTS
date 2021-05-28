@@ -52,7 +52,7 @@ public:
      * 
      * @notes Override of method declared in Entity
      */
-    bool isAlive() const;
+    virtual bool isAlive() const;
 
     /* 'Setter functions' */
     void setScore(int score)        { _score = score;   }
@@ -60,7 +60,7 @@ public:
     void setWin()                   { _win = true;      }
 
     /** @brief Kills the Entity */
-    void kill();
+    virtual void kill();
 
 
 

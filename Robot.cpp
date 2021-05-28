@@ -16,13 +16,13 @@ Robot::Robot(char status, Point coordinates, unsigned int id, unsigned int state
 
 void Robot::setState(const unsigned int state) {
     switch (state) {
-        case (Robot::ALIVE):
-            setState(ALIVE);
+        case (ALIVE):
+            _state = ALIVE;
             break;
-        case (Robot::STUCK):
+        case (STUCK):
             _state = STUCK;
             break;
-        case (Robot::DEAD):
+        case (DEAD):
             _state = DEAD;
             break;
     }

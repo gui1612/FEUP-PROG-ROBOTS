@@ -29,17 +29,10 @@ class Post {
 
 
         /**
-         * @brief Checks if a Post is eletrified
-         * @return `true` if the post is eletrified, otherwise `false`
+         * @brief Checks if a Post is electrified
+         * @return `true` if the post is electrified, otherwise `false`
          */
         bool isElectrified() const;
-
-
-        /**
-         * @brief Checks if a Post is eletrified
-         * @return `true` if the post is eletrified, otherwise `false`
-         */
-        bool isNotElectrified() const;
 
 
         /**
@@ -49,6 +42,6 @@ class Post {
         bool isExit() const;
 
 
-        /** @brief Deactivates the post (passes from eletrified to non-eletrified) */
+        /** @brief Deactivates the post (passes from electrified to non-electrified) */
         void deactivatePost();
 };

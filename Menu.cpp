@@ -219,9 +219,14 @@ void displayLeaderboard() {
 
             bool fileIsPresent = fileExists(fullFilepath);
             if (fileIsPresent) {                                                  // File exists
-                std::cout << std::setfill(' ') << std::setw(15) << "MAZE: " << num << std::endl;
-                readFile(fullFilepath);
-                std::cout << "Press Enter to continue ...";
+                const int FILE_LINES = getLinesNumber(fullFilepath), HEADER_LINES = 2;
+                if (FILE_LINES > HEADER_LINES) {
+                    std::cout << std::setfill(' ') << std::setw(15) << "MAZE: " << num << std::endl;
+                    readFile(fullFilepath);
+                    std::cout << "Press Enter to continue ...";
+                } else {                                                           // Empty maze
+                    std::cout << "Empty Maze!" << std::endl;
+                }
                 waitForConfirmation();
                 clearScreen();
             } else {                                                               // File does not exist

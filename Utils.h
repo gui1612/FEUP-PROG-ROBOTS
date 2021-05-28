@@ -132,3 +132,11 @@ bool fileExists(const std::string &filename, const std::string &path = "");
  * @param playerName the nickname of the player
  */
 int getUTF8Length(const std::string& playerName);
+
+
+/**
+ * @brief Gets the number of lines in a file
+ * @param fileName the name of the file
+ * @return number of lines in `fileName`
+ */
+int getLinesNumber(const std::string &fileName);

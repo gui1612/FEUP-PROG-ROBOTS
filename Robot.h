@@ -9,7 +9,10 @@ class Robot : public Entity {
     /** @brief ID of the robot (unique for each robot) */
     ID _id;
 
-    /** @brief Represents the state of the Robot (alive, dead or stuck) */
+    /**
+     * @brief Represents the state of the Robot (alive, dead or stuck)
+     * @note This is an internal attribute which is not used for the game logics
+     */
     unsigned int _state;
 
     /** @brief Represents the number of Robots in the game */
@@ -33,24 +36,23 @@ public:
 
     /* 'Getter functions' */
     ID getID() const                       { return _id;          }
-    unsigned int getState() const          { return _state;       }
+
 
     /**
      * @brief Boolean function used to check if the robot is alive (true)
      * 
      * @notes Override of method declared in Entity
      */
-    bool isAlive() const;
+    virtual bool isAlive() const;
 
 
     /* 'Setter functions' */
-    void setID(ID id)                       { _id = id; }
-    void setState(const unsigned int state);
+    void setState(unsigned int state);
 
 
 
     /** @brief Kills the Entity */
-    void kill();
+    virtual void kill();
 
 
     /** @overload
@@ -58,5 +60,5 @@ public:
      *  @param r2 Robot instance
      *  @return `true` if the robots are the same, otherwise `false`
      */
-    friend inline bool operator==(const Robot r1, const Robot r2) { return r1.getID() == r2.getID(); }
+    friend inline bool operator==(const Robot &r1, const Robot &r2) { return r1.getID() == r2.getID(); }
 };

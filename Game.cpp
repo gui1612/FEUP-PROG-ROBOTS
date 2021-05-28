@@ -10,6 +10,7 @@
 #include <stdexcept>
 #include <cmath>
 #include <iomanip>
+#include <limits>
 
 
 
@@ -153,9 +154,13 @@ bool Game::validMove(const char key) const {
 
 
 void Game::drawMaze() const {
+
+
     Point pos{0, 0};
     PostVec allPostList = _maze.getAllList();
-    const int MAZE_AREA = _maze.getMazeArea();
+    const unsigned int MAZE_AREA = _maze.getMazeArea();
+    for (auto post : allPostList) { std::cout << post.getSymbol() << " "; }
+    std::cout << std::endl;
 
     while (((pos.x + 1) * (pos.y + 1)) <= MAZE_AREA) {                      // Looping from (0,0) to (cols, rows), while the area of the shape formed by pos and (0,0) isn't the area of the maze
         bool fillWithSpace = true;                                          // Flag keeping track if there aren't any robots/player/posts in coordinates pos
@@ -264,6 +269,7 @@ bool Game::updatePlayer(const char key) {
             if (postIt->isElectrified()) {                          // Player moved into an electrified Post
                 _player.kill();
                 _player.moveTo(lastPos);
+                postIt->deactivatePost();
                 return true;
             } else if (postIt->isExit()) {                          // Player found the Exit
                 _player.setWin();
@@ -283,11 +289,11 @@ bool Game::updatePlayer(const char key) {
 
 bool Game::outOfBounds(const Point &pos) const {
     const int LOWER_BOUND = 0;
-    const int HEIGHT = _maze.getRows(), WIDTH = _maze.getColumns(); // Creating height and width variables by looking at the maze instance
+    const unsigned int HEIGHT = _maze.getRows(), WIDTH = _maze.getColumns(); // Creating height and width variables by looking at the maze instance
     return !(LOWER_BOUND <= pos.y &&  pos.y < HEIGHT && LOWER_BOUND <=  pos.x &&  pos.x < WIDTH);   // Returning true (if inbounds) and false (if out of bounds)
 }
 
-
+/*
 char Game::getNewPosChar(const Point &pos) const {
 
     for (const Post &currPost : _maze.getAllList()) {    // Iterating through all posts
@@ -305,17 +311,17 @@ char Game::getNewPosChar(const Point &pos) const {
     if (_player.getCoordinates() == pos) {
         return _player.getStatus();
     }
-
     return ' ';                                          // The player didn't move into danger so they either stayed in place or moved to a free space
 }
-
+*/
 
 void Game::updateAllRobots() {
-    PostVec allPostList = _maze.getAllList();
-
+    //PostVec allPostList = _maze.AllList;
+    for( auto &el : _maze.getAllList()) { el.deactivatePost(); }
     for (size_t i = 0; i < _robot.size(); i++) {
+        bool skipMove = false;                                                  // bool that tracks wether the move should or not be skipped
 
-        if (!_robot.at(i).isAlive()) continue;                          // If the Robot is not alive he won't move
+        if (!_robot.at(i).isAlive()) continue;                                  // If the Robot is not alive he won't move
 
         Point newPos = findBestMove(_robot.at(i));                      // Stores the ideal position to where the Robot should move
 
@@ -326,36 +332,73 @@ void Game::updateAllRobots() {
         if (robotIt != _robot.end()) {
             _robot.at(i).kill();
             _robot.at(i).setState(Robot::STUCK);
-            _robot.at(i).moveTo(newPos);
+            //_robot.at(i).moveTo(newPos);
             robotIt->kill();
             robotIt->setState(Robot::STUCK);
             continue;            
         }
 
-        auto postIt = std::find_if(allPostList.begin(), allPostList.end(), [&](const Post& x) {
-            return x.getCoordinates() == newPos;
-            });
 
-        if (postIt != allPostList.end()) {
-            if (postIt->isElectrified()) {
-                _robot.at(i).kill();
-                _robot.at(i).setState(Robot::DEAD);
-                continue;
-            } else {
-                _robot.at(i).kill();
-                _robot.at(i).setState(Robot::STUCK);
-                continue;
+        for (int j = 0; j < _maze.AllList.size(); j++) {
+            Post currPost = _maze.AllList.at(j);
+            if (_maze.AllList.at(j).getCoordinates() == newPos) {
+                //if (allPostList.at(j).getCoordinates() == newPos) {
+                if (_maze.AllList.at(j).isElectrified()) {
+                    _robot.at(i).kill();
+                    _robot.at(i).setState(Robot::DEAD);
+                    std::cout<< currPost.getSymbol() << std::endl;
+                    _maze.AllList.at(j).setSymbol(NON_ELECTRIC_POST_CHAR);
+                    _maze.AllList.at(j).deactivatePost();
+                    std::cout<< currPost.getSymbol() << std::endl;
+                    skipMove = true;
+                    continue;
+                } else {
+                    std::cout << "REGULAR" << std::endl;
+                    _robot.at(i).kill();
+                    _robot.at(i).setState(Robot::STUCK);
+                    //_robot.at(i).moveTo(newPos);
+                    continue;
+                }
+                break;
             }
         }
+
 
         if (_player.getCoordinates() == newPos) {
             _player.kill();
             continue;
         }
 
-        _robot.at(i).moveTo(newPos);
+        if (!skipMove) { _robot.at(i).moveTo(newPos); }
     }
 }
+
+
+
+/*
+auto postIt = std::find_if(allPostList.begin(), allPostList.end(), [&](const Post& x) {
+return x.getCoordinates() == newPos;
+});
+
+if (postIt != allPostList.end()) {
+std::cout << "POST" << std::endl;
+if (postIt->isElectrified()) {
+    std::cout << "ELECTRIFIED" << std::endl;
+    _robot.at(i).kill();
+    _robot.at(i).setState(Robot::DEAD);
+    //_maze.getAllList().at().deactivatePost();
+    std::cout << "Before: " << postIt->getSymbol() << std::endl;
+    postIt->deactivatePost();
+    std::cout << "After: " << postIt->getSymbol() << std::endl;
+    continue;
+} else {
+    std::cout << "REGULAR" << std::endl;
+    _robot.at(i).kill();
+    _robot.at(i).setState(Robot::STUCK);
+    continue;
+}
+}
+ */
 
 Point Game::findBestMove(const Robot &currRobot) const {
     xval x = currRobot.getCoordinates().x;
@@ -446,12 +489,12 @@ void Game::getScoreboard(const std::string &fullPath, ScoreBoard &scoreboard, co
         std::ofstream of_leaderBoard;                        // Opening a stream for file output
         of_leaderBoard.open(fullPath);                       // Opening the file to write into
 
-        Player player = scoreboard.at(0);
+        Player playerAux = scoreboard.at(0);
 
         // Writes the header of the leaderboard to the file
         of_leaderBoard << "Player              - Time" << std::endl
                        << "--------------------------" << std::endl
-                       << std::left << std::setw(20)  << player.getName() << "- " << std::right << std::setw(4) << player.getScore();
+                       << std::left << std::setw(20)  << playerAux.getName() << "- " << std::right << std::setw(4) << playerAux.getScore();
 
         of_leaderBoard.close();
     }
@@ -466,7 +509,7 @@ void Game::parseLines(std::ifstream &leaderBoard, ScoreBoard &scoreBoard, const 
 
         size_t lastDashPos = line.rfind('-');                       // Gets the index of the last '-' occurrence
         std::string strScore = line.substr(lastDashPos + 2);        // Parses the `score` from the line
-        unsigned int score = stoi(strScore);                        // Converts score into an integer
+        int score = stoi(strScore);                        // Converts score into an integer
 
         std::string firstPart = line.substr(0, lastDashPos);        // Parses the string of the line until '-'
         size_t lastAlphaPos = getLastAlphaIdx(firstPart);           // Gets the index of the first char that is not ' '
