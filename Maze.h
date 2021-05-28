@@ -44,7 +44,7 @@ public:
     /* 'Setter functions' */
     void setRows(unsigned int rows)         { _rows = rows;             }
     void setCols(unsigned int cols)         { _columns = cols;          }
-    void setName(std::string name)          { _name = name;             }
+    void setName(std::string &name)         { _name = name;             }
 
     /* Member functions */
 
@@ -54,7 +54,7 @@ public:
      * checked if it is eletrified ('*'), an exit ('O')
      * or a regular post ('+')
      */
-    void addPost(Post& post);
+    void addPost(const Post& post);
 
     /** @brief Clears a Maze instance */
     void clear();

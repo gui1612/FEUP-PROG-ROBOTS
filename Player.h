@@ -19,10 +19,9 @@ class Player : public Entity {
     bool _win;
 public:
 
-    /**
-     * @brief Creates a default constructor for a Player object
-     */
+    /** @brief Creates a default constructor for a Player object */
     Player();
+
 
     /**
      * @brief Creates a Player object
@@ -31,7 +30,7 @@ public:
      * @param status character representation of the Player
      * @param coordinates position of the player in the maze
      */
-    Player(std::string name, int score, char status, Point coordinates);
+    Player(std::string &name, int score, char status, Point coordinates);
 
 
     /**
@@ -57,7 +56,7 @@ public:
 
     /* 'Setter functions' */
     void setScore(int score)        { _score = score;   }
-    void setName(std::string name)  { _name = name;     }
+    void setName(std::string &name) { _name = name;     }
     void setWin()                   { _win = true;      }
 
     /** @brief Kills the Entity */

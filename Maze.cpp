@@ -1,7 +1,7 @@
 #include "Maze.h"
 #include "Post.h"
 
-void Maze::addPost(Post &post) {
+void Maze::addPost(const Post &post) {
     _AllList.push_back(post);               // Adding the post to a list which contains all posts
 
     if (post.isExit()) {                                               // Exit

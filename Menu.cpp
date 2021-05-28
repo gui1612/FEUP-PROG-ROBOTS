@@ -1,6 +1,7 @@
 // File Includes
 #include "Menu.h"
 #include "Game.h"
+#include "constants.h"
 
 // Lib Includes
 #include <fstream>
@@ -63,7 +64,7 @@ void menu() {
 void menuChoice(short choice, short &confirm) {
 
     switch (choice) {
-        case 0: {                                       // Exit
+        case EXIT: {                                       // Exit
             clearScreen();
 
             std::cout << "Are you sure you want to exit (0 to confirm)?" << std::endl;
@@ -79,14 +80,14 @@ void menuChoice(short choice, short &confirm) {
             clearScreen();
             break;
         }
-        case 1: {                                        // Rules
+        case RULES: {                                        // Rules
             clearScreen();
             readFile("RULES.TXT");
             waitForConfirmation();
             if (!std::cin.eof()) { clearScreen(); }
             break;
         }
-        case 2: {                                        // Play
+        case PLAY: {                                        // Play
             clearScreen();
             std::optional<std::string> mazeName = mazePick();
             std::string const mazeNameOrNull = mazeName.value_or("Null");
@@ -102,10 +103,10 @@ void menuChoice(short choice, short &confirm) {
             }
             break;
         }
-        case 3:                                            // Leaderboard
+        case LEADERBOARD:                                   // Leaderboard
             displayLeaderboard();
             break;
-        default:                                           // The input was of type `int`, but not a valid option
+        default:                                             // The input was of type `int`, but not a valid option
             warnUser("menu");
     }
 }
@@ -179,20 +180,20 @@ bool validMaze(const short &filename, std::string &fullPath, std::ifstream &maze
     const std::string PREFIX;                      // Prefix containing the file where the maze files are at
 
     /*
-    * `fileNameOrNullopt` will have a string if it is valid or `std::nullopt` if invalid
-    * `fileNameOrNull` will contain a string with a maze filename if `fileNameOrNullopt` has a valid string or else "Null"
-    */
+     * `fileNameOrNullopt` will have a string if it is valid or `std::nullopt` if invalid
+     * `fileNameOrNull` will contain a string with a maze filename if `fileNameOrNullopt` has a valid string or else "Null"
+     */
 
     std::optional<std::string> fileNameOrNullopt = getMazeName(filename);
     std::string fileNameOrNull = fileNameOrNullopt.value_or("Null");
 
-    if (fileNameOrNullopt != "Null") {                               // Valid filename (0 < fileName < 100)
+    if (fileNameOrNullopt != "Null") {                               // Valid filename (0 < fileName < MAX_MAZES_NUM)
         std::string filepath = PREFIX + fileNameOrNull;              // Full filepath string
         fullPath = filepath;
 
         mazeFile.open(filepath);
         return mazeFile.good();
-    } else {                                                         // Invalid filename ( 0 >= filename or 100 <= filename)
+    } else {                                                         // Invalid filename ( 0 >= filename or MAX_MAZES_NUM <= filename)
         return false;
     }
 }
@@ -210,7 +211,7 @@ void displayLeaderboard() {
         std::cout << "Insert the number of the maze (0 to leave):";
         bool validInput = getInput<short>(leaderBoardNum);
 
-        if (validInput && leaderBoardNum > 0 && leaderBoardNum < 99) {
+        if (validInput && leaderBoardNum > 0 && leaderBoardNum <= MAX_MAZES_NUM) {
             clearBuffer();
             // If the number has one digit fills with a '0' on the left
             std::string num = leaderBoardNum < 10 ? "0" + std::to_string(leaderBoardNum) : std::to_string(leaderBoardNum);
@@ -239,9 +240,9 @@ void displayLeaderboard() {
 }
 
 std::optional<std::string> getMazeName(short levelChoice) {
-    if (levelChoice < 1 || levelChoice > 99) {        // Invalid name for a maze file (there are only 99 mazes max)
+    if (levelChoice < 1 || levelChoice > MAX_MAZES_NUM) {           // Invalid name for a maze file (there are only ``MAX_MAZES_NUM` mazes max)
         return std::nullopt;
-    } else {                                          // Valid name for a maze
+    } else {                                                        // Valid name for a maze
         // Checks if the user input number has one or two digits, turns it into a string, and, if it has one digit fills with a "0" at the left
         std::string firstPart = (levelChoice < 10) ? "0" + std::to_string(levelChoice) : std::to_string(levelChoice);
         std::string fileName = "MAZE_" + firstPart + ".TXT";  // Passes the end format of the maze file to `fileName`
@@ -251,7 +252,7 @@ std::optional<std::string> getMazeName(short levelChoice) {
 
 
 void getExistingMazes(std::vector<std::string> &mazeVec) {
-    for (int i = 0; i < 100; i++) {
+    for (int i = 1; i <= MAX_MAZES_NUM; i++) {
         std::string number = (i < 10) ? "0" + std::to_string(i) : std::to_string(i);
         std::string fileName = "MAZE_" + number + ".TXT";
         if (fileExists(fileName)) { mazeVec.push_back(fileName); }

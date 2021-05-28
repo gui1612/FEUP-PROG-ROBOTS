@@ -37,7 +37,7 @@ private:
      * It only checks if the generic movement would be possible in
      * a generic situation.
      */
-    bool validMove(char key) const;
+    bool validMove(const char key) const;
 
 
     /**
@@ -55,7 +55,7 @@ private:
      *
      * @return returns true if the player's movements align with the game's rules and false otherwise
      */
-    bool updatePlayer(const char &key);
+    bool updatePlayer(const char key);
 
 
     /**
@@ -73,7 +73,7 @@ private:
      * @param pos Point of coordinates {x, y}
      * @return `true` if the Point is inside the maze's bounds, otherwise `false`
      */
-    bool outOfBounds(Point pos) const;
+    bool outOfBounds(const Point &pos) const;
 
 
     /**
@@ -92,7 +92,7 @@ private:
      *
      * @note This algorithm calculates the best move based on distance only
      */
-    Point findBestMove(Robot& currRobot) const;
+    Point findBestMove(const Robot &currRobot) const;
 
 
     /** @brief Function to ask for the username and update the scoreboard */
@@ -106,7 +106,7 @@ private:
      * @param scoreboard `ScoreBoard` instance
      * @param player the `Player` instance of the current game
      */
-    void getScoreboard(const std::string &fullPath, ScoreBoard scoreboard, const Player &player);
+    void getScoreboard(const std::string &fullPath, ScoreBoard &scoreboard, const Player &player);
 
 
     /*

@@ -27,7 +27,7 @@ struct Point {int x; int y;};
  *
  * @return `true` if the points are the same, otherwise `false`
  */
-inline bool operator==(Point p1, Point p2) {
+inline bool operator==(const Point &p1, const Point &p2) {
     return p1.x == p2.x && p1.y == p2.y;
 }
 
@@ -39,10 +39,7 @@ inline bool operator==(Point p1, Point p2) {
 void clearBuffer();
 
 
-/**
- * @brief Clears the console screen
- *
- */
+/** @brief Clears the console screen */
 void clearScreen();
 
 
@@ -65,10 +62,10 @@ bool getInput(T &inp) {
     if (std::cin >> firstInp && std::cin.peek() == '\n') {
         inp = firstInp;
         return true;
-    } else if (!std::cin.eof()) {    // If the input is invalid (with the exception of EOF) returns a flag for invalid input without clearing the buffer
+    } else if (!std::cin.eof()) {       // If the input is invalid (with the exception of EOF) returns a flag for invalid input without clearing the buffer
         clearBuffer();
         return false;
-    } else {                    // If the input is EOF, returns a flag for invalid input without clearing the buffer
+    } else {                            // If the input is EOF, returns a flag for invalid input without clearing the buffer
         return false;
     }
 }
@@ -107,7 +104,7 @@ void sleepFor(unsigned int sec);
  *
  * @return distance between `p1` and `p2`
  */
-double pointDist(Point p1, Point p2);
+double pointDist(const Point &p1, const Point &p2);
 
 
 /**
@@ -117,7 +114,7 @@ double pointDist(Point p1, Point p2);
  *
  * @return returns the index of the last "non-space character"
  */
-size_t getLastAlphaIdx(std::string str);
+size_t getLastAlphaIdx(const std::string &str);
 
 
  /**
@@ -127,3 +124,11 @@ size_t getLastAlphaIdx(std::string str);
   * @return `true` if the file exists, otherwise `false`
   */
 bool fileExists(const std::string &filename, const std::string &path = "");
+
+
+
+/**
+ * @brief Calculates the absolute length of a string in UTF-8 encoding
+ * @param playerName the nickname of the player
+ */
+int getUTF8Length(const std::string& playerName);

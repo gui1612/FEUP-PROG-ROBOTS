@@ -19,7 +19,7 @@ Game::Game(const std::string &filename) {
     mazeFile.open(filename);
 
 
-    unsigned int rows = 0, cols = 0, id = 1, counter = 0;
+    unsigned int rows = 0, id = 1, cols = 0, counter = 0;
     xval x = 0;
     yval y = 0;
     char sep;
@@ -43,24 +43,24 @@ Game::Game(const std::string &filename) {
         if (x != cols) {                                            // Checks if the x coordinate is within the bounds of the maze
             counter++;                                              // Keeps track of the amount of characters of the maze
             switch(chr) {
-                case PLAYER_DEAD_CHAR: case PLAYER_ALIVE_CHAR: {
+                case PLAYER_DEAD_CHAR: case PLAYER_ALIVE_CHAR: {                                     // Player found
                     Player player(chr, {x, y});
                     _player = player;
                     x++; break; }
-                case ROBOT_ALIVE_CHAR: {
-                    Robot robot(chr, {x, y}, id, Robot::ALIVE);
+                case ROBOT_ALIVE_CHAR: {                                                              // Alive Robot found
+                    Robot robot(chr, { x, y }, id, Robot::ALIVE);
                     _robot.push_back(robot);
                     id++; x++; break; }
-                case ROBOT_DEAD_CHAR: {
-                    Robot robot(chr, {x, y}, id, Robot::DEAD);
+                case ROBOT_DEAD_CHAR: {                                                               // Dead Robot found
+                    Robot robot(chr, { x, y }, id, Robot::DEAD);
                     _robot.push_back(robot);
                     id++; break; }
-                case ELECTRIC_POST_CHAR: case NON_ELECTRIC_POST_CHAR: case EXIT_POST_CHAR: {
+                case ELECTRIC_POST_CHAR: case NON_ELECTRIC_POST_CHAR: case EXIT_POST_CHAR: {           // Post found
                     Post post({x, y}, chr);
                     _maze.addPost(post);
                     x++; break; }
-                case ' ': x++; break;
-                default: throw std::runtime_error("Invalid mazefile: The file format is not correct!");
+                case ' ': x++; break;                                                                   // Space found
+                default: throw std::runtime_error("Invalid mazefile: The file format is not correct!"); // Unknown char found
             }
         } else {                                                                            // New line
             x = 0;                                                                          // x coordinate is 0
@@ -134,19 +134,18 @@ void Game::play() {
 
     if (_player.win()) {
         std::cout << win.at(RAND_IDX) << std::endl                                 // Prints a winning message
-             << "Your time: " << gameTime.count() << "s" << std::endl;
+                  << "Your time: " << gameTime.count() << "s" << std::endl;
         _player.setScore(gameTime.count());
         updateScoreboard();                                                        // Updates the scoreboard for the current maze
     } else if (!std::cin.eof()) {
         std::cout << loss.at(RAND_IDX) << std::endl
-             << "Your time: " << gameTime.count() << "s" << std::endl;             // Displays the player game time
+                  << "Your time: " << gameTime.count() << "s" << std::endl;        // Displays the player game time
         waitForConfirmation();
     }
 }
 
 
-
-bool Game::validMove(char key) const {
+bool Game::validMove(const char key) const {
     std::vector<char> movements = {'q', 'w', 'e', 'a', 's', 'd', 'z', 'x', 'c'};
     // Checks if `key` is in `movements`
     return std::find(movements.begin(), movements.end(), static_cast<char>(tolower(key))) != movements.end();
@@ -156,10 +155,11 @@ bool Game::validMove(char key) const {
 void Game::drawMaze() const {
     Point pos{0, 0};
     PostVec allPostList = _maze.getAllList();
-    unsigned int mazeArea = _maze.getMazeArea();
+    const int MAZE_AREA = _maze.getMazeArea();
 
-    while (((pos.x + 1) * (pos.y + 1)) <= mazeArea) {                       // Looping from (0,0) to (cols, rows), while the area of the shape formed by pos and (0,0) isn't the area of the maze
+    while (((pos.x + 1) * (pos.y + 1)) <= MAZE_AREA) {                      // Looping from (0,0) to (cols, rows), while the area of the shape formed by pos and (0,0) isn't the area of the maze
         bool fillWithSpace = true;                                          // Flag keeping track if there aren't any robots/player/posts in coordinates pos
+
 
         auto robotIt = std::find_if(_robot.begin(), _robot.end(), [&](const Robot &x) {
             return x.getCoordinates() == pos;
@@ -168,10 +168,10 @@ void Game::drawMaze() const {
         if (robotIt != _robot.end()) {                                      // The Robot is in pos
             char symbol = robotIt->getStatus();                             // Character of the Robot
             if ((pos.x + 1) == _maze.getColumns()) {                        // Checking it isn't the last character of the row
-                std::cout << symbol << '\n';                                // Drawing Robot
+                std::cout << symbol << std::endl;                           // Drawing Robot
                 pos.y++; pos.x = 0;                                         // Moving to next row
             } else {
-                std::cout << symbol << " " << std::flush;                   // Drawing Robot
+                std::cout << symbol << BLANK_CHAR << std::flush;            // Drawing Robot
                 pos.x++;                                                    // Moving to next column
             }
             fillWithSpace = false;
@@ -184,32 +184,32 @@ void Game::drawMaze() const {
         if (postIt != allPostList.end()) {                                  // The Post is in pos
             char symbol = postIt->getSymbol();                              // Character of the Post
             if ((pos.x + 1) == _maze.getColumns()) {                        // Checking it isn't the last character of the row
-                std::cout << symbol << '\n';                                // Drawing Post
+                std::cout << symbol << std::endl;                                // Drawing Post
                 pos.y++; pos.x = 0;                                         // Moving to next row
             } else {
-                std::cout << symbol << " " << std::flush;                   // Drawing Post
+                std::cout << symbol << BLANK_CHAR << std::flush;            // Drawing Post
                 pos.x++;                                                    // Moving to next column
             }
             fillWithSpace = false;
         }
 
-        if (_player.getCoordinates() == pos) {                              // The player is in pos
-            if ((pos.x + 1) == _maze.getColumns()) {                        // Checking it isn't the last character of the row
-                std::cout << _player.getStatus() << std::endl;              // Drawing player
-                pos.y++; pos.x = 0;                                         // Moving to next row
+        if (_player.getCoordinates() == pos) {                                     // The player is in pos
+            if ((pos.x + 1) == _maze.getColumns()) {                               // Checking it isn't the last character of the row
+                std::cout << _player.getStatus() << std::endl;                     // Drawing player
+                pos.y++; pos.x = 0;                                                // Moving to next row
             } else {
-                std::cout << _player.getStatus() << " " << std::flush;      // Drawing Player
-                pos.x++;                                                    // Moving to next column
+                std::cout << _player.getStatus() << BLANK_CHAR << std::flush;      // Drawing Player
+                pos.x++;                                                           // Moving to next column
             }
             fillWithSpace = false;
         }
 
         if (fillWithSpace) {
             if ((pos.x + 1) == _maze.getColumns()) {                        // Checking it isn't the last character of the row
-                std::cout << " " << std::endl;                              // Drawing a space
+                std::cout << BLANK_CHAR << std::endl;                       // Drawing a space
                 pos.y++; pos.x = 0;                                         // Moving to next row
             } else {
-                std::cout << "  " << std::flush;                            // Drawing a space
+                std::cout << BLANK_CHAR << BLANK_CHAR << std::flush;        // Drawing two spaces (Note: We're using 2 spaces instead of one for playability)
                 pos.x++;                                                    // Moving to next column
             }
         }
@@ -218,7 +218,7 @@ void Game::drawMaze() const {
 }
 
 
-bool Game::updatePlayer(const char &key) {
+bool Game::updatePlayer(const char key) {
     // Player position before the movement
     Point lastPos = _player.getCoordinates();
     xval x = lastPos.x;
@@ -273,43 +273,18 @@ bool Game::updatePlayer(const char &key) {
                 return false;
             }
         }
-
         return true;                                                // Danger free player movement
-
     } else {
         _player.moveTo(lastPos);
         return false;
     }
-
-    // THIS CODE DOESN'T CONTEMPLATE THE OOP PARADIGM SO IT IS NO GOOD
-    /*
-    char newPosChar = getNewPosChar(_player.getCoordinates());
-
-    if (!outOfBounds(_player.getCoordinates())) {                                          // Checks if the player is inside the maze bounds
-        if (newPosChar == ' ' || newPosChar == PLAYER_ALIVE_CHAR) {                        // Danger free player movement
-            return true;
-        } else if (newPosChar == ROBOT_ALIVE_CHAR || newPosChar == ELECTRIC_POST_CHAR) {   // Kills the player if they move into a live robot or electric fence
-            _player.kill();
-            _player.moveTo(lastPos);
-            return true;
-        } else if ( newPosChar == EXIT_POST_CHAR ) {                         // Player found the exit, therefore they win
-            _player.setWin();
-            return true;
-        } else {                                                             // Invalid player move
-            _player.moveTo(lastPos);
-            return false;
-        }
-    } else {                                                                 // Invalid move (out of maze bounds)
-        _player.moveTo(lastPos);
-        return false;
-    }
-    */
 }
 
 
-bool Game::outOfBounds(Point pos) const {
-    const unsigned int HEIGHT = _maze.getRows(), WIDTH = _maze.getColumns(); // Creating height and width variables by looking at the maze instance
-    return !(0 <= pos.y && pos.y < HEIGHT && 0 <= pos.x && pos.x < WIDTH);   // Returning true (if inbounds) and false (if out of bounds)
+bool Game::outOfBounds(const Point &pos) const {
+    const int LOWER_BOUND = 0;
+    const int HEIGHT = _maze.getRows(), WIDTH = _maze.getColumns(); // Creating height and width variables by looking at the maze instance
+    return !(LOWER_BOUND <= pos.y &&  pos.y < HEIGHT && LOWER_BOUND <=  pos.x &&  pos.x < WIDTH);   // Returning true (if inbounds) and false (if out of bounds)
 }
 
 
@@ -338,7 +313,7 @@ char Game::getNewPosChar(const Point &pos) const {
 void Game::updateAllRobots() {
     PostVec allPostList = _maze.getAllList();
 
-    for (int i = 0; i < _robot.size(); i++) {
+    for (size_t i = 0; i < _robot.size(); i++) {
 
         if (!_robot.at(i).isAlive()) continue;                          // If the Robot is not alive he won't move
 
@@ -379,38 +354,10 @@ void Game::updateAllRobots() {
         }
 
         _robot.at(i).moveTo(newPos);
-
-
-        // THIS CODE DOESN'T CONTEMPLATE THE OOP PARADIGM SO IT IS NO GOOD
-        /*       char charInPos = getNewPosChar(newPos);                         // Fetches the char in the position `newPos`
-
-               if (charInPos ==  ROBOT_ALIVE_CHAR || charInPos == ROBOT_DEAD_CHAR) {                     // Robot gets stuck
-                   _robot.at(i).kill();                                        // First robot dies
-                   _robot.at(i).moveTo(newPos);                                // Coordinates update
-                   for (int j = 0; j < _robot.size(); j++) {
-                       if (_robot.at(i) == _robot.at(j)) continue;
-
-                       if (_robot.at(j).getCoordinates() == newPos) {          // If there's a robot collision, kills the other robot
-                           _robot.at(j).kill();                                // Second robot dies
-                       }
-                   }
-               } else if (charInPos == ELECTRIC_POST_CHAR) {                                  // Robot moves to electric fence
-                   _robot.at(i).kill();                                        // Robot dies
-               } else if (charInPos == NON_ELECTRIC_POST_CHAR) {
-                   _robot.at(i).kill();                                        // Robot dies
-               } else if (charInPos == PLAYER_ALIVE_CHAR) {                      // Player gets caught by robot
-                   _player.kill();                                             // Player dies
-                   break;
-               } else {                                                        // Regular robot move
-                   _robot.at(i).moveTo(newPos);                                // Updates robot position
-               }
-           }
-           */
-
     }
 }
 
-Point Game::findBestMove(Robot& currRobot) const {
+Point Game::findBestMove(const Robot &currRobot) const {
     xval x = currRobot.getCoordinates().x;
     yval y = currRobot.getCoordinates().y;
 
@@ -455,7 +402,7 @@ void Game::updateScoreboard() {
 }
 
 
-void Game::getScoreboard(const std::string &fullPath, ScoreBoard scoreboard, const Player &player) {
+void Game::getScoreboard(const std::string &fullPath, ScoreBoard &scoreboard, const Player &player) {
     std::ifstream if_leaderBoard;                       // Initializing a stream for file input
 
     if_leaderBoard.open(fullPath.c_str());              // Opening the file
@@ -477,7 +424,7 @@ void Game::getScoreboard(const std::string &fullPath, ScoreBoard scoreboard, con
         // Writing the table header
         of_leaderBoard << "Player              - Time" << std::endl
                        << "--------------------------" << std::endl;
-
+        
         int scoreboardSize = scoreboard.size();
         int counter = 1;
         // Sorting the scores in the scoreboard
@@ -519,7 +466,7 @@ void Game::parseLines(std::ifstream &leaderBoard, ScoreBoard &scoreBoard, const 
 
         size_t lastDashPos = line.rfind('-');                       // Gets the index of the last '-' occurrence
         std::string strScore = line.substr(lastDashPos + 2);        // Parses the `score` from the line
-        int score = stoi(strScore);                                 // Converts score into an integer
+        unsigned int score = stoi(strScore);                        // Converts score into an integer
 
         std::string firstPart = line.substr(0, lastDashPos);        // Parses the string of the line until '-'
         size_t lastAlphaPos = getLastAlphaIdx(firstPart);           // Gets the index of the first char that is not ' '

@@ -11,7 +11,7 @@ Player::Player(char status, Point coordinates)
     }
 
 
-Player::Player(std::string name, int score, char status, Point coordinates)
+Player::Player(std::string &name, int score, char status, Point coordinates)
         : Entity(status, coordinates)
     {
         _name = name;
@@ -45,7 +45,9 @@ void Player::getPlayerName() {
 
         if (validInput) {                                   // Valid type
             clearBuffer();
-            int nameLen = playerName.length();              // The size of the name
+
+            int nameLen = getUTF8Length(playerName);
+           // int nameLen = playerName.length();              // The size of the name
 
             if (0 < nameLen && nameLen <= 15) {             // Invalid name size
                 setName(playerName);

@@ -1,6 +1,5 @@
 ﻿#pragma once
 
-
 // File Includes
 #include "Utils.h"
 
@@ -8,6 +7,10 @@
 #include <iostream>
 #include <string>
 #include <optional>
+
+
+// Menu Options
+enum menuOptions { EXIT = 0, RULES, PLAY, LEADERBOARD };
 
 
 /** @brief Base menu caller function */
@@ -53,10 +56,10 @@ void displayLeaderboard();
 
 
 /**
- * @brief Converts the input given prior to a std::string checking if it is valid (]0, 100[)
+ * @brief Converts the input given prior to a std::string checking if it is valid (]0, MAX_MAZES_NUM[)
  *
  * @param levelChoice int representing a level number
- * @return if the level number is valid  (0 < levelChoice < 100) returns the filename. If not, returns `std::nullopt`
+ * @return if the level number is valid  (0 < levelChoice < MAX_MAZES_NUMB) returns the filename. If not, returns `std::nullopt`
  */
 std::optional<std::string> getMazeName(short levelChoice);
 

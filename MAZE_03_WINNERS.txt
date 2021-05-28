@@ -1,6 +1,11 @@
 Player              - Time
 --------------------------
-ll                  -    8
+Ant¢nio             -    4
+ll                  -    4
+aaaaaaaaaaaaaaa     -    6
+opkkkkk             -    6
+a                   -    7
 aa                  -    8
+l                   -   10
 Guizaaaaaaaa        -   11
 ppppppp             -   14
