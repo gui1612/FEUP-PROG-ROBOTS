@@ -1,3 +1,0 @@
-C:\Users\gui16\Documents\FEUP-PROG-ROBOTS\Debug\FEUP-PROG-ROBOTS.exe
-C:\Users\gui16\Documents\FEUP-PROG-ROBOTS\Debug\FEUP-PROG-ROBOTS.exe.lastcodeanalysissucceeded
-C:\Users\gui16\Documents\FEUP-PROG-ROBOTS\Debug\NativeCodeAnalysis.read.1.tlog
