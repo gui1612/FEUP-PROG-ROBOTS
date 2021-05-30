@@ -1,7 +1,7 @@
 // T06_G06
 /**
  * @author Guilherme Almeida (up202006137)
- * @author António Santos (up202008004)
+ * @author AntÃ³nio Santos (up202008004)
  *
  * @copyright Copyright (c) 2021
  */

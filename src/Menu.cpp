@@ -82,7 +82,8 @@ void menuChoice(short choice, short &confirm) {
         }
         case RULES: {                                        // Rules
             clearScreen();
-            readFile("RULES.TXT");
+            std::string PREFIX = "../input/";
+            readFile(PREFIX + "RULES.TXT");
             waitForConfirmation();
             if (!std::cin.eof()) { clearScreen(); }
             break;
@@ -176,7 +177,7 @@ std::optional<std::string> mazePick() {
 
 
 bool validMaze(const short &filename, std::string &fullPath, std::ifstream &mazeFile) {
-    const std::string PREFIX;                      // Prefix containing the file where the maze files are at
+    const std::string PREFIX = "../input/";                         // Prefix containing the file where the maze files are at
 
     /*
      * `fileNameOrNullopt` will have a string if it is valid or `std::nullopt` if invalid
@@ -187,10 +188,10 @@ bool validMaze(const short &filename, std::string &fullPath, std::ifstream &maze
     std::string fileNameOrNull = fileNameOrNullopt.value_or("Null");
 
     if (fileNameOrNullopt != "Null") {                               // Valid filename (0 < fileName < MAX_MAZES_NUM)
-        std::string filepath = PREFIX + fileNameOrNull;              // Full filepath string
+        std::string filepath = fileNameOrNull;              // Full filepath string
         fullPath = filepath;
 
-        mazeFile.open(filepath);
+        mazeFile.open(PREFIX + filepath);
         return mazeFile.good();
     } else {                                                         // Invalid filename ( 0 >= filename or MAX_MAZES_NUM <= filename)
         return false;
@@ -199,7 +200,7 @@ bool validMaze(const short &filename, std::string &fullPath, std::ifstream &maze
 
 
 void displayLeaderboard() {
-    const std::string PREFIX;                          // Prefix containing the file where the maze files are at
+    const std::string PREFIX = "../input/";                          // Prefix containing the file where the maze files are at
     short leaderBoardNum;
     short leaveConfirm = 1;
 
@@ -255,9 +256,10 @@ std::optional<std::string> getMazeName(short levelChoice) {
 
 
 void getExistingMazes(std::vector<std::string> &mazeVec) {
+    const std::string PREFIX = "../input/";
     for (int i = 1; i <= MAX_MAZES_NUM; i++) {
         std::string number = (i < 10) ? "0" + std::to_string(i) : std::to_string(i);
         std::string fileName = "MAZE_" + number + ".TXT";
-        if (fileExists(fileName)) { mazeVec.push_back(fileName); }
+        if (fileExists(PREFIX + fileName)) { mazeVec.push_back(fileName); }
     }
 }

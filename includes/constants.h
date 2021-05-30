@@ -35,7 +35,7 @@ const int CLEAR_SCREEN_NL		  = 100;			 // Default: 100
 
 
 /// 'SLEEP_TIME' sets the waiting time for animations in the game
-const unsigned int SLEEP_TIME = 2;					  // Default: 2
+const unsigned int SLEEP_TIME     = 2;					  // Default: 2
 
 
 // 'MAX_STREAM_LIMIT' represents the amount of character to ignore when reading the Maze file

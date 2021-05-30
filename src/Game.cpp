@@ -13,9 +13,11 @@
 
 
 Game::Game(const std::string &filename) {
+    const std::string PREFIX = "../input/";
+
     // Opening the maze file
     std::ifstream mazeFile;
-    mazeFile.open(filename);
+    mazeFile.open(PREFIX + filename);
 
     // Variable initialization ( rows/columns number, id and the current coordinates (x, y) )
     unsigned int rows = 0, id = 1, cols = 0, counter = 0, numAmount = 0;
@@ -384,8 +386,9 @@ Point Game::findBestMove(const Robot &currRobot) const {
 void Game::updateScoreboard() {
     // Initializing a ScoreBoard (vector<Player>) to track the players in the leaderboard
     ScoreBoard scoreboard;
-    const std::string PREFIX ;                                                           // Prefix for relative path file location
+    const std::string PREFIX = "../input/";                                              // Prefix for relative path file location
     const std::string fullPath = PREFIX + "MAZE_" + _maze.getName() + "_WINNERS.txt";    // Full path and filename
+    std::cout << fullPath << std::endl;
 
     _player.getPlayerName();
     if (!std::cin.eof()) {
