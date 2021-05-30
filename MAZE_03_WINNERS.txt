@@ -1,14 +1,2 @@
 Player              - Time
 --------------------------
-qwe                 -    4
-Ant�nio             -    4
-ll                  -    4
-aaaaaaaaaaaaaaa     -    6
-opkkkkk             -    6
-lééééééé     -    7
-a                   -    7
-aa                  -    8
-asdasdsa            -   10
-l                   -   10
-Guizaaaaaaaa        -   11
-ppppppp             -   14

@@ -5,7 +5,7 @@
 ![](./images/robotlogo.png)
 
 
-- Project name: Robots Game
+- Project name: Robots Game (Object oriented version)
 - Short description: Console-based game
 - Environment: Unix/Windows console
 - Tools: C++
