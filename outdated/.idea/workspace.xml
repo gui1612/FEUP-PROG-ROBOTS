@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CMakeRunConfigurationManager" shouldGenerate="true" shouldDeleteObsolete="true">
+    <generated>
+      <config projectName="FEUP_PROG_Proj1" targetName="FEUP_PROG_Proj1" />
+    </generated>
+  </component>
+  <component name="CMakeSettings">
+    <configurations>
+      <configuration PROFILE_NAME="Debug" CONFIG_NAME="Debug" ENABLED="true" />
+    </configurations>
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="dc0d031a-2bf7-4dc1-aac1-ff435deec32f" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/html/annotated.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/annotated_dup.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/bc_s.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/bdwn.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/classes.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/closed.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/dir_09e761304027c904456130627fd4dcf5.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/dir_09e761304027c904456130627fd4dcf5.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/dir_68267d1309a1af8e8297ef4c3efbcdba.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/doc.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/doxygen-awesome.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/doxygen.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/doxygen.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/dynsections.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/entities_8h.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/entities_8h.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/entities_8h_source.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/files.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/files_dup.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/folderclosed.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/folderopen.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/functions.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/functions_vars.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/game_8h_source.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/global_8h_source.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/globals.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/globals_func.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/jquery.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/menu.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/menu_8h_source.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/menudata.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/nav_f.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/nav_g.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/nav_h.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/navtree.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/navtree.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/navtreedata.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/navtreeindex0.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/open.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/resize.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/robotlogo.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/score_8h_source.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/search/all_0.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/search/all_0.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/search/all_1.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/search/all_1.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/search/all_2.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/search/all_2.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/search/all_3.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/search/all_3.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/search/all_4.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/search/all_4.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/search/all_5.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/search/all_5.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/search/all_6.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/search/all_6.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/search/all_7.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/search/all_7.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/search/all_8.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/search/all_8.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/search/all_9.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/search/all_9.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/search/all_a.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/search/all_a.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/search/all_b.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/search/all_b.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/search/all_c.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/search/all_c.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/search/all_d.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/search/all_d.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/search/all_e.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/search/all_e.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/search/classes_0.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/search/classes_0.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/search/classes_1.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/search/classes_1.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/search/classes_2.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/search/classes_2.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/search/close.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/search/files_0.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/search/files_0.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/search/functions_0.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/search/functions_0.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/search/functions_1.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/search/functions_1.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/search/functions_2.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/search/functions_2.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/search/functions_3.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/search/functions_3.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/search/functions_4.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/search/functions_4.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/search/functions_5.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/search/functions_5.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/search/functions_6.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/search/functions_6.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/search/functions_7.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/search/functions_7.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/search/functions_8.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/search/functions_8.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/search/mag_sel.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/search/nomatches.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/search/pages_0.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/search/pages_0.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/search/search.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/search/search.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/search/search_l.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/search/search_m.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/search/search_r.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/search/searchdata.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/search/variables_0.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/search/variables_0.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/search/variables_1.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/search/variables_1.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/search/variables_2.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/search/variables_2.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/search/variables_3.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/search/variables_3.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/search/variables_4.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/search/variables_4.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/search/variables_5.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/search/variables_5.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/search/variables_6.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/search/variables_6.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/splitbar.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/structMaze-members.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/structMaze.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/structMaze.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/structPlayer-members.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/structPlayer.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/structPlayer.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/structPoint-members.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/structPoint.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/structPoint.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/structRobot-members.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/structRobot.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/structRobot.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/sync_off.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/sync_on.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/tab_a.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/tab_b.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/tab_h.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/tab_s.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/tabs.css" beforeDir="false" />
+    </list>
+    <list id="efdaa99d-a50e-48d4-8ad8-441492f2bcfc" name="Changes by toni" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ClangdSettings">
+    <option name="formatViaClangd" value="false" />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:Debug" />
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="CMakeLists.txt" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedIndex" value="1" />
+  </component>
+  <component name="ProjectId" id="1rracv72qOS7HOQII0LLdu10s6p" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="cf.first.check.clang-format" value="false" />
+    <property name="last_opened_file_path" value="$USER_HOME$/Programming/FEUP-PROG" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
+    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/src" />
+      <recent name="$PROJECT_DIR$/includes" />
+      <recent name="$PROJECT_DIR$/includes2" />
+      <recent name="$PROJECT_DIR$/others" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" PASS_PARENT_ENVS_2="true">
+      <method v="2">
+        <option name="CLION.EXTERNAL.BUILD" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="FEUP_PROG_Proj1" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="FEUP_PROG_Proj1" TARGET_NAME="FEUP_PROG_Proj1" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="FEUP_PROG_Proj1" RUN_TARGET_NAME="FEUP_PROG_Proj1">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" PASS_PARENT_ENVS_2="true">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="dc0d031a-2bf7-4dc1-aac1-ff435deec32f" name="Default Changelist" comment="" />
+      <created>1619736744740</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1619736744740</updated>
+      <workItem from="1619736745915" duration="553000" />
+      <workItem from="1619774313610" duration="33000" />
+      <workItem from="1620563725041" duration="1223000" />
+      <workItem from="1620763659299" duration="10679000" />
+      <workItem from="1620837765730" duration="2298000" />
+      <workItem from="1620841776650" duration="2623000" />
+      <workItem from="1621118778659" duration="967000" />
+      <workItem from="1621204673878" duration="602000" />
+      <workItem from="1621270657456" duration="14021000" />
+      <workItem from="1621432291274" duration="2315000" />
+      <workItem from="1621435133634" duration="758000" />
+      <workItem from="1621438422452" duration="13067000" />
+      <workItem from="1621607091891" duration="17239000" />
+      <workItem from="1621624934737" duration="9660000" />
+      <workItem from="1621635743418" duration="12903000" />
+      <workItem from="1621679972799" duration="15488000" />
+      <workItem from="1621725821414" duration="5771000" />
+      <workItem from="1621805876469" duration="2756000" />
+      <workItem from="1621809016592" duration="10275000" />
+      <workItem from="1621959111252" duration="3828000" />
+      <workItem from="1621975227407" duration="85000" />
+      <workItem from="1622026324748" duration="8206000" />
+      <workItem from="1622037680988" duration="22182000" />
+      <workItem from="1622173389322" duration="636000" />
+      <workItem from="1622193882569" duration="18846000" />
+      <workItem from="1622226298245" duration="184000" />
+      <workItem from="1622320659561" duration="2222000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+</project>

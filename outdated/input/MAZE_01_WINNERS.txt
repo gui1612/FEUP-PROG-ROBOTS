@@ -1,0 +1,6 @@
+Player              - Time
+--------------------------
+Antonio1            -    2
+MortyC137           -    4
+ABCDEFGHIJKLMNO     -    9
+Guilherme           -   10
