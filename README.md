@@ -27,24 +27,28 @@
 ## Final submition
 ```
 T06_G06
-Group Member: Guilherme Almeida (up202006137) and António Santos (up202008004)
-Program Development State: All the objectives were accomplished
+Group Members: 
+    - Guilherme Almeida (up202006137)
+    - António Santos (up202008004)
+Program Development State: 
+    - All the objectives were accomplished
 Improvements:
-- Menu option to display the existing leaderboards;
-- Took care of every case of bad user input;
-- Created a website with Doxygen containing the game docs, to make the reading
-of them easier;
+    - Menu option to display the existing leaderboards;
+    - Took care of every case of bad user input;
+    - Introduced global constants that enable the user to alter some of the games characteristics
+(maze characters, amount of mazes, ...);
+    - Menu for the available mazes when picking one;
 ```
 
 <details>
     <summary>Solutions to the mazes! (SPOILERS)</summary>
     <p></p>
     <ul>
-        <li>MAZE 01 - X > C > C</li>
-        <li>MAZE 02 - Q > Q > Q > Q</li>
-        <li>MAZE 03 - S > S > S</li>
-        <li>MAZE 04 - C > C > C > Q > E > D > S > W > S > S > S > S > S > S > S</li>
-        <li>MAZE 05 - Invalid maze!</li>
+        <li>MAZE 02 - unplayable, only serves as a way to test if mazes are being correctly read</li>
+        <li>MAZE 03 - S > S > S > (move to the exit)</li>
+        <li>MAZE 04 - C > C > C > Q > E > D > S > W > S > S > S > S > S > S > S > (move to the exit)</li>
+        <li>MAZE 05 - unplayable, only serves as a way to test if mazes are being correctly read</li>
+        <li>MAZE 06 - Q > E > W</li>
     </ul>
 </details>
 
