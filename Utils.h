@@ -127,13 +127,6 @@ bool fileExists(const std::string &filename, const std::string &path = "");
 
 
 /**
- * @brief Calculates the absolute length of a string in UTF-8 encoding
- * @param playerName the nickname of the player
- */
-int getUTF8Length(const std::string& playerName);
-
-
-/**
  * @brief Gets the number of lines in a file
  * @param fileName the name of the file
  * @return number of lines in `fileName`

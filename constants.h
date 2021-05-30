@@ -1,5 +1,8 @@
 #pragma once
 
+// Lib includes
+#include <limits>
+
 /** @brief Global Constants definition 
  * @note Changing the values in here will
  * change them in the entire program.

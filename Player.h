@@ -64,8 +64,7 @@ public:
 
 
     /**
-     * @brief Gets the player name (length <= 15)
-     *
+     * @brief Gets the player name (name length <= 15)
      * @param player `Player` instance
      */
     void getPlayerName();

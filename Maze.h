@@ -18,15 +18,15 @@ class Maze {
     std::string _name;
 
     /** @brief A vector of the Points containing the x and y coordinates of the game exits */
-    PostVec _AllList;
+    PostVec _allList;
 
 public:
 
     /* @brief Default constructor for a Maze */
-    Maze() : _AllList(), _rows(0), _columns(0) {};
+    Maze() : _allList(), _rows(0), _columns(0) {};
 
     /* 'Getter functions' */
-    PostVec getAllList() const              { return _AllList;          }
+    PostVec getAllList() const              { return _allList;          }
     unsigned int getRows() const            { return _rows;             }
     unsigned int getColumns() const         { return _columns;          }
     unsigned int getMazeArea() const        { return _rows * _columns;  }
@@ -43,12 +43,26 @@ public:
 
     /**
      * @brief Adds a Post instance to the Maze
+     * @param post Instance of Post
      * @note When the post is added, it is automatically
      * checked if it is electrified ('*'), an exit ('O')
      * or a regular post ('+')
      */
     void addPost(Post& post);
+
+
+    /**
+     * @brief Removes a Post at a given position if it exists
+     * @param pos Point where the post is
+     */
     void removePost(const Point &pos);
+
+
+    /**
+     * @brief Replaces a Post at a given position if it exists by another given Post
+     * @param post Instance of Post
+     * @param pos Point where the post is
+     */
     void replacePost(Post &post, const Point &pos);
 
     /** @brief Clears a Maze instance */

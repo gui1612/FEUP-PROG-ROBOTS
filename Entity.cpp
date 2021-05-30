@@ -1,3 +1,4 @@
+// File includes
 #include "Entity.h"
 
 void Entity::kill() {

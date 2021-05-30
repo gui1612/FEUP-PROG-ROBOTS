@@ -11,7 +11,10 @@
 #include <string>
 #include <optional>
 
+
+// Type aliases
 using ScoreBoard = std::vector<Player>;
+
 
 class Game {
     Player               _player;               /// Instance of Player representing the current Player
@@ -56,15 +59,6 @@ private:
      * @return returns true if the player's movements align with the game's rules and false otherwise
      */
     bool updatePlayer(char key);
-
-
-    /**
-    * @brief Returns the character present at position `pos`
-    *
-    * @param pos The position to be checked
-    * @return The char present at `pos`
-    */
-    //char getNewPosChar(const Point &pos) const;
 
 
     /**
@@ -127,7 +121,7 @@ private:
      * @brief Collision between a Robot and a Post
      * @param robot Robot instance
      * @param post Post instance
-     * @param newpos Position of the collision
+     * @param newPos Position of the collision
      */
     void collide(Robot &robot, Post &post, const Point &newPos);
 

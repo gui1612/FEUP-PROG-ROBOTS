@@ -87,7 +87,7 @@ void menuChoice(short choice, short &confirm) {
             if (!std::cin.eof()) { clearScreen(); }
             break;
         }
-        case PLAY: {                                        // Play
+        case PLAY: {                                          // Play
             clearScreen();
             std::optional<std::string> mazeName = mazePick();
             std::string const mazeNameOrNull = mazeName.value_or("Null");

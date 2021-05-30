@@ -4,6 +4,7 @@
 #include "Utils.h"
 
 class Post {
+    /** @brief Coordinates of the Post */
     Point _coordinates;
 
     /** @brief Type is 'O' if the post is a leave or '+' if it is a non-electrified post or '*' if it is and electrified post */
@@ -47,8 +48,4 @@ class Post {
          * @return `true` if the post is an Exit, otherwise `false`
          */
         bool isExit() const;
-
-
-        /** @brief Deactivates the post (passes from electrified to non-electrified) */
-        void deactivatePost();
 };

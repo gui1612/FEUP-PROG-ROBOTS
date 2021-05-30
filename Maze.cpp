@@ -1,10 +1,12 @@
+// File includes
 #include "Maze.h"
 #include "Post.h"
 
+// Lib includes
 #include <algorithm>
 
 void Maze::addPost(Post &post) {
-    _AllList.push_back(post);               // Adding the post to a list which contains all posts
+    _allList.push_back(post);               // Adding the post to a list which contains all posts
 }
 
 
@@ -16,15 +18,17 @@ void Maze::clear() {
 
 
 void Maze::replacePost(Post &post, const Point &pos) {
-    for (int i = 0; i < _AllList.size(); i++) {
-        if (_AllList.at(i).getCoordinates() == pos) _AllList.at(i) = post;
+    for (Post &currPost : _allList) {
+        // Loop to replace the Post (if it exists) at position `pos` with `post`
+        if (currPost.getCoordinates() == pos) currPost = post;
     }
 }
 
 
 void Maze::removePost(const Point &pos) {
-    auto startIt = _AllList.begin();
-    for (int i = 0; i < _AllList.size(); i++) {
-        if (_AllList.at(i).getCoordinates() == pos) _AllList.erase(startIt + i);
+    auto startIt = _allList.begin();                                            // Iterator to the starting point of the vector
+    // Loop to remove the Post at position `pos` (if it exists)
+    for (int i = 0; i < _allList.size(); i++) {
+        if (_allList.at(i).getCoordinates() == pos) _allList.erase(startIt + i);
     }
 }
