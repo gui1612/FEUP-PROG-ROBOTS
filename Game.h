@@ -121,4 +121,31 @@ private:
     void parseLines(std::ifstream &leaderBoard, ScoreBoard &scoreBoard, const Player &player);
 
 
+    /* Collision overloaded functions */
+
+    /**
+     * @brief Collision between a Robot and a Post
+     * @param robot Robot instance
+     * @param post Post instance
+     * @param newpos Position of the collision
+     */
+    void collide(Robot &robot, Post &post, const Point &newPos);
+
+
+    /**
+     * @brief Collision between a Robot and another Robot
+     *
+     * @param robot Robot (that collides) instance
+     * @param robotCol Robot (that gets collided with) instance
+     * @param newPos Position of the collision
+     */
+    void collide(Robot &robot, Robot &robotCol, const Point &newPos);
+
+
+    /**
+     * @brief Updates the Player position
+     * @param pos Player current position
+     * @param key The char which represents the player's movement
+     */
+    void updatePlayerPos(const Point &pos, char key);
 };

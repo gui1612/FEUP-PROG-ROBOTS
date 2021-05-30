@@ -63,7 +63,6 @@ public:
     virtual void kill();
 
 
-
     /**
      * @brief Gets the player name (length <= 15)
      *

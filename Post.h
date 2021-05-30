@@ -36,6 +36,13 @@ class Post {
 
 
         /**
+        * @brief Checks if a Post is not electrified
+        * @return `true` if the post is not electrified, otherwise `false`
+        */
+        bool isNotElectrified() const;
+
+
+        /**
          * @brief Checks if the post is an Exit
          * @return `true` if the post is an Exit, otherwise `false`
          */

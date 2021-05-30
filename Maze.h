@@ -17,15 +17,16 @@ class Maze {
     /** @brief The name of the maze currently being played (in format 'XX') */
     std::string _name;
 
-public:
     /** @brief A vector of the Points containing the x and y coordinates of the game exits */
-    PostVec AllList;
+    PostVec _AllList;
+
+public:
 
     /* @brief Default constructor for a Maze */
-    Maze() : AllList(), _rows(0), _columns(0) {};
+    Maze() : _AllList(), _rows(0), _columns(0) {};
 
     /* 'Getter functions' */
-    PostVec getAllList() const              { return AllList;          }
+    PostVec getAllList() const              { return _AllList;          }
     unsigned int getRows() const            { return _rows;             }
     unsigned int getColumns() const         { return _columns;          }
     unsigned int getMazeArea() const        { return _rows * _columns;  }
@@ -37,6 +38,7 @@ public:
     void setCols(unsigned int cols)         { _columns = cols;          }
     void setName(std::string &name)         { _name = name;             }
 
+
     /* Member functions */
 
     /**
@@ -46,6 +48,8 @@ public:
      * or a regular post ('+')
      */
     void addPost(Post& post);
+    void removePost(const Point &pos);
+    void replacePost(Post &post, const Point &pos);
 
     /** @brief Clears a Maze instance */
     void clear();

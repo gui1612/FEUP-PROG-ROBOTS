@@ -126,7 +126,6 @@ size_t getLastAlphaIdx(const std::string &str);
 bool fileExists(const std::string &filename, const std::string &path = "");
 
 
-
 /**
  * @brief Calculates the absolute length of a string in UTF-8 encoding
  * @param playerName the nickname of the player

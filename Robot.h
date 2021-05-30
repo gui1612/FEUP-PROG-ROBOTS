@@ -15,9 +15,6 @@ class Robot : public Entity {
      */
     unsigned int _state;
 
-    /** @brief Represents the number of Robots in the game */
-    //static int _robotCount;
-
 public:
     // Possible states for a Robot
     enum State{ ALIVE = 0, STUCK, DEAD };

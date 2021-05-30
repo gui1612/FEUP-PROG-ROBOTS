@@ -4,12 +4,11 @@
 
 
 // Lib Includes
-#include <optional>
 #include <cmath>
 #include <fstream>
 #include <string>
 #include <limits>
-
+#include <algorithm>
 
 void clearBuffer() {
     std::cin.clear();
@@ -91,13 +90,14 @@ bool fileExists(const std::string &filename, const std::string &path) {
 
 int getUTF8Length(const std::string& playerName) {
     int stringLength = 0;
-
-    for (const char &chr : playerName) {
+    //return playerName.length() - std::count_if(playerName.begin(), playerName.end(), [](char c)->bool { return (c & 0xC0) == 0x80; });
+    for (char chr : playerName) {
         if ((chr & 0b11000000) == 0b10000000) continue;             // Ignoring UTF-8 bytes after the first
         stringLength++;
     }
     return stringLength;
 }
+
 
 
 int getLinesNumber(const std::string &fileName) {

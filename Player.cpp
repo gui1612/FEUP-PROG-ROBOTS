@@ -48,7 +48,8 @@ void Player::getPlayerName() {
 
             // TODO: Fix this
             int nameLen = getUTF8Length(playerName);
-           // int nameLen = playerName.length();              // The size of the name
+            //int nameLen = playerName.length();              // The size of the name
+            std::cout << nameLen << std::endl;
 
             if (0 < nameLen && nameLen <= 15) {             // Invalid name size
                 setName(playerName);

@@ -14,3 +14,7 @@ bool Post::isExit() const {
 void Post::deactivatePost() {
     setSymbol(NON_ELECTRIC_POST_CHAR);
 }
+
+bool Post::isNotElectrified() const {
+    return _symbol == NON_ELECTRIC_POST_CHAR;
+}

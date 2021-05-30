@@ -127,21 +127,21 @@ void readFile(const std::string &filename) {
 
 void displayAvailableMazes() {
     std::vector<std::string> availableMazes;
-    getExistingMazes(availableMazes);   
+    getExistingMazes(availableMazes);                               // Gets the vector with the names of the available mazes (MAZE_XX.TXT)
     std::cout << "Valid options:" << std::endl;
-    std::cout << std::setfill('-') << std::setw(22) << "-" << std::endl;
     for (const std::string &mazeName : availableMazes) {
-        std::cout << "| -> " << mazeName << " (" << mazeName.substr(5, 2) << ") |" << std::endl;
+        int numAmount = 0;
+        // Calculates the amount of numbers in the mazename
+        for (const auto &chr: mazeName) { if (isdigit(chr)) numAmount++; }
+        std::cout << "\t|-> " << mazeName << " (" << mazeName.substr(5, numAmount) << ")" << std::endl;
      }
-    std::cout << std::setw(22) << "-" << std::endl;
 }
 
 
 std::optional<std::string> mazePick() {
     short leaveConfirm = 1;
+
     // File Input loop that ends when the user sends "EOF" or when a valid maze is picked
-
-
     do {
         const unsigned int SLEEP_TIME = 2;
         short levelPick;
