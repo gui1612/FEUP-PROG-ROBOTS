@@ -28,7 +28,7 @@ void Maze::replacePost(Post &post, const Point &pos) {
 void Maze::removePost(const Point &pos) {
     auto startIt = _allList.begin();                                            // Iterator to the starting point of the vector
     // Loop to remove the Post at position `pos` (if it exists)
-    for (int i = 0; i < _allList.size(); i++) {
+    for (size_t i = 0; i < _allList.size(); i++) {
         if (_allList.at(i).getCoordinates() == pos) _allList.erase(startIt + i);
     }
 }

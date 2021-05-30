@@ -1,3 +1,12 @@
+// T06_G06
+/**
+ * @author Guilherme Almeida (up202006137)
+ * @author António Santos (up202008004)
+ *
+ * @copyright Copyright (c) 2021
+ */
+
+
 // File Includes
 #include "Utils.h"
 #include "Menu.h"

@@ -43,7 +43,7 @@ public:
 
 
     /* 'Getter functions' */
-    ID getScore() const             { return _score;    }
+    int getScore() const            { return _score;    }
     std::string getName() const     { return _name;     }
     bool win() const                { return _win;      }
 

@@ -143,7 +143,6 @@ std::optional<std::string> mazePick() {
 
     // File Input loop that ends when the user sends "EOF" or when a valid maze is picked
     do {
-        const unsigned int SLEEP_TIME = 2;
         short levelPick;
         std::ifstream mazeFile;
 
@@ -200,7 +199,6 @@ bool validMaze(const short &filename, std::string &fullPath, std::ifstream &maze
 
 
 void displayLeaderboard() {
-    const unsigned int SLEEP_TIME = 2;
     const std::string PREFIX;                          // Prefix containing the file where the maze files are at
     short leaderBoardNum;
     short leaveConfirm = 1;

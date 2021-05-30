@@ -12,7 +12,7 @@ using PostVec = std::vector<Post>;
 
 class Maze {
     /** @brief The dimensions of the maze (`rows`x`columns`) */
-    unsigned int _rows, _columns;
+    int _rows, _columns;
 
     /** @brief The name of the maze currently being played (in format 'XX') */
     std::string _name;
@@ -27,9 +27,9 @@ public:
 
     /* 'Getter functions' */
     PostVec getAllList() const              { return _allList;          }
-    unsigned int getRows() const            { return _rows;             }
-    unsigned int getColumns() const         { return _columns;          }
-    unsigned int getMazeArea() const        { return _rows * _columns;  }
+    int getRows() const                     { return _rows;             }
+    int getColumns() const                  { return _columns;          }
+    int getMazeArea() const                 { return _rows * _columns;  }
     std::string getName() const             { return _name;             }
 
 

@@ -160,7 +160,7 @@ void Game::drawMaze() const {
 
     Point pos{0, 0};
     PostVec allPostList = _maze.getAllList();
-    const unsigned int MAZE_AREA = _maze.getMazeArea();
+    const int MAZE_AREA = _maze.getMazeArea();
 
     while (((pos.x + 1) * (pos.y + 1)) <= MAZE_AREA) {                      // Looping from (0,0) to (cols, rows), while the area of the shape formed by pos and (0,0) isn't the area of the maze
         bool fillWithSpace = true;                                          // Flag keeping track if there aren't any robots/player/posts in coordinates pos
@@ -293,7 +293,7 @@ void Game::updatePlayerPos(const Point &pos, const char key) {
 
 bool Game::outOfBounds(const Point &pos) const {
     const int LOWER_BOUND = 0;
-    const unsigned int HEIGHT = _maze.getRows(), WIDTH = _maze.getColumns(); // Creating height and width variables by looking at the maze instance
+    const int HEIGHT = _maze.getRows(), WIDTH = _maze.getColumns(); // Creating height and width variables by looking at the maze instance
     return !(LOWER_BOUND <= pos.y &&  pos.y < HEIGHT && LOWER_BOUND <=  pos.x &&  pos.x < WIDTH);   // Returning true (if inbounds) and false (if out of bounds)
 }
 
@@ -307,7 +307,7 @@ void Game::updateAllRobots() {
         Point newPos = findBestMove(_robot.at(i));                           // Stores the ideal position to where the Robot should move
 
         // Robot-Robot collision loop
-        for (int idx = 0; idx < _robot.size(); idx++) {
+        for (size_t idx = 0; idx < _robot.size(); idx++) {
             if (_robot.at(idx).getCoordinates() == newPos) {
                 collide(_robot.at(i), _robot.at(idx), newPos);
                 skipMove = true;
@@ -315,7 +315,7 @@ void Game::updateAllRobots() {
         }
 
         // Robot-Robot collision loop
-        for (int j = 0; j < _maze.getAllList().size(); j++) {                        // Iterating through all the posts
+        for (size_t j = 0; j < _maze.getAllList().size(); j++) {                        // Iterating through all the posts
             bool robotCollidesWithPost = _maze.getAllList().at(j).getCoordinates() == newPos;
             if (robotCollidesWithPost) {                                             // If the post was found (robot collides with post)
                 collide(_robot.at(i), _maze.getAllList().at(j), newPos);
@@ -395,9 +395,11 @@ void Game::updateScoreboard() {
         getScoreboard(fullPath, scoreboard, _player);
 
         clearScreen();
-        std::cout << std::endl << "The scoreboard has been updated, " << _player.getName() << "! :)" << std::endl
+        std::cout << std::endl << "The scoreboard has been updated, " 
+                  << _player.getName() << "! :)" << std::endl
                   << "Press enter to continue to the menu ...";
         waitForConfirmation();
+        clearScreen();
     }
 }
 
